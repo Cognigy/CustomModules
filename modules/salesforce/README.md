@@ -16,7 +16,6 @@ This modules needs a CognigySecret to be defined and passed to the Nodes. The se
 
 If the loginUrl is stored in the secret, Salesforce login to this url, e.g. 'https://test.salesforce.com'
 
-
 ## Node: soqlQuery 
 
 Takes a [SOQL query string](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm) and searches for the results in **Salesforce**. An example query would be the following: 
