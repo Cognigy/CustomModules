@@ -8,8 +8,11 @@
  * @arg {CognigyScriptArray} `disable` The dates to disable. If disableRange is true, give two dates, the from and the to date
  * @arg {Boolean} `enableTime` If you want the user to pick the time
  * @arg {Select[single,multiple,range]} `mode` If the user can choose one or more dates
+ * @arg {CognigyScript} `openPickerButtonText` The text of the button to open the datepicker
+ * @arg {CognigyScript} `cancelButtonText` The text of the button to close the Datepicker, if the user wants to abort the process
+ * @arg {CognigyScript} `submitButtonText` The text of the button to submit the chosen date
  */
-async function datepicker(input: IFlowInput, args: { eventName: string, language: string, minDate: string, maxDate: string, disableRange: boolean, disable: [], enableTime: boolean, mode: string, stopOnError: boolean }) {
+async function datepicker(input: IFlowInput, args: { eventName: string, language: string, minDate: string, maxDate: string, disableRange: boolean, disable: [], enableTime: boolean, mode: string, openPickerButtonText: string, cancelButtonText:string, submitButtonText: string }) {
 	// check if necessary arguments are present
 	if (!args.eventName) return Promise.reject("Event not provided.");
 
@@ -24,7 +27,10 @@ async function datepicker(input: IFlowInput, args: { eventName: string, language
 				mode: args.mode,
 				disable: getDisabledDates(args.disableRange, args.disable),
 				minDate: args.minDate,
-				maxDate: args.maxDate
+				maxDate: args.maxDate,
+				openPickerButtonText: args.openPickerButtonText,
+				cancelButtonText: args.cancelButtonText,
+				submitButtonText: args.submitButtonText
 			}
 		}
 	});
