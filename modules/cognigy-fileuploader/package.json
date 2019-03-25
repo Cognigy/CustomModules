@@ -1,0 +1,28 @@
+{
+  "name": "CognigyFileUploader",
+  "version": "1.0.0",
+  "description": "Cognigy Fileuploader",
+  "main": "build/module.js",
+  "scripts": {
+    "build": "tsc -p ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cognigy/CustomModules"
+  },
+  "keywords": [
+    "Microsoft",
+    "Azure",
+    "Cognitive",
+    "Services"
+  ],
+  "author": "Cognigy GmbH",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^10.12.20",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+  }
+}
