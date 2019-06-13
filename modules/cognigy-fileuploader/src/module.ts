@@ -3,7 +3,7 @@
  * @arg {CognigyScript} `endpoint` The POST endpoint to upload the file
  * @arg {CognigyScript} `buttonText` The text of the upload button
  */
-async function fileUploader(input: IFlowInput, args: { endpoint: string, buttonText: string }) {
+async function uploadFile(input: IFlowInput, args: { endpoint: string, buttonText: string }) {
     // Check if secret exists and contains correct parameters
     if (!args.endpoint) return Promise.reject("No endpoint defined.");
     if (!args.buttonText) return Promise.reject("No upload button text defined.");
@@ -21,4 +21,4 @@ async function fileUploader(input: IFlowInput, args: { endpoint: string, buttonT
     });
 }
 
-module.exports.fileUploader = fileUploader;
+module.exports.uploadFile = uploadFile;
