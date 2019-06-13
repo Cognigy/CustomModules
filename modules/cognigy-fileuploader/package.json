@@ -4,7 +4,10 @@
   "description": "Cognigy Fileuploader",
   "main": "build/module.js",
   "scripts": {
-    "build": "tsc -p ."
+    "transpile": "tsc -p .",
+    "zip": "zip fileuploader.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+    "build": "npm run transpile && npm run lint && npm run zip",
+    "lint": "tslint -c tslint.json src/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -20,7 +23,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^10.14.9",
-    "tslint": "^5.12.1",
+    "tslint": "^5.17.0",
     "typescript": "^3.3.3"
   },
   "dependencies": {}
