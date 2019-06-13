@@ -1,20 +1,22 @@
 /**
  * Opens the Cognigy Fileuploader Plugin
  * @arg {CognigyScript} `endpoint` The POST endpoint to upload the file
- * @arg {CognigyScript} `buttonText` The text of the upload button
+ * @arg {CognigyScript} `uploadButtonText` The text of the upload button
  */
-function uploadFile(input: IFlowInput, args: { endpoint: string, buttonText: string }): void {
+function uploadFile(input: IFlowInput, args: { endpoint: string, uploadButtonText: string }): void {
+
+    const { endpoint, uploadButtonText } = args;
     // Check if secret exists and contains correct parameters
-    if (!args.endpoint) throw new Error('No endpoint defined.');
-    if (!args.buttonText) throw new Error('No upload button text defined.');
+    if (!endpoint) throw new Error('No endpoint defined.');
+    if (!uploadButtonText) throw new Error('No upload button text defined.');
 
     // send the message to open datepicker
     input.actions.output("", {
         _plugin: {
             type: "file-uploader",
             data: {
-                endpoint: args.endpoint,
-                uploadButtonText: args.buttonText
+                endpoint,
+                uploadButtonText
             }
         }
     });
