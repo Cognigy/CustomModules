@@ -14,8 +14,7 @@ async function uploadFile(input: IFlowInput, args: { endpoint: string, buttonTex
             type: "file-uploader",
             data: {
                 endpoint: args.endpoint,
-                uploadButtonText: args.buttonText
-                
+                uploadButtonText: args.buttonText          
             }
         }
     });
