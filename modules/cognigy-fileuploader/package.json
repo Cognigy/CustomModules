@@ -1,5 +1,5 @@
 {
-  "name": "CognigyFileUploader",
+  "name": "cognigy-fileuploader",
   "version": "1.0.0",
   "description": "Cognigy Fileuploader",
   "main": "build/module.js",
