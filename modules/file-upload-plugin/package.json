@@ -5,7 +5,8 @@
 	"main": "src/module.js",
 	"scripts": {
 		"build": "custom-module build",
-		"deploy": "custom-module deploy"
+		"deploy": "custom-module deploy",
+		"pack": "rm module.zip; zip -r module.zip src/ package.json package-lock.json README.md icon.png"
 	},
 	"repository": {
 		"type": "git",
