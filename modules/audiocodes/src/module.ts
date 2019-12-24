@@ -1,4 +1,3 @@
-
 /**
  * Sends a message to an AudioCodes caller
  * @arg {CognigyScript} `text` The message text to send
@@ -114,7 +113,6 @@ async function playURL(input: IFlowInput, args: { playUrlUrl: string, playUrlMed
 
 	return input;
 }
-
 
 module.exports.sendMessage = sendMessage;
 module.exports.setSessionParams = setSessionParams;
