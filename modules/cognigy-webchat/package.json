@@ -1,0 +1,31 @@
+{
+  "name": "cognigy-webchat",
+  "version": "1.0.0",
+  "description": "Custom Module to manipulate the Cognigy WebchatWidget",
+  "main": "build/module.js",
+  "scripts": {
+    "transpile": "tsc -p .",
+    "zip": "zip cognigywebchat.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+    "build": "npm run transpile && npm run lint && npm run zip",
+    "lint": "tslint -c tslint.json src/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cognigy/CustomModules.git"
+  },
+  "keywords": [
+    "Cognigy",
+    "Webchat"
+  ],
+  "author": "Cognigy GmbH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cognigy/CustomModules/issues"
+  },
+  "homepage": "https://github.com/Cognigy/CustomModules#readme",
+  "devDependencies": {
+    "@types/node": "^10.17.3",
+    "tslint": "^5.16.0",
+    "typescript": "^3.1.6"
+  }
+}
