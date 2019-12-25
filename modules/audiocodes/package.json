@@ -1,7 +1,7 @@
 {
-	"name": "audiocodes",
+	"name": "Audiocodes",
 	"version": "1.0.0",
-	"description": "Helper Nodes for the Cognigy.AI AudioCodes Endpoint",
+	"description": "Helper Nodes for Cognigy.AI AudioCodes Endpoint",
 	"main": "build/module.js",
 	"scripts": {
 		"build": "tsc -p ."

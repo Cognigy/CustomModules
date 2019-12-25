@@ -1,14 +1,19 @@
 /**
  * Sends a message to an AudioCodes caller
  * @arg {CognigyScript} `text` The message text to send
- * @arg {JSON} 'activityParams' Options activity parameters to send
+ * @arg {JSON} `activityParams` Options activity parameters to send
  */
 async function sendMessage(input: IFlowInput, args: { text: string, activityParams: any }): Promise<IFlowInput | {}> {
-	input.actions.output(args.text, null);
-	if (args.activityParams) input.actions.output(null, {
+	if (args.text) input.actions.output(args.text, {
 		"_cognigy": {
 			"_audiocodes": {
-				"activityParams": args.activityParams
+				"activities": [
+					{
+						"type": "message",
+						"text": args.text,
+						"activityParams": args.activityParams
+					  }					  
+				]
 			}
 		}
 	});
@@ -18,13 +23,13 @@ async function sendMessage(input: IFlowInput, args: { text: string, activityPara
 
 /**
  * Sets session parameters
- * @arg {JSON} 'sessionParams' Options activity parameters to send
+ * @arg {JSON} `sessionParams` Options activity parameters to send
  */
 async function setSessionParams(input: IFlowInput, args: { sessionParams: any }): Promise<IFlowInput | {}> {
 	if (args.sessionParams) input.actions.output(null, {
 		"_cognigy": {
 			"_audiocodes": {
-				"activites": [
+				"activities": [
 					{
 						"type": "event",
 						"name": "config",
@@ -46,7 +51,7 @@ async function hangup(input: IFlowInput, args: { hangupReason: string }): Promis
 	input.actions.output(null, {
 		"_cognigy": {
 			"_audiocodes": {
-				"activites": [
+				"activities": [
 					{
 						"type": "event",
 						"name": "hangup",
@@ -68,48 +73,50 @@ async function hangup(input: IFlowInput, args: { hangupReason: string }): Promis
  * @arg {CognigyScript} `handoverReason` The reasons for handing over
  */
 async function handover(input: IFlowInput, args: { transferTarget: string, handoverReason: string }): Promise<IFlowInput | {}> {
-	input.actions.output(null, {
-		"_cognigy": {
-			"_audiocodes": {
-				"activites": [
-					{
-						"type": "event",
-						"name": "handover",
-						"activityParams": {
-						  "transferTarget": args.transferTarget,
-						  "handoverReason": args.handoverReason
-						}
-					  }					  
-				]
+	if (args.transferTarget && args.handoverReason)
+		input.actions.output(null, {
+			"_cognigy": {
+				"_audiocodes": {
+					"activities": [
+						{
+							"type": "event",
+							"name": "handover",
+							"activityParams": {
+							"transferTarget": args.transferTarget,
+							"handoverReason": args.handoverReason
+							}
+						}					  
+					]
+				}
 			}
-		}
-	});
+		});
 
 	return input;
 }
 
 /**
  * Play audio to the user
- * @arg {CognigyScript} `playUrlUrl` The target to transfer to
+ * @arg {CognigyScript} `playUrl` The target to transfer to
  * @arg {CognigyScript} `playUrlMediaFormat` The reasons for handing over
  */
-async function playURL(input: IFlowInput, args: { playUrlUrl: string, playUrlMediaFormat: string }): Promise<IFlowInput | {}> {
-	input.actions.output(null, {
-		"_cognigy": {
-			"_audiocodes": {
-				"activites": [
-					{
-						"type": "event",
-						"name": "handover",
-						"activityParams": {
-						  "playUrlUrl": args.playUrlUrl,
-						  "playUrlMediaFormat": args.playUrlMediaFormat
-						}
-					  }					  
-				]
+async function playURL(input: IFlowInput, args: { playUrl: string, playUrlMediaFormat: string }): Promise<IFlowInput | {}> {
+	if (args.playUrl && args.playUrlMediaFormat)
+		input.actions.output(null, {
+			"_cognigy": {
+				"_audiocodes": {
+					"activities": [
+						{
+							"type": "event",
+							"name": "playUrl",
+							"activityParams": {
+							"playUrlUrl": args.playUrl,
+							"playUrlMediaFormat": args.playUrlMediaFormat
+							}
+						}					  
+					]
+				}
 			}
-		}
-	});
+		});
 
 	return input;
 }
