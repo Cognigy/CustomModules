@@ -14,9 +14,11 @@
 	"author": "Cognigy GmbH",
 	"license": "MIT",
 	"dependencies": {
-		"aws-sdk": "^2.489.0"
+		"aws-sdk": "^2.489.0",
+		"@azure/storage-blob": "^10.5.0",
+		"uuid": "^3.3.3"
 	},
 	"devDependencies": {
-		"@toasta/custom-module-scripts": "^1.1.0"
+		"@toasta/custom-module-scripts": "^1.2.0"
 	}
 }

@@ -1,4 +1,4 @@
-const { uploadToAWSBucket } = require('./module');
+const { uploadToAWSBucket, uploadToAzureContainer } = require('./module');
  
 const cognigyMock = {
     actions: {
@@ -7,6 +7,10 @@ const cognigyMock = {
 }
 
 uploadToAWSBucket(cognigyMock, {
+    json: ''
+});
+
+uploadToAzureContainer(cognigyMock, {
     json: ''
 });
 
