@@ -1,0 +1,27 @@
+{
+	"name": "automation-anywhere",
+	"version": "1.0.0",
+	"description": "This module integrates Cognigy.AI with AutomationAnywhere",
+	"main": "build/module.js",
+	"scripts": {
+		"transpile": "tsc -p .",
+		"zip": "zip automationanywhere.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+		"build": "npm run transpile && npm run lint && npm run zip",
+		"lint": "tslint -c tslint.json src/**/*.ts"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Cognigy/CustomModules"
+	},
+	"author": "Cognigy GmbH",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/axios": "^0.14.0",
+		"@types/node": "^10.12.5",
+		"tslint": "^5.16.0",
+		"typescript": "^3.1.6"
+	},
+	"dependencies": {
+		"axios": "^0.18.0"
+	}
+}

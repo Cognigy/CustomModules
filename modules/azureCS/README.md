@@ -21,6 +21,14 @@ You will require the following Secrets for the respective Nodes:
 
   - Set the **key** to the value "key" and insert the  **Translator Text API Key** as value
 
+- **StartAuthentication**, **GetAuthenticationToken**
+
+  - Set the first secret's **key** to the value "clientId" and insert the Azure App Regestration client ID as value
+    - Login to portal.azure.com and create a new **App regestration**. After this, you will see your client ID.
+
+  - Set the second key to **clientSecret** and insert the App Regestration client secret as value
+    - You need to click on **Certificates & secrets** in the left side menu and create a new Client secret
+
 ## Node: Spell Check
  [Resource](https://docs.microsoft.com/de-de/azure/cognitive-services/bing-spell-check/quickstarts/nodejs) 
 
@@ -262,3 +270,52 @@ language: "de"
   }
 ```
 
+## Node: Start Authentication With ADAL
+
+This node starts the Webchat plugin `microsoft_auth` to open the **Login with Microsoft** button in the webchat. After the user logged in via Microsoft, the Node will redirect the information to the given **redirectUri**. This callback could do something like: 
+```javascript
+if (window.opener) {
+  const { code, session_state } = window.location.search
+    .substr(1)
+    .split('&')
+    .reduce((params, paramString) => {
+        const [key, value] = paramString.split('=');
+        params[key] = value;
+
+        return params;
+    }, {});
+
+  window.opener.cognigyWebchat.sendMessage('', { microsoftAuth: {
+      code,
+      session_state
+  }});
+
+  window.close();
+}    
+```
+
+This code searches for the authenticatoin information and sends them back to the webpage where the webchat was loaded. Therefore, this example uses the `sendMessage()` method to send an empty message with data only back to the Cognigy backend. Thus, the infos can be handled in the bot. 
+
+The needed authentication code is stored in `ci.data.microsoftAuth.code`. You'll need it for the next Node. 
+
+## Node: Get Authentication Token With ADAL
+
+This node returns the final `access_token`, such as the following: 
+```json
+{
+    "key": "value",
+    "storeThis": {
+        "token_type": "Bearer",
+        "scope": "User.Read profile openid email",
+        "expires_in": 3600,
+        "ext_expires_in": 3600,
+        "access_token": "eyJ0eXA...-2dg"
+    }
+}
+```
+You have to use the `authCode`, you got from the **Start Authentication With ADAL** node. Use the Cognigy Script feature and extract the value from the input object: 
+```
+{{ci.data.microsoftAuth.code}}
+```
+
+With the responding value, you now can login to Graph API, for example.
