@@ -106,7 +106,7 @@ async function KCMgetDoc(input: IFlowInput, args: {
                         xmlns:v1="http://www.aiasoftware.com/cloud/v1"> \
                         <soapenv:Header/> \
                         <soapenv:Body> \
-                            <v1:ComposeDocxV1Request> \
+                            <v1:ComposePdfV1Request> \
                                 <v1:partner>CCM</v1:partner> \
                                 <v1:customer>local</v1:customer> \
                                 <v1:contracttypename>ccminteractive</v1:contracttypename> \
@@ -117,7 +117,7 @@ async function KCMgetDoc(input: IFlowInput, args: {
                                 <!--Optional:--> \
                                 <v1:status>current</v1:status> \
                                 <v1:databackbonexml>${base64DocumentString}</v1:databackbonexml> \
-                            </v1:ComposeDocxV1Request> \
+                            </v1:ComposePdfV1Request> \
                         </soapenv:Body> \
                     </soapenv:Envelope>`;
 
@@ -126,7 +126,7 @@ async function KCMgetDoc(input: IFlowInput, args: {
         const response = await axios.post(url, xmlBody, {
             headers: {
                 'Content-Type': 'text/xml',
-                'SOAPAction': '"http://www.aiasoftware.com/cloud/v1/compose/docx/v1"'
+                'SOAPAction': '"http://www.aiasoftware.com/cloud/v1/compose/pdf/v1"'
             }
         });
 
