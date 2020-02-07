@@ -1,0 +1,24 @@
+{
+	"name": "joke",
+	"version": "1.0.0",
+	"description": "Integrates Joke API",
+	"main": "build/module.js",
+	"scripts": {
+		"test": "node test/test.js",
+		"build": "tsc -p ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Cognigy/CustomModules"
+	},
+	"author": "Cognigy GmbH",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^10.14.6",
+		"typescript": "^3.1.6"
+	},
+	"dependencies": {
+		"axios": "^0.19.2",
+		"hubspot": "^1.3.3"
+	}
+}
