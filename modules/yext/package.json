@@ -1,0 +1,33 @@
+{
+  "name": "yext",
+  "version": "1.0.0",
+  "description": "Integrates Yext with the Cognigy.AI",
+  "main": "build/module.js",
+  "scripts": {
+    "transpile": "tsc -p .",
+    "zip": "zip yext.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+    "build": "npm run transpile && npm run zip"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cognigy/CustomModules.git"
+  },
+  "keywords": [
+    "Yext",
+    "Knowledge"
+  ],
+  "author": "Cognigy GmbH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cognigy/CustomModules/issues"
+  },
+  "homepage": "https://github.com/Cognigy/CustomModules#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.8",
+    "typescript": "^3.5.2"
+  }
+}

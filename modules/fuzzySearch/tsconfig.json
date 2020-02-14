@@ -1,0 +1,11 @@
+{   
+    "compilerOptions": {
+        "rootDir":  "src",
+        "outDir":   "build",
+        "lib": ["es2015"]
+    },
+    "include": [
+        "../../common/cognigy.d.ts",
+        "src/**/*"
+    ]
+}

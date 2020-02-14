@@ -1,0 +1,18 @@
+{
+	"name": "Here",
+	"version": "1.0.0",
+	"description": "Here Module",
+	"author": "Cognigy GmbH",
+	"keywords": [],
+	"main": "build/module.js",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^10.14.9",
+		"@types/request-promise": "^4.1.42",
+		"typescript": "^3.1.6"
+	},
+	"dependencies": {
+		"request": "^2.88.0",
+		"request-promise": "^4.2.2"
+	}
+}

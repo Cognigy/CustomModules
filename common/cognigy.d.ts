@@ -77,6 +77,9 @@ interface ICognigyNLPProperties {
 	/** Unique id of this input, something like "20ec9ed0-6f8e-4bfa-82fb-28f58be57035" */
 	inputId?: string;
 
+	/** URL Token of the Endpoint */
+	URLToken: string;
+
 	/** Token tree from NLP service */
 	tokens?: any;
 

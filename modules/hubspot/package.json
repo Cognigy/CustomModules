@@ -1,6 +1,6 @@
 {
-	"name": "Hubspot",
-	"version": "1.0.0",
+	"name": "hubspot",
+	"version": "1.0.2",
 	"description": "Integrates Cognigy.AI with Hubspot",
 	"main": "build/module.js",
 	"scripts": {
@@ -14,7 +14,7 @@
 	"author": "Cognigy GmbH",
 	"license": "MIT",
 	"devDependencies": {
-		"@types/node": "^10.12.5",
+		"@types/node": "^10.14.6",
 		"typescript": "^3.1.6"
 	},
 	"dependencies": {

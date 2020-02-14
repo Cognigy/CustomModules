@@ -1,0 +1,12 @@
+{   
+    "compilerOptions": {             
+        "target":   "ES2017",
+        "module":   "CommonJS",
+        "rootDir":  "src",
+        "outDir":   "build"
+    },      
+    "include": [
+        "../../common/cognigy.d.ts",
+        "src/**/*"
+    ]
+}

@@ -14,6 +14,7 @@ async function findContactByEmail(input: IFlowInput, args: { secret: CognigySecr
 	if (!args.email) return Promise.reject("No email defined.");
 
 	const hubspot = new Hubspot({ apiKey: args.secret.apiKey });
+	if (hubspot.qs && typeof hubspot.qs === 'object') hubspot.qs.propertyMode = 'value_only';
 	let result = {};
 
 	return new Promise((resolve, reject) => {
@@ -25,9 +26,12 @@ async function findContactByEmail(input: IFlowInput, args: { secret: CognigySecr
 			} else {
 				const properties = (args.properties) ? args.properties.split(",") : [];
 				if (properties.indexOf("vid") === -1) properties.push("vid");
-				Object.keys(res).forEach((key) => {
+				Object.keys(res.properties).forEach((key) => {
+
 					// if key isn't in the defined properties, delete it
-					if (properties.indexOf(key) === -1) delete res[key];
+					if (properties.indexOf(key) === -1) {
+						delete res.properties[key]
+					}
 					else if (key === "properties") {
 						// if the key is properties, remove versions
 						Object.keys(res[key]).forEach((propkey) => {
@@ -37,6 +41,7 @@ async function findContactByEmail(input: IFlowInput, args: { secret: CognigySecr
 				});
 				result = res;
 			}
+
 			return Promise.resolve(result);
 		})
 			.catch((err) => {
@@ -68,6 +73,7 @@ async function updateContact(input: IFlowInput, args: { secret: CognigySecret, v
 	if (!args.data) return Promise.reject("No data defined.");
 
 	const hubspot = new Hubspot({ apiKey: args.secret.apiKey });
+	if (hubspot.qs && typeof hubspot.qs === 'object') hubspot.qs.propertyMode = 'value_only';
 	let result = {};
 
 	return new Promise((resolve, reject) => {
@@ -105,7 +111,9 @@ async function updateContact(input: IFlowInput, args: { secret: CognigySecret, v
 async function createContact(input: IFlowInput, args: { secret: CognigySecret, data: any, writeToContext: boolean, store: string, stopOnError: boolean }): Promise<any> {
 	if (!args.secret || !args.secret.apiKey) return Promise.reject("Secret not defined or invalid.");
 	if (!args.data) return Promise.reject("No data defined.");
+
 	const hubspot = new Hubspot({ apiKey: args.secret.apiKey });
+	if (hubspot.qs && typeof hubspot.qs === 'object') hubspot.qs.propertyMode = 'value_only';
 	let result = {};
 
 	return new Promise((resolve, reject) => {
@@ -141,10 +149,12 @@ async function createContact(input: IFlowInput, args: { secret: CognigySecret, d
  * @arg {CognigyScript} `store` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-async function searchContact(input: IFlowInput, args: { secret: CognigySecret, query: string, properties: string, writeToContext: boolean, store: string, stopOnError: boolean }): Promise<any> {
+async function findContact(input: IFlowInput, args: { secret: CognigySecret, query: string, properties: string, writeToContext: boolean, store: string, stopOnError: boolean }): Promise<any> {
 	if (!args.secret || !args.secret.apiKey) return Promise.reject("Secret not defined or invalid.");
 	if (!args.query) return Promise.reject("No query defined.");
+
 	const hubspot = new Hubspot({ apiKey: args.secret.apiKey });
+	if (hubspot.qs && typeof hubspot.qs === 'object') hubspot.qs.propertyMode = 'value_only';
 	let result = {};
 
 	return new Promise((resolve, reject) => {
@@ -159,9 +169,9 @@ async function searchContact(input: IFlowInput, args: { secret: CognigySecret, q
 				if (properties.indexOf("vid") === -1) properties.push("vid");
 				if (contacts) {
 					contacts.forEach((res) => {
-						Object.keys(res).forEach((key) => {
+						Object.keys(res.properties).forEach((key) => {
 							// if key isn't in the defined properties, delete it
-							if (properties.indexOf(key) === -1) delete res[key];
+							if (properties.indexOf(key) === -1) delete res.properties[key];
 							else if (key === "properties") {
 								// if the key is properties, remove versions
 								Object.keys(res[key]).forEach((propkey) => {
@@ -201,7 +211,9 @@ async function searchContact(input: IFlowInput, args: { secret: CognigySecret, q
 async function findCompanyByDomain(input: IFlowInput, args: { secret: CognigySecret, domain: string, writeToContext: boolean, properties: string, store: string, stopOnError: boolean }): Promise<any> {
 	if (!args.secret || !args.secret.apiKey) return Promise.reject("Secret not defined or invalid.");
 	if (!args.domain) return Promise.reject("No domain defined.");
+
 	const hubspot = new Hubspot({ apiKey: args.secret.apiKey });
+	if (hubspot.qs && typeof hubspot.qs === 'object') hubspot.qs.propertyMode = 'value_only';
 	let result = {};
 
 	return new Promise((resolve, reject) => {
@@ -216,9 +228,9 @@ async function findCompanyByDomain(input: IFlowInput, args: { secret: CognigySec
 
 				if (res && Array.isArray(res) && res.length > 0) {
 					res.forEach((company) => {
-						Object.keys(company).forEach((key) => {
+						Object.keys(company.properties).forEach((key) => {
 							// if key isn't in the defined properties, delete it
-							if (properties.indexOf(key) === -1) delete company[key];
+							if (properties.indexOf(key) === -1) delete company.properties[key];
 							else if (key === "properties") {
 								// if the key is properties, remove versions
 								Object.keys(company[key]).forEach((propkey) => {
@@ -258,7 +270,9 @@ async function findCompanyByDomain(input: IFlowInput, args: { secret: CognigySec
 async function createCompany(input: IFlowInput, args: { secret: CognigySecret, data: any, writeToContext: boolean, properties: string, store: string, stopOnError: boolean }): Promise<any> {
 	if (!args.secret || !args.secret.apiKey) return Promise.reject("Secret not defined or invalid.");
 	if (!args.data) return Promise.reject("No data defined.");
+
 	const hubspot = new Hubspot({ apiKey: args.secret.apiKey });
+	if (hubspot.qs && typeof hubspot.qs === 'object') hubspot.qs.propertyMode = 'value_only';
 	let result = {};
 
 	return new Promise((resolve, reject) => {
@@ -290,16 +304,17 @@ async function createCompany(input: IFlowInput, args: { secret: CognigySecret, d
  * @arg {SecretSelect} `secret` The configured secret to use
  * @arg {Number} `companyId` Hubspot ID of the company
  * @arg {JSON} `data` Company Data
- * @arg {CognigyScript} `properties` Which properties to include
  * @arg {Boolean} `writeToContext` Whether to write to Cognigy Context (true) or Input (false)
  * @arg {CognigyScript} `store` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-async function updateCompany(input: IFlowInput, args: { secret: CognigySecret, companyId: number, data: any, writeToContext: boolean, properties: string, store: string, stopOnError: boolean }): Promise<any> {
+async function updateCompany(input: IFlowInput, args: { secret: CognigySecret, companyId: number, data: any, writeToContext: boolean, store: string, stopOnError: boolean }): Promise<any> {
 	if (!args.secret || !args.secret.apiKey) return Promise.reject("Secret not defined or invalid.");
 	if (!args.companyId) return Promise.reject("No companyId defined.");
 	if (!args.data) return Promise.reject("No data defined.");
+
 	const hubspot = new Hubspot({ apiKey: args.secret.apiKey });
+	if (hubspot.qs && typeof hubspot.qs === 'object') hubspot.qs.propertyMode = 'value_only';
 	let result = {};
 
 	return new Promise((resolve, reject) => {
@@ -337,7 +352,9 @@ async function updateCompany(input: IFlowInput, args: { secret: CognigySecret, c
 async function createEngagement(input: IFlowInput, args: { secret: CognigySecret, data: any, writeToContext: boolean, store: string, stopOnError: boolean }): Promise<any> {
 	if (!args.secret || !args.secret.apiKey) return Promise.reject("Secret not defined or invalid.");
 	if (!args.data) return Promise.reject("No data defined.");
+	
 	const hubspot = new Hubspot({ apiKey: args.secret.apiKey });
+	if (hubspot.qs && typeof hubspot.qs === 'object') hubspot.qs.propertyMode = 'value_only';
 	let result = {};
 
 	return new Promise((resolve, reject) => {
@@ -373,7 +390,9 @@ async function createEngagement(input: IFlowInput, args: { secret: CognigySecret
  */
 async function getOwners(input: IFlowInput, args: { secret: CognigySecret, writeToContext: boolean, store: string, stopOnError: boolean }): Promise<any> {
 	if (!args.secret || !args.secret.apiKey) return Promise.reject("Secret not defined or invalid.");
+
 	const hubspot = new Hubspot({ apiKey: args.secret.apiKey });
+	if (hubspot.qs && typeof hubspot.qs === 'object') hubspot.qs.propertyMode = 'value_only';
 	let result = {};
 
 	return new Promise((resolve, reject) => {
@@ -403,7 +422,7 @@ async function getOwners(input: IFlowInput, args: { secret: CognigySecret, write
 module.exports.findContactByEmail = findContactByEmail;
 module.exports.createContact = createContact;
 module.exports.updateContact = updateContact;
-module.exports.searchContact = searchContact;
+module.exports.findContact = findContact;
 module.exports.findCompanyByDomain = findCompanyByDomain;
 module.exports.createCompany = createCompany;
 module.exports.updateCompany = updateCompany;
