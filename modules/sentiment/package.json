@@ -1,0 +1,19 @@
+{
+	"name": "sylwia_sentiment",
+	"version": "1.0.0",
+	"description": "Gives sentimental analysis of the text",
+	"main": "build/module.js",
+	"scripts": {
+		"build": "tsc -p .",
+		"zip": "npm run build && zip test.zip build/* package.json package-lock.json README.md icon.png icon-large.png"
+	},
+	"author": "Sylwia",
+	"license": "MIT",
+	"devDependencies": {},
+	"dependencies": {
+		"@types/node": "^13.7.2",
+		"expect.js": "^0.3.1",
+		"mocha": "^7.0.1",
+		"sentiment": "^5.0.2"
+	}
+}
