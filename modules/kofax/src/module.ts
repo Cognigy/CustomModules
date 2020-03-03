@@ -439,3 +439,45 @@ async function createCaseInKTA(input: IFlowInput, args: { secret: CognigySecret,
 }
 
 module.exports.createCaseInKTA = createCaseInKTA;
+
+
+/**
+ * Updates the variables of an ongoing KTA job
+ * @arg {CognigySecret} `secret` Kofax KTA URL
+ * @arg {JSON} `payload` The JSON payload for the UpdateJobVariables Kofax KTA API
+ * @arg {CognigyScript} `contextStore` How to store the extracted information to the Cognigy Context object
+ * @arg {Boolean} `stopOnError` Whether to stop on error or continue
+ */
+async function updateJobVariablesInKTA(input: IFlowInput, args: { secret: CognigySecret, payload: JSON, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+
+    const { secret, payload, contextStore, stopOnError } = args;
+    const { url } = secret
+
+    if (!payload) throw new Error('The JSON payload is not defined');
+    if (!contextStore) throw new Error('The context store key name is not defined');
+
+
+    try {
+
+        const response = await axios({
+            method: 'POST',
+            url: `${url}/TotalAgility/Services/Sdk/JobService.svc/json/UpdateJobVariables`,
+            data: payload,
+            headers: {
+                'Content-Type': 'application/json',
+        }});
+
+        input.actions.addToContext(contextStore, response.data, 'simple');
+    } catch (error) {
+        if (stopOnError) {
+            throw new Error(error.message);
+        } else {
+            input.actions.addToContext(contextStore, { error: error.message }, 'simple');
+        }
+    }
+
+    return input;
+}
+
+module.exports.updateJobVariablesInKTA = updateJobVariablesInKTA;
+
