@@ -2,16 +2,51 @@
 
 This Custom Module integrates the [Kofax RPA](https://www.kofax.de/-/media/Files/Datasheets/DE/ps_kofax-kapow_de.pdf) with Cognigy.AI
 
-**Secret:**
+**Secret (RPA):**
 - Key: api_key
 - Value: The Cognigy Request Forwarder API Key
 
 You need this secret to use the request forwarder. This forwarder starts the Kofax Robot and directly sends a `200 Accepted` if nothing gone wrong. So the user can continue chatting with the bot.
 
+**Secret (KTA):**
+- Key: url
+- Value: The Kofax KTA instance url
+
+____
+
 ## Node: CaptureId
 
 This Node starts the `id-catpure` webchat plugin to let the user capture his or her identity card. This could be the case, if the chatbot needs to collect general personal information such as the first name, last name and address. The plugin hands back all extracted informaton including the cropped image of the identity card itself and the user's personal picture. 
 
+## Node: CreateCaseInKTA
+
+This node uses the `CreateCase2` KTA API endpoint and creates a new case for this ongoing process. You will need the KTA secret which is defined above to let the custom module access your KTA instance. Secondly, a JSON payload is required, which has to fill the `caseInitialization` your KTA administrator defined in the KTA Designer. This JSON could look similar to the following:
+```json
+{
+  "processIdentity": {
+    "Id": "9",
+    "Version": 1
+  },
+  "sessionId": "",
+  "caseReference": {},
+  "caseInitialization": {
+    "InputVariables": [
+      {
+        "DisplayName": "",
+        "Id": "",
+        "Value": "",
+        "VariableType": {
+          "FormattedAsText": null,
+          "Value": ""
+        }
+      }
+    ],
+    "StartDate": null
+  }
+}
+```
+
+If the node was executed successfull, it will return the information of the created case. 
 
 ## Node: RunRobot
 
