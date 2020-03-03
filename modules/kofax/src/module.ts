@@ -382,7 +382,7 @@ async function captureID(input: IFlowInput, args: { displayOpenButton: boolean, 
                 headerText,
                 contextStore
             }
-        })
+        });
     } catch (error) {
         if (stopOnError) {
             throw new Error(error.message);
