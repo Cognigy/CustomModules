@@ -48,6 +48,27 @@ This node uses the `CreateCase2` KTA API endpoint and creates a new case for thi
 
 If the node was executed successfull, it will return the information of the created case. 
 
+
+## Node: UpdateJobVariablesInKTA
+
+This node uses the `UpdateJobVariables` KTA API endpoint and updates a current ongoing job. You will need the KTA secret which is defined above to let the custom module access your KTA instance. Secondly, a JSON payload is required, which has to fill the `updatedVariables` your KTA administrator defined in the KTA Designer. This JSON could look similar to the following:
+```json
+{
+  "sessionId": "",
+  "jobIdentity": {
+    "Id": "",
+  "updatedVariables": [
+    {
+      "Id": "",
+      "VariableType": 8,
+      "Value": ""
+    },
+  ]
+}
+```
+
+If the node was executed successfull, it will return the information of the updated KTA job. 
+
 ## Node: RunRobot
 
 This Node runs a specific Kofax Robot, which was created in the [Kofax Design Studio](https://www.coforce.nl/kofax-kapow/design-studio/?lang=en). To test Kofax you can get your Trial [here](https://www.kofax.com/Products/Robotic-Process-Automation/Kapow/rpa-free-trial?crmCampaignID=CMP-14638-T2C7F5). \
