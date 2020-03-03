@@ -348,3 +348,50 @@ function createBase64StringFromUserData(
     return Buffer.from(xml).toString("base64");
 }
 
+
+
+/**
+ * Uses the id-capture webchat plugin to extract information of a user identity card
+ * @arg {Boolean} `displayOpenButton` If there should be a button to open the capture ID plugin or not. If not, the plugin will be displayed directly after this node is executed
+ * @arg {CognigyScript} `buttonText` The text to display in the button to open the capture plugin
+ * @arg {CognigyScript} `cancelButtonText` The text to display in the cancel button
+ * @arg {CognigyScript} `submitButtonText` The text to display in the submit button
+ * @arg {CognigyScript} `headerText` The text to display in header of the capture plugin
+ * @arg {CognigyScript} `contextStore` How to store the extracted information to the Cognigy Context object
+ * @arg {Boolean} `stopOnError` Whether to stop on error or continue
+ */
+async function captureID(input: IFlowInput, args: { displayOpenButton: boolean, buttonText: string, cancelButtonText: string, submitButtonText: string, headerText: string,  contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+
+    const { displayOpenButton, buttonText, cancelButtonText, submitButtonText, headerText, contextStore, stopOnError } = args;
+
+    if (displayOpenButton) { if (!buttonText) throw new Error('The button text is not defined. You have to define it, since you want to show a button to open the capture ID plugin.'); }
+    if (!cancelButtonText) throw new Error('The cancel button text is not defined');
+    if (!submitButtonText) throw new Error("The submit button text is not defined");
+    if (!headerText) throw new Error('The header text is not defined');
+    if (!contextStore) throw new Error('The context store key name is not defined');
+
+    try {
+
+        input.actions.output('', {
+            _plugin: {
+                type: 'id-capture',
+                displayOpenButton,
+                buttonText,
+                cancelButtonText,
+                submitButtonText,
+                headerText,
+                contextStore
+            }
+        })
+    } catch (error) {
+        if (stopOnError) {
+            throw new Error(error.message);
+        } else {
+            input.actions.addToContext(contextStore, { error: error.message }, 'simple');
+        }
+    }
+
+    return input;
+}
+
+module.exports.captureID = captureID;

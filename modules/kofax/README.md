@@ -8,6 +8,11 @@ This Custom Module integrates the [Kofax RPA](https://www.kofax.de/-/media/Files
 
 You need this secret to use the request forwarder. This forwarder starts the Kofax Robot and directly sends a `200 Accepted` if nothing gone wrong. So the user can continue chatting with the bot.
 
+## Node: CaptureId
+
+This Node starts the `id-catpure` webchat plugin to let the user capture his or her identity card. This could be the case, if the chatbot needs to collect general personal information such as the first name, last name and address. The plugin hands back all extracted informaton including the cropped image of the identity card itself and the user's personal picture. 
+
+
 ## Node: RunRobot
 
 This Node runs a specific Kofax Robot, which was created in the [Kofax Design Studio](https://www.coforce.nl/kofax-kapow/design-studio/?lang=en). To test Kofax you can get your Trial [here](https://www.kofax.com/Products/Robotic-Process-Automation/Kapow/rpa-free-trial?crmCampaignID=CMP-14638-T2C7F5). \
