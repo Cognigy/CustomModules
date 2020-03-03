@@ -5,7 +5,8 @@
   "main": "build/module.js",
   "scripts": {
     "transpile": "tsc -p .",
-    "build": "npm run transpile && npm run lint",
+    "zip": "zip kofax.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+    "build": "npm run transpile && npm run lint && npm run zip",
     "lint": "tslint -c tslint.json src/**/*.ts"
   },
   "repository": {
@@ -17,7 +18,8 @@
     "Robots",
     "Automation",
     "Process",
-    "Optimiziation"
+    "Optimiziation",
+    "RTTI"
   ],
   "author": "Cognigy GmbH",
   "license": "MIT",
