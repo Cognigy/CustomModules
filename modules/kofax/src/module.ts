@@ -398,3 +398,44 @@ async function captureID(input: IFlowInput, args: { secret: CognigySecret, displ
 }
 
 module.exports.captureID = captureID;
+
+
+/**
+ * Creates a case in Kofax KTA (uses CreateCase2 endpoint)
+ * @arg {CognigySecret} `secret` Kofax KTA URL
+ * @arg {JSON} `payload` The JSON payload for the CreateCase2 Kofax KTA API
+ * @arg {CognigyScript} `contextStore` How to store the extracted information to the Cognigy Context object
+ * @arg {Boolean} `stopOnError` Whether to stop on error or continue
+ */
+async function createCaseInKTA(input: IFlowInput, args: { secret: CognigySecret, payload: JSON, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+
+    const { secret, payload, contextStore, stopOnError } = args;
+    const { url } = secret
+
+    if (!payload) throw new Error('The JSON payload is not defined');
+    if (!contextStore) throw new Error('The context store key name is not defined');
+
+
+    try {
+
+        const response = await axios({
+            method: 'POST',
+            url: `${url}/TotalAgility/Services/Sdk/CaseService.svc/json/CreateCase2`,
+            data: payload,
+            headers: {
+                'Content-Type': 'application/json',
+        }});
+
+        input.actions.addToContext(contextStore, response.data, 'simple');
+    } catch (error) {
+        if (stopOnError) {
+            throw new Error(error.message);
+        } else {
+            input.actions.addToContext(contextStore, { error: error.message }, 'simple');
+        }
+    }
+
+    return input;
+}
+
+module.exports.createCaseInKTA = createCaseInKTA;
