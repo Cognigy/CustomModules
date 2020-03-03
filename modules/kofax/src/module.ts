@@ -352,6 +352,7 @@ function createBase64StringFromUserData(
 
 /**
  * Uses the id-capture webchat plugin to extract information of a user identity card
+ * @arg {CognigySecret} `secret` Kofax RTTI information
  * @arg {Boolean} `displayOpenButton` If there should be a button to open the capture ID plugin or not. If not, the plugin will be displayed directly after this node is executed
  * @arg {CognigyScript} `buttonText` The text to display in the button to open the capture plugin
  * @arg {CognigyScript} `cancelButtonText` The text to display in the cancel button
@@ -360,9 +361,10 @@ function createBase64StringFromUserData(
  * @arg {CognigyScript} `contextStore` How to store the extracted information to the Cognigy Context object
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-async function captureID(input: IFlowInput, args: { displayOpenButton: boolean, buttonText: string, cancelButtonText: string, submitButtonText: string, headerText: string,  contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+async function captureID(input: IFlowInput, args: { secret: CognigySecret, displayOpenButton: boolean, buttonText: string, cancelButtonText: string, submitButtonText: string, headerText: string,  contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
-    const { displayOpenButton, buttonText, cancelButtonText, submitButtonText, headerText, contextStore, stopOnError } = args;
+    const { secret, displayOpenButton, buttonText, cancelButtonText, submitButtonText, headerText, contextStore, stopOnError } = args;
+    const { rttiUrl } = secret
 
     if (displayOpenButton) { if (!buttonText) throw new Error('The button text is not defined. You have to define it, since you want to show a button to open the capture ID plugin.'); }
     if (!cancelButtonText) throw new Error('The cancel button text is not defined');
@@ -380,6 +382,7 @@ async function captureID(input: IFlowInput, args: { displayOpenButton: boolean, 
                 cancelButtonText,
                 submitButtonText,
                 headerText,
+                rttiUrl,
                 contextStore
             }
         });
