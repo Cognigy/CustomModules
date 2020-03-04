@@ -27,7 +27,7 @@ The sentiment can be calculated for this languages:
 As a result the node gives:
 - **score**: sum of all sentiment values in the sentence 
 - **comparative**: score divided by the number of words
-- **vote**: says if the sentiment of the text is positive or negative, based on the score
+- **vote**: sentiment can be positive, negative or neutral, based on the score
 - **numWords**: number of words from the input
 - **numHits**: number of words with sentiment values
 - **type**: shows which sentimental analyzer was used (Senticon, AFINN or Pattern)
