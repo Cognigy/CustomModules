@@ -364,7 +364,7 @@ function createBase64StringFromUserData(
 async function captureID(input: IFlowInput, args: { secret: CognigySecret, displayOpenButton: boolean, buttonText: string, cancelButtonText: string, submitButtonText: string, headerText: string,  contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
     const { secret, displayOpenButton, buttonText, cancelButtonText, submitButtonText, headerText, contextStore, stopOnError } = args;
-    const { rttiUrl } = secret
+    const { rttiUrl } = secret;
 
     if (displayOpenButton) { if (!buttonText) throw new Error('The button text is not defined. You have to define it, since you want to show a button to open the capture ID plugin.'); }
     if (!cancelButtonText) throw new Error('The cancel button text is not defined');
@@ -410,7 +410,7 @@ module.exports.captureID = captureID;
 async function createCaseInKTA(input: IFlowInput, args: { secret: CognigySecret, payload: JSON, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
     const { secret, payload, contextStore, stopOnError } = args;
-    const { url } = secret
+    const { url } = secret;
 
     if (!payload) throw new Error('The JSON payload is not defined');
     if (!contextStore) throw new Error('The context store key name is not defined');
@@ -451,7 +451,7 @@ module.exports.createCaseInKTA = createCaseInKTA;
 async function updateJobVariablesInKTA(input: IFlowInput, args: { secret: CognigySecret, payload: JSON, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
     const { secret, payload, contextStore, stopOnError } = args;
-    const { url } = secret
+    const { url } = secret;
 
     if (!payload) throw new Error('The JSON payload is not defined');
     if (!contextStore) throw new Error('The context store key name is not defined');
