@@ -361,7 +361,7 @@ function createBase64StringFromUserData(
  * @arg {CognigyScript} `contextStore` How to store the extracted information to the Cognigy Context object
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-async function captureID(input: IFlowInput, args: { secret: CognigySecret, displayOpenButton: boolean, buttonText: string, cancelButtonText: string, submitButtonText: string, headerText: string,  contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+async function IDcapture(input: IFlowInput, args: { secret: CognigySecret, displayOpenButton: boolean, buttonText: string, cancelButtonText: string, submitButtonText: string, headerText: string,  contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
     const { secret, displayOpenButton, buttonText, cancelButtonText, submitButtonText, headerText, contextStore, stopOnError } = args;
     const { rttiUrl } = secret;
@@ -397,7 +397,7 @@ async function captureID(input: IFlowInput, args: { secret: CognigySecret, displ
     return input;
 }
 
-module.exports.captureID = captureID;
+module.exports.IDcapture = IDcapture;
 
 
 /**
@@ -407,10 +407,10 @@ module.exports.captureID = captureID;
  * @arg {CognigyScript} `contextStore` How to store the extracted information to the Cognigy Context object
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-async function createCaseInKTA(input: IFlowInput, args: { secret: CognigySecret, payload: JSON, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+async function KTAcreateCase(input: IFlowInput, args: { secret: CognigySecret, payload: JSON, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
     const { secret, payload, contextStore, stopOnError } = args;
-    const { url } = secret;
+    const { ktaUrl } = secret;
 
     if (!payload) throw new Error('The JSON payload is not defined');
     if (!contextStore) throw new Error('The context store key name is not defined');
@@ -420,7 +420,7 @@ async function createCaseInKTA(input: IFlowInput, args: { secret: CognigySecret,
 
         const response = await axios({
             method: 'POST',
-            url: `${url}/TotalAgility/Services/Sdk/CaseService.svc/json/CreateCase2`,
+            url: `${ktaUrl}/TotalAgility/Services/Sdk/CaseService.svc/json/CreateCase2`,
             data: payload,
             headers: {
                 'Content-Type': 'application/json',
@@ -438,7 +438,7 @@ async function createCaseInKTA(input: IFlowInput, args: { secret: CognigySecret,
     return input;
 }
 
-module.exports.createCaseInKTA = createCaseInKTA;
+module.exports.KTAcreateCase = KTAcreateCase;
 
 
 /**
@@ -448,10 +448,10 @@ module.exports.createCaseInKTA = createCaseInKTA;
  * @arg {CognigyScript} `contextStore` How to store the extracted information to the Cognigy Context object
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-async function updateJobVariablesInKTA(input: IFlowInput, args: { secret: CognigySecret, payload: JSON, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+async function KTAupdateVariables(input: IFlowInput, args: { secret: CognigySecret, payload: JSON, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
     const { secret, payload, contextStore, stopOnError } = args;
-    const { url } = secret;
+    const { ktaUrl } = secret;
 
     if (!payload) throw new Error('The JSON payload is not defined');
     if (!contextStore) throw new Error('The context store key name is not defined');
@@ -461,7 +461,7 @@ async function updateJobVariablesInKTA(input: IFlowInput, args: { secret: Cognig
 
         const response = await axios({
             method: 'POST',
-            url: `${url}/TotalAgility/Services/Sdk/JobService.svc/json/UpdateJobVariables`,
+            url: `${ktaUrl}/TotalAgility/Services/Sdk/JobService.svc/json/UpdateJobVariables`,
             data: payload,
             headers: {
                 'Content-Type': 'application/json',
@@ -479,5 +479,5 @@ async function updateJobVariablesInKTA(input: IFlowInput, args: { secret: Cognig
     return input;
 }
 
-module.exports.updateJobVariablesInKTA = updateJobVariablesInKTA;
+module.exports.KTAupdateVariables = KTAupdateVariables;
 
