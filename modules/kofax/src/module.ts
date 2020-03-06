@@ -352,7 +352,7 @@ function createBase64StringFromUserData(
 
 /**
  * Uses the id-capture webchat plugin to extract information of a user identity card
- * @arg {CognigySecret} `secret` Kofax RTTI information
+ * @arg {SecretSelect} `secret` Kofax RTTI information
  * @arg {Boolean} `displayOpenButton` If there should be a button to open the capture ID plugin or not. If not, the plugin will be displayed directly after this node is executed
  * @arg {CognigyScript} `buttonText` The text to display in the button to open the capture plugin
  * @arg {CognigyScript} `cancelButtonText` The text to display in the cancel button
@@ -402,7 +402,7 @@ module.exports.captureID = captureID;
 
 /**
  * Creates a case in Kofax KTA (uses CreateCase2 endpoint)
- * @arg {CognigySecret} `secret` Kofax KTA URL
+ * @arg {SecretSelect} `secret` Kofax KTA URL
  * @arg {JSON} `payload` The JSON payload for the CreateCase2 Kofax KTA API
  * @arg {CognigyScript} `contextStore` How to store the extracted information to the Cognigy Context object
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
@@ -443,7 +443,7 @@ module.exports.createCaseInKTA = createCaseInKTA;
 
 /**
  * Updates the variables of an ongoing KTA job
- * @arg {CognigySecret} `secret` Kofax KTA URL
+ * @arg {SecretSelect} `secret` Kofax KTA URL
  * @arg {JSON} `payload` The JSON payload for the UpdateJobVariables Kofax KTA API
  * @arg {CognigyScript} `contextStore` How to store the extracted information to the Cognigy Context object
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
