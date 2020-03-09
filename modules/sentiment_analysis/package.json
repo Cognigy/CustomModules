@@ -1,0 +1,14 @@
+{
+	"name": "multi_sentiment",
+	"version": "1.0.0",
+	"description": "Gives sentimental analysis of the text",
+	"main": "build/module.js",
+	"scripts": {
+		"build": "tsc -p .",
+		"zip": "npm run build && zip test.zip build/* package.json package-lock.json README.md icon.png icon-large.png AFINN_111.json polartlexicon.json SentiCon.json"
+	},
+	"author": "Sylwia",
+	"license": "MIT",
+	"devDependencies": {},
+	"dependencies": {}
+}
