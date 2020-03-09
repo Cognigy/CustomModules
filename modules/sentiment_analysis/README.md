@@ -12,7 +12,7 @@ The sentiment can be calculated for this languages:
 ## Node: multi_sentiment
 
 As a result the node gives:
-- **verdict**: if the score is 0, the verdict of thge sentiment is NEUTRAL, if it's higher the verdict is POSITIVE and if it's lower, the verdict is NEGATIVE
+- **verdict**: if the score is 0, the verdict of the sentiment is NEUTRAL, if it is higher the verdict is POSITIVE and if it is lower, the verdict is NEGATIVE
 - **score**: sum of all scores in the sentence
 - **comparative**: score devided by the number of words in the sentence
 - **foundWords**: list of the words for which the score was founded
