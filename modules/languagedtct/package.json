@@ -1,0 +1,16 @@
+{
+  "name": "languagedtct",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/module.js",
+  "scripts": {},
+  "author": "Philipp Heltewig",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^13.9.0",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "languagedetect": "^2.0.0"
+  }
+}
