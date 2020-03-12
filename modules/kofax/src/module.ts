@@ -462,7 +462,7 @@ async function KTAupdateVariables(input: IFlowInput, args: { secret: CognigySecr
         const response = await axios({
             method: 'POST',
             url: `${ktaUrl}/TotalAgility/Services/Sdk/JobService.svc/json/UpdateJobVariables`,
-            data: payload,
+            data: JSON.stringify(payload),
             headers: {
                 'Content-Type': 'application/json',
         }});
