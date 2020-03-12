@@ -93,8 +93,8 @@ const process_german = (tokens) => {
                 tokens[token] = tokens[token].replace(/ae/, 'ä');
                 if (tokens[token] !== word) {
                     tokens[token] = tokens[token].replace(/ß/, 'ss');
-                    let new_token = tokens[token].replace(/a|e|i|o|u|ö|ü|ä/, '');
-                    let new_word = word.replace(/a|e|i|o|u|ö|ü|ä/, '');
+                    let new_token = tokens[token].replace(/[aeiouöüä]*/, '');
+                    let new_word = word.replace(/[aeiouöüä]*/, '');
                     if (new_token === new_word) {
                         tokens[token] = word;
                     }
