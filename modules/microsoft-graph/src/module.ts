@@ -311,20 +311,22 @@ module.exports.addContact = addContact;
  */
 async function getSharepointLists(input: IFlowInput, args: { accessToken: string, contextStore: string, siteId: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
     // Check parameters
-    const { accessToken, contextStore, stopOnError } = args;
+    const { accessToken, contextStore, stopOnError, siteId } = args;
     if (!accessToken) return Promise.reject("No access token defined. Please use the Azure Custom Module for authenticating the user.");
     if (!contextStore) return Promise.reject("No context store key defined.");
     if (stopOnError === undefined) throw new Error("Stop on error flag not defined.");
 
+    let user;
+
     try {
         const client: Client = getAuthenticatedClient(accessToken);
-        
-        if(siteId.length > 0) {
-            const user = await client.api(`sites/${siteId}/lists`).get();
+
+        if (siteId.length > 0) {
+            user = await client.api(`sites/${siteId}/lists`).get();
         } else {
-            const user = await client.api('sites/root/lists').get();
+            user = await client.api('sites/root/lists').get();
         }
-     
+
 
         input.actions.addToContext(contextStore, user, 'simple');
     } catch (error) {
@@ -396,7 +398,7 @@ function createRecipientsList(recipients: string[]): object[] {
         list.push({
             emailAddress: {
                 address: r,
-             },
+            },
         });
     }
 
@@ -410,12 +412,12 @@ function createAttendeesList(attendees: string[]): object[] {
     for (const a of attendees) {
         list.push({
             emailAddress: {
-              address: a,
-              name: "Guest"
+                address: a,
+                name: "Guest"
             },
             type: "Required"
-          });
-        }
+        });
+    }
 
     return list;
 }
@@ -428,8 +430,8 @@ function getEmailAddressesForContact(firstName: string, lastName: string, emailA
         list.push({
             address: e,
             name: `${firstName} ${lastName}`
-            });
-        }
+        });
+    }
 
     return list;
 }
