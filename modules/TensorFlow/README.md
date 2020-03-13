@@ -30,7 +30,7 @@ You can use this template to create a Custom Module for cognigy.
 	},
 ```
 
-5. Then, you can create a zip.test with all necessary files with
+5. Then, you can create a test.zip with all necessary files with
 ```bash
 npm run zip
 ```
