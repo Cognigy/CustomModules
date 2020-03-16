@@ -17,27 +17,27 @@ async function sentiment(input: IFlowInput, args: {language: string}): Promise<I
 
     const language = args.language;
 
-    let negations = [];
+    let negations = new Set();
     
     const text = input.input.text;
     const tokens = text.split(' ');
 
-    let dictionary = null;
+    let dictionary = new Map();
 
     switch (language) {
         case 'German':
-            dictionary = German;
+            dictionary = new Map(Object.entries(German));
             await process_german(tokens);
-            negations = negations_de;
+            negations = new Set(negations_de);
             break;
         case 'English':
-            dictionary = English;
-            negations = negations_en;
+            dictionary = new Map(Object.entries(English));
+            negations = new Set(negations_en);
             break;
         case 'Spanish' :
-            dictionary = Spanish;
+            dictionary = new Map(Object.entries(Spanish));
             await process_spanish(tokens);
-            negations = negations_es;
+            negations = new Set(negations_es);
             break;
     }
 
@@ -45,22 +45,19 @@ async function sentiment(input: IFlowInput, args: {language: string}): Promise<I
     let wordSet = [];
 
     for (let token in tokens) {
-        for (let word in dictionary) {
-            if (tokens[token] === word) {
-                wordSet.push(word+': '+dictionary[word]);
-                score = score + dictionary[word];
-            }
+        if (dictionary.has(tokens[token])) {
+            let word = tokens[token];
+            wordSet.push(word + ': ' + dictionary.get(word));
+            score = score + dictionary.get(word);
         }
     }
     
-    const negation = [];
+    const negation_list = [];
 
-    for (let neg in negations){
-        for (let token in tokens){
-            if (tokens[token] === negations[neg]) {
-                negation.push(tokens[token]);
-                score = -score;
-            }
+    for (let token in tokens){
+        if (negations.has(tokens[token])) {
+            negation_list.push(tokens[token]);
+            score = -score;
         }
     }
 
@@ -71,9 +68,8 @@ async function sentiment(input: IFlowInput, args: {language: string}): Promise<I
         score: score,
         comparative: score / tokens.length,
         foundWords: wordSet,
-        negations: negation
+        negations: negation_list
     }
-    console.log(result);
 
     return new Promise(resolve => {
         input.actions.addToContext('sentiment', result, 'simple');
@@ -82,32 +78,30 @@ async function sentiment(input: IFlowInput, args: {language: string}): Promise<I
 }
 
 const process_german = (tokens) => {
-    const dictionary = German;
+    const dictionary = new Map(Object.entries(German));
     const forms = Forms_de;
     for (let token in tokens) {
-        for (let word in dictionary) {
-            let old_token = tokens[token];
-            if (tokens[token] !== word) {
-                tokens[token] = tokens[token].replace(/ge/, '');
-                tokens[token] = tokens[token].replace(/ss/g, 'ß');
-                tokens[token] = tokens[token].replace(/ue/g, 'ü');
-                tokens[token] = tokens[token].replace(/oe/g, 'ö');
-                tokens[token] = tokens[token].replace(/ae/g, 'ä'); 
-                if (tokens[token] !== word) {
-                    tokens[token] = tokens[token].replace(/ü/g, 'u');
-                    tokens[token] = tokens[token].replace(/ö/g, 'o');
-                    tokens[token] = tokens[token].replace(/ä/g, 'a');
-                    for (let stem in forms) {
-                        let exp = new RegExp(stem);
-                        if (exp.test(tokens[token])===true){
-                            tokens[token] = tokens[token].replace(exp, forms[stem]);
-                        }
+        let old_token = tokens[token];
+        if (dictionary.has(tokens[token])===false){
+            tokens[token] = tokens[token].replace(/ge/, '');
+            tokens[token] = tokens[token].replace(/ss/g, 'ß');
+            tokens[token] = tokens[token].replace(/ue/g, 'ü');
+            tokens[token] = tokens[token].replace(/oe/g, 'ö');
+            tokens[token] = tokens[token].replace(/ae/g, 'ä'); 
+            if (dictionary.has(tokens[token])===false) {
+                tokens[token] = tokens[token].replace(/ü/g, 'u');
+                tokens[token] = tokens[token].replace(/ö/g, 'o');
+                tokens[token] = tokens[token].replace(/ä/g, 'a');
+                for (let stem in forms) {
+                    let exp = new RegExp(stem);
+                    if (exp.test(tokens[token])===true){
+                        tokens[token] = tokens[token].replace(exp, forms[stem]);
                     }
-                    if (tokens[token] !== word) {
+                    if (dictionary.has(tokens[token])===false) {
                         tokens[token] = tokens[token].replace(/t$|er$|es$|em$|en$|e$/, '');
-                        if (tokens[token] !== word) {
+                        if (dictionary.has(tokens[token])===false) {
                             tokens[token] = tokens[token].replace(/tes$|te$|est$|st$|s$|t$|e$|es$|ere$|er$/, '');
-                            if (tokens[token] !== word) {
+                            if (dictionary.has(tokens[token])===false) {
                                 tokens[token] = old_token;
                             }
                         }
@@ -120,22 +114,20 @@ const process_german = (tokens) => {
 }
 
 const process_spanish = (tokens) => {
-    const dictionary = Spanish;
+    const dictionary = new Map(Object.entries(Spanish));
     for (let token in tokens) {
-        for (let word in dictionary) {
-            if (tokens[token].search(word) === 0 && tokens[token] !== word) {
-                tokens[token] = tokens[token].replace(/ado$|ido$|iendo$|éis$|emos$|amos$|áis$|é$|í$|ió$|ó$|iste$|imos$|isteis$|ieron$|ía$|ías$|íamos$|íais$|ían$|ería$|erías$|eríamos$|eríais$|erían$|eré$|eréis$|erás$|erá$|erán$|eremos$|iera$|ieras$|iéramos$|ierais$|ieran$|iese$|ieses$|iésemos$|ieseis$|iesen$|iere$|ieres$|iéremos|iereis$|ieren$|amos$|asteis$|aron$|aba$|abas$|aste$|ábamos$|abais$|aban$|aría$|arías$|aríamos$|aríais$|arían$|aré$|aréis$|arás$|ará$|arán$|aremos$|ara$|aras$|áramos$|arais$|aran$|ase$|ases$|ásemos$|aseis$|asen$|are$|ares$|áremos|areis$|aren$|o$|as$|a$|an$|e$|es$|en$|ad$|ed$|me$|te$|se$|nos$|os$/, '');
-                let saved = tokens[token];
-                if (tokens[token] !== word) {
+        if (dictionary.has(tokens[token])===false) {
+            tokens[token] = tokens[token].replace(/ado$|ido$|iendo$|éis$|emos$|amos$|áis$|é$|í$|ió$|ó$|iste$|imos$|isteis$|ieron$|ía$|ías$|íamos$|íais$|ían$|ería$|erías$|eríamos$|eríais$|erían$|eré$|eréis$|erás$|erá$|erán$|eremos$|iera$|ieras$|iéramos$|ierais$|ieran$|iese$|ieses$|iésemos$|ieseis$|iesen$|iere$|ieres$|iéremos|iereis$|ieren$|amos$|asteis$|aron$|aba$|abas$|aste$|ábamos$|abais$|aban$|aría$|arías$|aríamos$|aríais$|arían$|aré$|aréis$|arás$|ará$|arán$|aremos$|ara$|aras$|áramos$|arais$|aran$|ase$|ases$|ásemos$|aseis$|asen$|are$|ares$|áremos|areis$|aren$|o$|as$|a$|an$|e$|es$|en$|ad$|ed$|me$|te$|se$|nos$|os$/, '');
+            let saved = tokens[token];
+            if (dictionary.has(tokens[token])===false) {
+                tokens[token] = tokens[token].split("").reverse().join("");
+                tokens[token] = tokens[token].replace(/o/, 'ue'),
+                tokens[token] = tokens[token].replace(/e/, 'ie');
+                tokens[token] = tokens[token].split("").reverse().join("");
+                if (dictionary.has(tokens[token])===false) {
                     tokens[token] = tokens[token].split("").reverse().join("");
-                    tokens[token] = tokens[token].replace(/o/, 'ue'),
-                    tokens[token] = tokens[token].replace(/e/, 'ie');
+                    tokens[token] = saved.replace(/e/, 'i');
                     tokens[token] = tokens[token].split("").reverse().join("");
-                    if (tokens[token] !== word) {
-                        tokens[token] = tokens[token].split("").reverse().join("");
-                        tokens[token] = saved.replace(/e/, 'i');
-                        tokens[token] = tokens[token].split("").reverse().join("");
-                    }
                 }
             }
         }
