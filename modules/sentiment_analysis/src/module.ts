@@ -92,18 +92,18 @@ const process_german = (tokens) => {
                 tokens[token] = tokens[token].replace(/ü/g, 'u');
                 tokens[token] = tokens[token].replace(/ö/g, 'o');
                 tokens[token] = tokens[token].replace(/ä/g, 'a');
-                for (let stem in forms) {
-                    let exp = new RegExp(stem);
-                    if (exp.test(tokens[token])===true){
-                        tokens[token] = tokens[token].replace(exp, forms[stem]);
+                if (dictionary.has(tokens[token])===false) {
+                    tokens[token] = tokens[token].replace(/t$|er$|es$|em$|en$|e$/, '');
+                    for (let stem in forms) {
+                        let exp = new RegExp(stem);
+                        if (exp.test(tokens[token])===true){
+                            tokens[token] = tokens[token].replace(exp, forms[stem]);
+                        }
                     }
                     if (dictionary.has(tokens[token])===false) {
-                        tokens[token] = tokens[token].replace(/t$|er$|es$|em$|en$|e$/, '');
+                        tokens[token] = tokens[token].replace(/tes$|te$|est$|st$|s$|t$|e$|es$|ere$|er$/, '');
                         if (dictionary.has(tokens[token])===false) {
-                            tokens[token] = tokens[token].replace(/tes$|te$|est$|st$|s$|t$|e$|es$|ere$|er$/, '');
-                            if (dictionary.has(tokens[token])===false) {
-                                tokens[token] = old_token;
-                            }
+                            tokens[token] = old_token;
                         }
                     }
                 }
