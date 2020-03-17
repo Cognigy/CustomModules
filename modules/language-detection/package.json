@@ -1,5 +1,5 @@
 {
-	"name": "sylwia_language_detection",
+	"name": "language_detection",
 	"version": "1.0.0",
 	"description": "Identifies the language",
 	"main": "build/module.js",
@@ -7,7 +7,11 @@
 		"build": "tsc -p .",
 		"zip": "npm run build && zip test.zip build/* package.json package-lock.json README.md icon.png"
 	},
-	"author": "Sylwia",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Cognigy/CustomModules"
+	},
+	"author": "cognigy GmbH",
 	"license": "MIT",
 	"devDependencies": {},
 	"dependencies": {
