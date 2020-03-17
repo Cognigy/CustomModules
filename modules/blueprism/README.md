@@ -12,11 +12,6 @@ This Custom Module integrated Blue Prism RPA with Cognigy.AI.
     - Key: password
     - Value: The Blue Prism user's password (e.g. test123)
 
-**Secret (Async):**
-
-- Key: api_key
-- Value: The Cognigy Request Forwarder API Key. Please contact us.
-
 
 ## Node: startProcess
 
@@ -39,15 +34,33 @@ This node starts a specific Blue Prism process. It takes the following parameter
 If all parameters are defined, the node resturns the result and stores it into the Cogngiy context.
 
 
-## Node: startProcessAsync (IN DEVELOPMENT)
+### Async Process Execution
 
-If your robot takes too much time to execute is synchronously, you can use this async variant. It takes the process request as `body` parameter and directly returns a `200 OK` response. 
+If your robot takes too much time to execute it synchronously, you can think about an async variant. For this, you need to implement a request forwarder, which instantly returns a `202 HTTP Response` to the Cognigy chatbot. Thus, the bot is able to continue chatting with the user. In the backend, however, you have to call the HTTP Request to start the BluePrism robot and wait for the result.
+
+#### Sending Result to Cognigy
+
+As soon as the robot finished its task, you can send the result back to the Cognigy bot. In doing so, the chatbot is able to use this currently incoming information and use it for further tasks during the conversation.
+
+**How to send data to Cognigy:**
+
+Use the [Cognigy Inject API](https://docs.cognigy.com/reference#inject) to simulate a user message. In this case, the simulated user message would be the robot's RPA result. Therefore, you have to handle the expected result in your Cognigy [Flow](https://docs.cognigy.com/docs/flow).
 
 
-You need the **JSON** body for this custom module node: 
+#### Request Forwarder Example
 
-``` json
-{
+The needed request forwarder could be developed as the following:
+
+1. Accept the actual request as parameter
+2. Forward this request to the foreign system
+3. Within the foreign system, call the [Cognigy Inject API](https://docs.cognigy.com/reference#inject)
+
+Finally, an example request forwarder could be called like:
+
+```json
+METHOD: POST
+URL: https://your-domain.com/request-forwarder
+BODYL: {
     "urlToForward": "ROBOT REST POST URL",
     "headersToForward": {},
     "authToForward": {
@@ -59,8 +72,10 @@ You need the **JSON** body for this custom module node:
     "bodyToFoward": {
       "THE JSON XML BODY"
     }
-  }
+}
 ```
+
+**Take a look at the example request forwarder code, [here](./request-forwarder/src/index.ts)**
 ____
 
 ### For Developers: Set up Blue Prism Test Server
