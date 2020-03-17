@@ -1,10 +1,10 @@
-const npm_model = require('@tensorflow-models/toxicity')
+const npmModel = require('@tensorflow-models/toxicity')
 /**
  * Template for usage of a TensorFlow.js module in a Custom Module
  */
-async function function_name(input: IFlowInput, args: {}): Promise<IFlowInput | {}> {
+async function functionName(input: IFlowInput, args: {}): Promise<IFlowInput | {}> {
 	//load the model
-	const model = await npm_model.load();
+	const model = await npmModel.load();
 	//get the sentence from IFlowInput
 	const text = input.input.text;
 	//use the model on the input text as described in the documentation
