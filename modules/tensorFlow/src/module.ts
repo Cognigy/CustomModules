@@ -17,4 +17,4 @@ async function functionName(input: IFlowInput, args: {}): Promise<IFlowInput | {
     });
 }
 // You have to export the function, otherwise it is not available
-module.exports.function_name = function_name;
+module.exports.functionName = functionName;
