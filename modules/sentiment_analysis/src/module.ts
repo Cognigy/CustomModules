@@ -1,11 +1,11 @@
 const English = require('../AFINN_111.json');
 const German = require('../polartlexicon.json');
 const Spanish = require('../SentiCon.json');
-const Forms_de = require('../de_stems.json');
+const formsDE = require('../de_stems.json');
 
-const negations_en = ["don't", "doesn't", "dont", "doesnt", "not"];
-const negations_de = ["nicht", "kein", "keine", "keiner", "keines", "keinem", "keinen"];
-const negations_es = ["no", "sin", "nada", "nunca", "tampoco", "nadie"];
+const negationsEN = ["don't", "doesn't", "dont", "doesnt", "not"];
+const negationsDE = ["nicht", "kein", "keine", "keiner", "keines", "keinem", "keinen"];
+const negationsES = ["no", "sin", "nada", "nunca", "tampoco", "nadie"];
 
 /**
  * Gives sentiment of the text
@@ -27,17 +27,17 @@ async function sentiment(input: IFlowInput, args: {language: string}): Promise<I
     switch (language) {
         case 'German':
             dictionary = new Map(Object.entries(German));
-            await process_german(tokens);
-            negations = new Set(negations_de);
+            await processGerman(tokens);
+            negations = new Set(negationsDE);
             break;
         case 'English':
             dictionary = new Map(Object.entries(English));
-            negations = new Set(negations_en);
+            negations = new Set(negationsEN);
             break;
         case 'Spanish' :
             dictionary = new Map(Object.entries(Spanish));
-            await process_spanish(tokens);
-            negations = new Set(negations_es);
+            await processSpanish(tokens);
+            negations = new Set(negationsES);
             break;
     }
 
@@ -52,11 +52,11 @@ async function sentiment(input: IFlowInput, args: {language: string}): Promise<I
         }
     }
     
-    const negation_list = [];
+    const negationList = [];
 
     for (let token in tokens){
         if (negations.has(tokens[token])) {
-            negation_list.push(tokens[token]);
+            negationList.push(tokens[token]);
             score = -score;
         }
     }
@@ -68,7 +68,7 @@ async function sentiment(input: IFlowInput, args: {language: string}): Promise<I
         score: score,
         comparative: score / tokens.length,
         foundWords: wordSet,
-        negations: negation_list
+        negations: negationList
     }
 
     return new Promise(resolve => {
@@ -77,11 +77,11 @@ async function sentiment(input: IFlowInput, args: {language: string}): Promise<I
     });
 }
 
-const process_german = (tokens) => {
+const processGerman = (tokens) => {
     const dictionary = new Map(Object.entries(German));
-    const forms = Forms_de;
+    const forms = formsDE;
     for (let token in tokens) {
-        let old_token = tokens[token];
+        let oldToken = tokens[token];
         if (dictionary.has(tokens[token])===false){
             tokens[token] = tokens[token].replace(/ge/, '');
             tokens[token] = tokens[token].replace(/ss/g, 'ß');
@@ -103,7 +103,7 @@ const process_german = (tokens) => {
                     if (dictionary.has(tokens[token])===false) {
                         tokens[token] = tokens[token].replace(/tes$|te$|est$|st$|s$|t$|e$|es$|ere$|er$/, '');
                         if (dictionary.has(tokens[token])===false) {
-                            tokens[token] = old_token;
+                            tokens[token] = oldToken;
                         }
                     }
                 }
@@ -113,7 +113,7 @@ const process_german = (tokens) => {
     return (tokens);
 }
 
-const process_spanish = (tokens) => {
+const processSpanish = (tokens) => {
     const dictionary = new Map(Object.entries(Spanish));
     for (let token in tokens) {
         if (dictionary.has(tokens[token])===false) {
