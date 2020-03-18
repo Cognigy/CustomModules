@@ -5,7 +5,7 @@
 	"main": "build/module.js",
 	"scripts": {
 		"build": "tsc -p .",
-		"zip": "npm run build && zip test.zip build/* package.json package-lock.json README.md icon.png icon-large.png"
+		"zip": "npm run build && zip tensorflow.zip build/* package.json package-lock.json README.md icon.png icon-large.png"
 	},
 	"repository": {
 		"type": "git",
