@@ -13,6 +13,8 @@
 	},
 	"author": "Cognigy GmbH",
 	"license": "MIT",
-	"devDependencies": {},
+	"devDependencies": {
+		"@types/node": "^13.9.1"
+	},
 	"dependencies": {}
 }
