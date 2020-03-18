@@ -5,7 +5,7 @@
 	"main": "build/module.js",
 	"scripts": {
 		"build": "tsc -p .",
-		"zip": "npm run build && zip test.zip build/* package.json package-lock.json README.md icon.png icon-large.png AFINN_111.json polartlexicon.json SentiCon.json de_stems.json"
+		"zip": "npm run build && zip sentiment.zip build/* package.json package-lock.json README.md icon.png icon-large.png AFINN_111.json polartlexicon.json SentiCon.json de_stems.json"
 	},
 	"repository": {
 		"type": "git",
