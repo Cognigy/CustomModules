@@ -10,11 +10,13 @@ const negationsES = ["no", "sin", "nada", "nunca", "tampoco", "nadie"];
 /**
  * Gives sentiment of the text
  * @arg {select[English,German,Spanish]} `language` of the input
+ * @arg {CognigyScript} `store` Where to store the result
+ * @arg {Boolean} `writeToContext` Whether to write to Cognigy Context (true) or Input (false)
  */
-async function sentiment(input: IFlowInput, args: {language: string}): Promise<IFlowInput | {}> {
+async function sentiment(input: IFlowInput, args: {language: string, store: string,  writeToContext: boolean}): Promise<IFlowInput | {}> {
 
     if (!args.language) return Promise.reject("No language defined.");
-
+    
     const language = args.language;
 
     let negations = new Set();
@@ -72,8 +74,9 @@ async function sentiment(input: IFlowInput, args: {language: string}): Promise<I
     }
 
     return new Promise(resolve => {
-        input.actions.addToContext('sentiment', result, 'simple');
-        resolve(input);
+        if (args.writeToContext) input.context.getFullContext()[args.store] = result;
+		else input.input[args.store] = result;
+		resolve(input);
     });
 }
 
@@ -83,33 +86,37 @@ const processGerman = (tokens) => {
     for (let token in tokens) {
         let oldToken = tokens[token];
         if (dictionary.has(tokens[token])===false){
-            tokens[token] = tokens[token].replace(/ge/, '');
-            tokens[token] = tokens[token].replace(/ss/g, 'ß');
-            tokens[token] = tokens[token].replace(/ue/g, 'ü');
-            tokens[token] = tokens[token].replace(/oe/g, 'ö');
-            tokens[token] = tokens[token].replace(/ae/g, 'ä'); 
-            if (dictionary.has(tokens[token])===false) {
-                tokens[token] = tokens[token].replace(/ü/g, 'u');
-                tokens[token] = tokens[token].replace(/ö/g, 'o');
-                tokens[token] = tokens[token].replace(/ä/g, 'a');
-                for (let stem in forms) {
-                    let exp = new RegExp(stem);
-                    if (exp.test(tokens[token])===true){
-                        tokens[token] = tokens[token].replace(exp, forms[stem]);
-                    }
-                }
+            tokens[token] = tokens[token].replace(/t$|er$|es$|em$|en$|e$/, '');
+            if (dictionary.has(tokens[token])===false){
+                tokens[token] = oldToken;
+                tokens[token] = tokens[token].replace(/ge/, '');
+                tokens[token] = tokens[token].replace(/ss/g, 'ß');
+                tokens[token] = tokens[token].replace(/ue/g, 'ü');
+                tokens[token] = tokens[token].replace(/oe/g, 'ö');
+                tokens[token] = tokens[token].replace(/ae/g, 'ä'); 
                 if (dictionary.has(tokens[token])===false) {
-                    tokens[token] = tokens[token].replace(/t$|er$|es$|em$|en$|e$/, '');
+                    tokens[token] = tokens[token].replace(/ü/g, 'u');
+                    tokens[token] = tokens[token].replace(/ö/g, 'o');
+                    tokens[token] = tokens[token].replace(/ä/g, 'a');
+                    for (let stem in forms) {
+                        let exp = new RegExp(stem);
+                        if (exp.test(tokens[token])===true){
+                            tokens[token] = tokens[token].replace(exp, forms[stem]);
+                        }
+                    }
                     if (dictionary.has(tokens[token])===false) {
-                        tokens[token] = tokens[token].replace(/tes$|te$|est$|st$|s$|t$|e$|es$|ere$|er$/, '');
+                        tokens[token] = tokens[token].replace(/t$|er$|es$|em$|en$|e$/, '');
                         if (dictionary.has(tokens[token])===false) {
-                            tokens[token] = oldToken;
+                            tokens[token] = tokens[token].replace(/tes$|te$|est$|st$|s$|t$|e$|es$|ere$|er$/, '');
+                            if (dictionary.has(tokens[token])===false) {
+                                tokens[token] = oldToken;
+                            }
                         }
                     }
                 }
             }
         }
-    }
+    }   
     return (tokens);
 }
 
