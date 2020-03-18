@@ -18,7 +18,7 @@ As a result the node gives:
 - **foundWords**: list of the words for which the score was founded
 - **negations**: list of the negations in the sentence
 
-The result will be written into the context in the form:
+The result will be written in the form:
 
 1. Input: "I like dogs"
 ```json
