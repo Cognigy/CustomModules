@@ -20,7 +20,11 @@ You can use this template to create a Custom Module for cognigy.
 
 2. In order to get the text message from IFlowInput, use `input.input.text`. Then, you can apply model's functions on your input.
 
-3. To save the result in the context of the message use `input.actions.addToContext()`. 
+3. You can store the results in the Context or Input Object 
+```	bash
+	if (args.writeToContext) input.context.getFullContext()[args.store] = result;
+	else input.input[args.store] = result;
+```
 
 4. Creating yout package.json, remember to include
 ```	bash
