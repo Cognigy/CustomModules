@@ -10,7 +10,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
  * @arg {CognigyScript} `contextStore` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-async function RPARunRobot(input: IFlowInput, args: { secret: CognigySecret, robot: string, project: string, body: JSON, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+async function RPARunRobotAsync(input: IFlowInput, args: { secret: CognigySecret, robot: string, project: string, body: JSON, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
     const { secret, body, contextStore, stopOnError } = args;
     const { api_key } = secret;
@@ -34,6 +34,67 @@ async function RPARunRobot(input: IFlowInput, args: { secret: CognigySecret, rob
     } catch (error) {
         if (stopOnError) {
             throw new Error(error.message);
+        } else {
+            input.actions.addToContext(contextStore, { error: error.message }, 'simple');
+        }
+    }
+
+    return input;
+}
+
+module.exports.RPARunRobotAsync = RPARunRobotAsync;
+
+
+/**
+ * Runs a robot
+ * @arg {SecretSelect} `secret` The configured secret to use
+ * @arg {CognigyScript} `rpaServer` The url of the RPA server. e.g. http://localhost:8080/ManagementConsole/
+ * @arg {CognigyScript} `project` The project of the RPA robot
+ * @arg {CognigyScript} `robot` The RPA robot without extenstion. e.g. Robot instead of Robot.robot
+ * @arg {CognigyScript} `parameter` The input parameter the robot requires
+ * @arg {CognigyScript} `contextStore` Where to store the result
+ * @arg {Boolean} `stopOnError` Whether to stop on error or continue
+ */
+async function RPARunRobot(input: IFlowInput, args: { secret: CognigySecret, rpaServer: string, project: string, robot: string, parameter: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+
+    const { secret, rpaServer, project, robot, parameter, contextStore, stopOnError } = args;
+    const { username, password } = secret;
+
+    /*
+        TODO: Dynamically create the variableName object. So the user can use more than one searchIntem.
+    */
+
+
+    // Check if the secret is given
+    if (!rpaServer) throw new Error("The RPA robot url is missinsg");
+    if (!project) throw new Error("The RPA robot project is missinsg");
+    if (!robot) throw new Error("The RPA robot is missinsg");
+    if (!parameter) throw new Error("The input parameter is missing");
+
+    const data = { "parameters": [{ "variableName": "searchItem", "attribute": [{ "type": "text", "name": "searchItem", "value": parameter }] }] };
+    // Create the post url for the Kofax RPA REST Service
+    const url = `${rpaServer}/rest/run/${project}/${robot}.robot`;
+
+    try {
+
+        const response = await axios({
+            method: 'post',
+            url,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            auth: {
+                username,
+                password
+            },
+            data
+        });
+
+        input.actions.addToContext(contextStore, response.data, 'simple');
+    } catch (error) {
+        if (stopOnError) {
+            throw new Error(error);
         } else {
             input.actions.addToContext(contextStore, { error: error.message }, 'simple');
         }
@@ -226,7 +287,8 @@ async function SignDocgetSigDoc(input: IFlowInput, args: { secret: CognigySecret
                 'Content-Type': 'application/json; charset=utf-8',
                 'api-key': api_key,
                 'X-API-Key': api_key
-        }});
+            }
+        });
 
     } catch (error) {
         if (stopOnError) {
@@ -248,7 +310,8 @@ async function SignDocgetSigDoc(input: IFlowInput, args: { secret: CognigySecret
                 'Content-Type': 'application/json; charset=utf-8',
                 'api-key': api_key,
                 'X-API-Key': api_key
-        }});
+            }
+        });
 
     } catch (error) {
         if (stopOnError) {
@@ -262,7 +325,7 @@ async function SignDocgetSigDoc(input: IFlowInput, args: { secret: CognigySecret
         const signDocResponseCreateLink = await axios({
             method: 'POST',
             url: `${url}/cirrus/rest/v6/packages/${signDocResponse.data.id}/signingsession/common`,
-            data:  {
+            data: {
 
                 "manualSignerAuthentications": [
                     {
@@ -281,7 +344,8 @@ async function SignDocgetSigDoc(input: IFlowInput, args: { secret: CognigySecret
                 'Content-Type': 'application/json; charset=utf-8',
                 'api-key': api_key,
                 'X-API-Key': api_key
-        }});
+            }
+        });
 
         input.actions.addToContext(contextStore, signDocResponseCreateLink.data, 'simple');
     } catch (error) {
@@ -361,7 +425,7 @@ function createBase64StringFromUserData(
  * @arg {CognigyScript} `contextStore` How to store the extracted information to the Cognigy Context object
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-async function IDcapture(input: IFlowInput, args: { secret: CognigySecret, displayOpenButton: boolean, buttonText: string, cancelButtonText: string, submitButtonText: string, headerText: string,  contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+async function IDcapture(input: IFlowInput, args: { secret: CognigySecret, displayOpenButton: boolean, buttonText: string, cancelButtonText: string, submitButtonText: string, headerText: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
     const { secret, displayOpenButton, buttonText, cancelButtonText, submitButtonText, headerText, contextStore, stopOnError } = args;
     const { rttiUrl } = secret;
@@ -424,7 +488,8 @@ async function KTAcreateCase(input: IFlowInput, args: { secret: CognigySecret, p
             data: payload,
             headers: {
                 'Content-Type': 'application/json',
-        }});
+            }
+        });
 
         input.actions.addToContext(contextStore, response.data, 'simple');
     } catch (error) {
@@ -465,7 +530,8 @@ async function KTAupdateVariables(input: IFlowInput, args: { secret: CognigySecr
             data: JSON.stringify(payload),
             headers: {
                 'Content-Type': 'application/json',
-        }});
+            }
+        });
 
         input.actions.addToContext(contextStore, response.data, 'simple');
     } catch (error) {
