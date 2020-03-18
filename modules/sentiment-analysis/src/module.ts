@@ -1,7 +1,7 @@
-const English = require('../AFINN_111.json');
-const German = require('../polartlexicon.json');
-const Spanish = require('../SentiCon.json');
-const formsDE = require('../stemsDE.json');
+const English = require('../data/AFINN/AFINN_111.json');
+const German = require('../data/Polartlexicon/polartlexicon.json');
+const Spanish = require('../data/SentiCon/SentiCon.json');
+const formsDE = require('../data/stemsDE.json');
 
 const negationsEN = ["don't", "doesn't", "dont", "doesnt", "not"];
 const negationsDE = ["nicht", "kein", "keine", "keiner", "keines", "keinem", "keinen"];
