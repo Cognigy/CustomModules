@@ -17,17 +17,7 @@ This Custom Module integrated Blue Prism RPA with Cognigy.AI.
 
 This node starts a specific Blue Prism process. It takes the following parameters: 
 - `processWSDL`: The url of the process web service endpoint. Please use the raw url without the WSDL information. For example, `http://machine:8181/ws/processName`
-- `soapXMLBody`: The Blue Prism web services uses SOAP to handle requests. Since every process has its own configuration, it is required to paste the specific request body in the XML format. This body could look like the following:
-
-```xml
-<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:blueprism:webservice:processName">
-    <soapenv:Header/>
-    <soapenv:Body>
-       <urn:processName soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
-    </soapenv:Body>
- </soapenv:Envelope>
-```
-
+- `processName`: The process you want to execute.
 - `contextStore`: Where to store the process result in the Cognigy context.
 - `stopOnError`: Whether to stop the whole flow when an error occures or not.
 
