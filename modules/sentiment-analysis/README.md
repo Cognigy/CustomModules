@@ -18,7 +18,7 @@ As a result the node gives:
 - **foundWords**: list of the words for which the score was founded
 - **negations**: list of the negations in the sentence
 
-The result can be written n either the Cognigy context or input object using the store name given in the node's settings.
+The result can be written in either the Cognigy context or input object using the store name given in the node's settings.
 It will appear in the form:
 
 1. Input: "I like dogs"
