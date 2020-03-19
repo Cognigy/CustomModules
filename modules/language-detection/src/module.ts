@@ -5,7 +5,7 @@ const langdetect = require('langdetect');
  * @arg {CognigyScript} `store` Where to store the result
  * @arg {Boolean} `writeToContext` Whether to write to Cognigy Context (true) or Input (false)
  */
-async function language(input: IFlowInput, args: {store: string,  writeToContext: boolean}}): Promise<IFlowInput | {}> {
+async function language(input: IFlowInput, args: {store: string,  writeToContext: boolean}): Promise<IFlowInput | {}> {
     
     const text = input.input.text;
     const result = langdetect.detect(text);
