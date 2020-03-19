@@ -4,7 +4,7 @@ const npmModel = require('@tensorflow-models/toxicity')
  * @arg {CognigyScript} `store` Where to store the result
  * @arg {Boolean} `writeToContext` Whether to write to Cognigy Context (true) or Input (false)
  */
-async function functionName(input: IFlowInput, args: {}): Promise<IFlowInput | {}> {
+async function functionName(input: IFlowInput, args: {store: string, writeToContext: boolean}): Promise<IFlowInput | {}> {
 	//load the model
 	const model = await npmModel.load();
 	//get the sentence from IFlowInput
