@@ -12,8 +12,8 @@ async function language(input: IFlowInput, args: {store: string,  writeToContext
 
     return new Promise(resolve => {
         if (args.writeToContext) input.context.getFullContext()[args.store] = result;
-	    else input.input[args.store] = result;
-	    resolve(input);
+	else input.input[args.store] = result;
+	resolve(input);
     });
 }
 
