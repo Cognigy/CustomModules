@@ -5,7 +5,7 @@
 	"main": "build/module.js",
 	"scripts": {
 		"build": "tsc -p .",
-		"zip": "npm run build && zip sentiment.zip build/* data/stemsDE.json data/*/* package.json package-lock.json README.md icon.png icon-large.png"
+		"zip": "npm run build && zip sentiment.zip build/* data/stemsDE.json data/*/* package.json package-lock.json README.md icon.png"
 	},
 	"repository": {
 		"type": "git",
