@@ -16,6 +16,7 @@ const negationsES = ["no", "sin", "nada", "nunca", "tampoco", "nadie"];
 async function sentiment(input: IFlowInput, args: {language: string, store: string,  writeToContext: boolean}): Promise<IFlowInput | {}> {
 
     if (!args.language) return Promise.reject("No language defined.");
+    if (!args.store) args.store = 'sentiment';
     
     const language = args.language;
 
