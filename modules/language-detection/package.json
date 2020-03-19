@@ -1,5 +1,5 @@
 {
-	"name": "language_detection",
+	"name": "language-detection",
 	"version": "1.0.0",
 	"description": "Identifies the language",
 	"main": "build/module.js",
@@ -13,7 +13,9 @@
 	},
 	"author": "Cognigy GmbH",
 	"license": "MIT",
-	"devDependencies": {},
+	"devDependencies": {
+		"@types/node": "^13.9.2"
+	},
 	"dependencies": {
 		"langdetect": "^0.2.1"
 	}
