@@ -6,8 +6,7 @@ This module identifies the language of the text using [language-detection librar
 
 The node identifies the language of the input text. It gives a list of possible languages of the input text and for every detected language its probability.
 
-The results will appear in the form:
-
+The result will appear in either the Cognigy context or input object under the name given in the node's settings.
 
 1. Input text: "Ich spreche deutsch."
 
