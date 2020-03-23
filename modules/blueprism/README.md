@@ -13,7 +13,7 @@ This Custom Module integrated Blue Prism RPA with Cognigy.AI.
     - Value: The Blue Prism user's password (e.g. test123)
 
 
-## Node: startProcess
+## Node: startSimpleProcess
 
 This node starts a specific Blue Prism process. It takes the following parameters: 
 - `processWSDL`: The url of the process web service endpoint. Please use the raw url without the WSDL information. For example, `http://machine:8181/ws/processName`
