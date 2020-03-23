@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 /**
- * This node starts a specific Blue Prism process.
+ * This node starts a specific Blue Prism process which does not use parameters.
  * @arg {SecretSelect} `secret` The configured secret to use
  * @arg {CognigyScript} `processWSDL` The exposed process endpoint url
  * @arg {CognigyScript} `processName` The name of the exposed process
@@ -10,7 +10,7 @@ import axios from 'axios';
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
 
-async function startProcess(input: any, args: { secret: CognigySecret, processWSDL: string, processName: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+async function startSimpleProcess(input: any, args: { secret: CognigySecret, processWSDL: string, processName: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
   const { secret, processWSDL, processName, contextStore, stopOnError } = args;
   const { username, password } = secret;
@@ -60,4 +60,4 @@ async function startProcess(input: any, args: { secret: CognigySecret, processWS
 
   return input;
 }
-module.exports.startProcess = startProcess;
+module.exports.startSimpleProcess = startSimpleProcess;
