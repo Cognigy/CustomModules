@@ -3,12 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "main": "build/module.js",
-  "scripts": {},
-  "author": "Philipp Heltewig",
-  "license": "ISC",
+  "scripts": {
+    "transpile": "tsc -p .",
+    "zip": "zip languagedetect.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+    "build": "npm run transpile && npm run lint && npm run zip",
+    "lint": "tslint -c tslint.json src/**/*.ts"
+  },
+  "author": "Cogngiy GmbH",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^13.9.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "tslint": "^5.16.0"
   },
   "dependencies": {
     "languagedetect": "^2.0.0"
