@@ -5,8 +5,7 @@ const lngDetector = new LanguageDetect();
  * Detects the language of a given text
  * @arg {CognigyScript} `text` The text to detect
  * @arg {Boolean} `fullResults` Store full results (true) or only the winning language (false)
- * @arg {Boolean} `writeToContext` Whether to write to Cognigy Context (true) or Input (false)
- * @arg {CognigyScript} `store` Where to store the result
+ * @arg {CognigyScript} `contextStore` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
 async function detectLanguage(input: IFlowInput, args: { text: string, fullResults: boolean, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
