@@ -9,38 +9,46 @@ const lngDetector = new LanguageDetect();
  * @arg {CognigyScript} `store` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-async function detect(input: IFlowInput, args: { text: string, fullResults: boolean, writeToContext: boolean, store: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
-	if (!args.text) return Promise.reject("No text defined.");
+async function detectLanguage(input: IFlowInput, args: { text: string, fullResults: boolean, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
-	return new Promise((resolve, reject) => {
-		let result = {};
-		try {
-			const detected = lngDetector.detect(args.text);
-			if (detected.length > 0) {
-				const detectedres = { "result": lngDetector.detect(args.text) };
-				if (args.fullResults) result = { "result": detectedres };
-				else result = detectedres.result[0][0];
+	const { text, fullResults, contextStore, stopOnError } = args;
+
+	if (!text) throw new Error("No text defined.");
+	if (!contextStore) throw new Error("No context store defined.");
+
+	try {
+		const detected = lngDetector.detect(text);
+
+		if (detected.length > 0) {
+
+			const detectedres = {
+				"result": lngDetector.detect(text)
+			};
+
+			// check if the full result should be returned or not
+			if (fullResults) {
+				input.actions.addToContext(contextStore, detectedres, 'simple');
 			} else {
-				if(/[\u0600-\u06FF\u0750-\u077F\uFB50-\uFCF3\uFE70-\uFEFC]/.test(args.text)) {
-					if (args.fullResults) result = { "result": "arabic" };
-					else result = "arabic";
-					// result = { "result": "arabic" };
-				} else {
-					if (args.fullResults) result = { "result": "unknown" };
-					else result = "unknown";
-				}
+				input.actions.addToContext(contextStore, detectedres.result[0][0], 'simple');
 			}
-		} catch (err) {
-			if (args.stopOnError) { reject(err); return; }
-			else result = { "error": err.message };
-		}
 
-		// if not rejected before, write the result buffer to the Context or Input object
-		if (args.writeToContext) input.context.getFullContext()[args.store] = result;
-		else input.input[args.store] = result;
-		resolve(input);
-	});
+		} else {
+			if (/[\u0600-\u06FF\u0750-\u077F\uFB50-\uFCF3\uFE70-\uFEFC]/.test(text)) {
+				input.actions.addToContext(contextStore, { result: "arabic" }, 'simple');
+			} else {
+				input.actions.addToContext(contextStore, { result: "unkown" }, 'simple');
+			}
+		}
+	} catch (error) {
+		if (stopOnError) {
+			throw new Error(error.message);
+		} else {
+			input.actions.addToContext(contextStore, { error: error.message }, 'simple');
+		}
+	}
+
+	return input;
 }
 
 // You have to export the function, otherwise it is not available
-module.exports.detect = detect;
+module.exports.detectLanguage = detectLanguage;
