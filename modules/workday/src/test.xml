@@ -1,0 +1,57 @@
+<Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:bsvc="urn:com.workday/bsvc">
+	<Header>
+		<Workday_Common_Header>
+			<!-- Optional: -->
+			<Include_Reference_Descriptors_In_Response>
+				?
+			</Include_Reference_Descriptors_In_Response>
+		</Workday_Common_Header>
+	</Header>
+	<Body>
+		<Get_Holiday_Calendars_Request xmlns:bsvc="urn:com.workday/bsvc" bsvc:version="string">
+			<!-- You have a CHOICE of the next 2 items at this level -->
+			<!-- Optional: -->
+			<Request_References>
+				<!-- 1 or more repetitions: -->
+				<Holiday_Calendar_Request_Reference bsvc:Descriptor="string">
+					<!-- Zero or more repetitions: -->
+					<ID bsvc:type="string">
+						string
+					</ID>
+				</Holiday_Calendar_Request_Reference>
+			</Request_References>
+			<!-- Optional: -->
+			<Request_Criteria />
+			<!-- Optional: -->
+			<Response_Filter>
+				<!-- Optional: -->
+				<As_Of_Effective_Date>
+					2008-09-29
+				</As_Of_Effective_Date>
+				<!-- Optional: -->
+				<As_Of_Entry_DateTime>
+					2014-09-18T23:18:33
+				</As_Of_Entry_DateTime>
+				<!-- Optional: -->
+				<Page>
+					1000.00
+				</Page>
+				<!-- Optional: -->
+				<Count>
+					1000.00
+				</Count>
+			</Response_Filter>
+			<!-- Optional: -->
+			<Response_Group>
+				<!-- Optional: -->
+				<Include_Reference>
+					true
+				</Include_Reference>
+				<!-- Optional: -->
+				<Include_Holiday_Calendar_Data>
+					false
+				</Include_Holiday_Calendar_Data>
+			</Response_Group>
+		</Get_Holiday_Calendars_Request>
+	</Body>
+</Envelope>

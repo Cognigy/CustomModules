@@ -1,0 +1,27 @@
+{
+  "name": "workday",
+  "version": "1.0.0",
+  "description": "Integrates Cognigy.AI with Workday",
+  "main": "build/module.js",
+  "scripts": {
+    "transpile": "tsc -p .",
+    "zip": "zip workday.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+    "build": "npm run transpile && npm run lint && npm run zip",
+    "lint": "tslint -c tslint.json src/**/*.ts"
+  },
+  "keywords": [
+    "workday",
+    "erp"
+  ],
+  "author": "Cognigy GmbH",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/node": "^10.17.17",
+    "tslint": "^5.16.0",
+    "typescript": "^3.1.6"
+  }
+}
