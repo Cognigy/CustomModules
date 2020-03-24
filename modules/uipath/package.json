@@ -5,7 +5,7 @@
 	"main": "src/module.js",
 	"scripts": {
 		"zip": "zip uipath.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
-		"build": "npm run transpile && npm run lint && npm run zip"
+		"build": "npm run zip"
 	},
 	"repository": {
 		"type": "git",
