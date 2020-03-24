@@ -1,7 +1,7 @@
 const request = require('request-promise-native');
 const uuid = require('uuid');
 
-const { getToken, addQueueItemHelper, addQueueItemHelper } = require('./api');
+const { getToken, getQueueItemHelper, addQueueItemHelper } = require('./api');
 
 /**
  * Describes the function
@@ -307,7 +307,7 @@ module.exports.getJobs = getJobs;
  * @arg {CognigyScript} `store` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-async function StartJob(input, args) {
+async function startJob(input, args) {
 
 	const { secret, inputArguments, releaseKey, robotId, strategy, account_logical_name, service_instance_logical_name, contextStore, stopOnError } = args;
 	const { client_id, refresh_token } = secret;
@@ -393,4 +393,4 @@ async function StartJob(input, args) {
 	});
 }
 
-module.exports.StartJob = StartJob;
+module.exports.startJob = startJob;
