@@ -6,6 +6,8 @@ In [Cognigy.AI](https://cognigy.com/product/), so-called [Flows](https://docs.co
 
 This repository contains the source code of existing modules which can be used as blueprints for further developments. Therefore, all of them are provided under the MIT license.
 
+You are free to add a new module by creating a feature branch or suggest changes on already published modules. If you want test a module or include it into your existing Cognigy.AI project, please don't hesitate to [install one](./docs/installation.md).
+
 ## Contents
 
 - [Get Started](./docs/get-started.md)
