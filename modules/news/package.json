@@ -1,0 +1,33 @@
+{
+  "name": "news",
+  "version": "1.0.0",
+  "description": "Integrates NewsAPI.org with Cognigy.AI",
+  "main": "build/module.js",
+  "scripts": {
+    "transpile": "tsc -p .",
+    "zip": "zip news.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+    "build": "npm run transpile && npm run lint && npm run zip",
+    "lint": "tslint -c tslint.json src/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cognigy/CustomModules.git"
+  },
+  "keywords": [
+    "News"
+  ],
+  "author": "Cognigy GmbH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cognigy/CustomModules/issues"
+  },
+  "homepage": "https://github.com/Cognigy/CustomModules#readme",
+  "devDependencies": {
+    "@types/node": "^10.14.6",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "newsapi": "^2.4.0"
+  }
+}

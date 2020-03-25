@@ -1,0 +1,34 @@
+{
+  "name": "weather",
+  "version": "1.0.0",
+  "description": "Integrates the Open Weather Map with Cognigy.AI",
+  "main": "build/module.js",
+  "scripts": {
+    "transpile": "tsc -p .",
+    "zip": "zip weather.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+    "build": "npm run transpile && npm run lint && npm run zip",
+    "lint": "tslint -c tslint.json src/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cognigy/CustomModules.git"
+  },
+  "keywords": [
+    "Weather",
+    "Open"
+  ],
+  "author": "Cognigy GmbH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cognigy/CustomModules/issues"
+  },
+  "homepage": "https://github.com/Cognigy/CustomModules#readme",
+  "devDependencies": {
+    "@types/node": "^10.14.6",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "openweather-apis": "^4.0.0"
+  }
+}
