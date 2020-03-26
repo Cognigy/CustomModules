@@ -1,0 +1,19 @@
+{
+  "name": "sitecore",
+  "version": "1.0.0",
+  "description": "Retreives content from Knowledge Base in Sitecore.",
+  "main": "./src/module.js",
+  "scripts": {
+    "zip": "zip sitecore.zip src/* package.json package-lock.json README.md icon.png icon-large.png",
+    "build": "npm run zip"
+  },
+  "keywords": [
+    "sitecore"
+  ],
+  "author": "Cognigy GmbH",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2"
+  }
+}
