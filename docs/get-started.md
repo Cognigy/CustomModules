@@ -71,7 +71,7 @@ This is the basic function we need to develop for our module. It takes the param
         - `stopOnError`:
             - If you execute code that could end in an error, the conversation designer should be able to stop the flow if this module breaks.
 
-The only thing that is missing, is the visualization of our Flow Node inside Cognigy. The Integration Framework uses a specifig comment structure to render the view for the user. In this case, this view definition looke like the following:
+The only thing that is missing, is the visualization of our Flow Node inside Cognigy. The Integration Framework uses a specific comment structure to render the view for the user. In this case, this view definition looke like the following:
 
 ```typescript
 /**
@@ -89,3 +89,93 @@ The first line describes the module in one or two sentences. It is required to g
 **/
 ```
 
+### Build and Install the module
+
+Even if the module does nothing at the moment, we can build, upload and install it. In order to do so, the following commands needs to be executed in the command line:
+
+- `cd <path/to/your/module/folder>`
+    - Navigate to your module's root folder.
+- `npm ci`
+    - Install all required [NPM](https://www.npmjs.com/) packages.
+- `npm run build`
+    - Build the module and translate TypeScript to JavaScript. Note that if the build process returns an error, it could be the case that the linter we are using wants you to change the syntax of the code.
+
+Now the module's root folder should contain a `module.zip` file. This file now can be uploaded to your existing Cognigy.AI project.
+
+*Note:* \
+*If there is no `module.zip` file after running `npm run build`, please make sure that you copied the `package.json` from the example [Custom Module Template](../../modules/template).*
+
+## Adding the Chuck Norris Joke Functionality
+
+Since we defined that our custom module shall return a random Chuck Norris joke, we have to add some code to our existing `tellJoke()` function.
+
+For this new functionality, we need two code extenstions:
+
+1. Calling the [Chuck Norris Joke API](https://api.chucknorris.io/jokes/random)
+2. Return the retreived joke to the Cognigy.AI
+
+
+We will use [Axios](https://www.npmjs.com/package/axios), a promise based HTTP client for the browser and node.js. This module will call the API and store the result in a local variable.
+
+1. We need to install the node module
+    - `npm i axios`
+    - `npm i @types/axios`
+
+2. We have to import the module in our code.
+    - `import axios from 'axios';`
+
+Taking a look at our already declared function, we have to add the following code:
+
+```typescript
+import axios from 'axios';
+
+/**
+ * This node returns a random Chuck Norris joke
+ * @arg {CognigyScript} `contextStore` Where to store the result in the Cognigy Context object.
+ * @arg {Boolean} `stopOnError` Whether to stop the Flow on error or continue.
+ */
+async function tellJoke(input: IFlowInput, args: { contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+
+    // try to call the API async. Catch possible errors and handle them.
+    try {
+
+        const response = await axios({
+            method: 'get',
+            url: 'https://api.chucknorris.io/jokes/random',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // extract the joke from the API response.
+        const joke: string = response.data.value;
+
+        // store the retreived joke to the Cognigy Context object.
+        input.actions.addToContext(contextStore, joke, 'simple');
+
+        /*
+        Now the Cognigy user is able to get the joke by using CognigyScript:
+            - {{cc.joke}}
+        */
+
+    } catch(error) {
+        // if stopOnError is true, stop the flow and throw an error in the Cognigy User Interface.
+        if (stopOnError) {
+            throw new Error(`Error in Tell Joke node: ${error.message}.`);
+        } else {
+            // else store the error into the Cognigy Context.
+            input.actions.addToContext(contextStore, { error: error.message }, 'simple');
+        }
+    }
+
+    // return the input object to continue with the conversation.
+    return input;
+}
+
+// export the module to access it in Cognigy.
+module.exports.tellJoke = tellJoke;
+```
+
+Now you can rebuild the module and upload it again.
+
+**Congratulations, you developed your first custom module!**
