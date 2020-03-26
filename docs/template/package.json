@@ -17,7 +17,11 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@types/node": "^10.12.5",
+		"@types/axios": "^0.14.0",
 		"tslint": "^5.16.0",
 		"typescript": "^3.1.6"
+	},
+	"dependencies": {
+		"axios": "^0.19.2"
 	}
 }

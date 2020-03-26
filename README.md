@@ -13,3 +13,27 @@ You are free to add a new module by creating a feature branch or suggest changes
 - [Get Started](./docs/get-started.md)
 - [Best Practises](./docs/best-practises.md)
 - [Installation](./docs/installation.md)
+
+
+## Approval Process
+
+sagen, dass der autor des modules dafuer verantwortlich ist dass sie funktioniert. module sind nicht vom support supported, sondern von der community.
+
+wenn wir das custom module approven sollen, dann muessen secrets und beschreibung an support@cognigy.com senden. und den link zur PR.
+
+wenn ein custom module gerade nicht funktionieren sollte, kann man gerne einen fix entwickeln und eine PR erstellen.
+
+## Releases 
+
+releases.md
+
+hier kommen die releases rein, die gerade in reamde.io stehen
+
+icon, name, version, link
+
+1. ownership fuer funktionalitat liegt bei autor
+    wenn approved werden soll, dann per mail die infos
+    wir testen nur ob der code clean ist un ob er irgendneen scheiss macht
+    l'sst es sich installiern?
+2. es wird eine rlease.md erstellt, wo alle infomrationen ueber die released custom modules steht
+3. alex reviewed
