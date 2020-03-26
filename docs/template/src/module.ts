@@ -61,7 +61,7 @@ module.exports.exampleNodeAsync = exampleNodeAsync;
  * @arg {CognigyScript} `contextStore` Where to store the result in the Cognigy Context object.
  * @arg {Boolean} `stopOnError` Whether to stop the Flow on error or continue.
  */
-async function exampleNode(input: IFlowInput, args: { contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+function exampleNode(input: IFlowInput, args: { contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
     // get the parameters from the arguments object.
     const { contextStore, stopOnError } = args;
