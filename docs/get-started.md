@@ -136,6 +136,13 @@ import axios from 'axios';
  */
 async function tellJoke(input: IFlowInput, args: { contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
+    // get the parameters from the arguments object.
+    const { contextStore, stopOnError } = args;
+
+    // show an error in Cognigy.AI if the context store is not defined.
+    if (!contextStore) throw new Error("The context store key is not defined. You need it to store the result into the Cognigy Context object.");
+
+
     // try to call the API async. Catch possible errors and handle them.
     try {
 
@@ -158,7 +165,7 @@ async function tellJoke(input: IFlowInput, args: { contextStore: string, stopOnE
             - {{cc.joke}}
         */
 
-    } catch(error) {
+    } catch (error) {
         // if stopOnError is true, stop the flow and throw an error in the Cognigy User Interface.
         if (stopOnError) {
             throw new Error(`Error in Tell Joke node: ${error.message}.`);
