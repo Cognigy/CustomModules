@@ -4,7 +4,7 @@
 	"description": "This module adds a Google Maps node to Cognigy.AI",
 	"main": "src/module.js",
 	"scripts": {
-		"zip": "zip google-maps.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+		"zip": "zip google-maps.zip src/* package.json package-lock.json README.md icon.png icon-large.png",
 		"build": "npm run zip"
 	},
 	"repository": {
