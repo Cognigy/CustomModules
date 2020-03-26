@@ -1,0 +1,21 @@
+{
+	"name": "sentiment-analysis",
+	"version": "1.0.0",
+	"description": "Gives sentimental analysis of the text",
+	"main": "build/module.js",
+	"scripts": {
+		"build": "tsc -p .",
+		"zip": "npm run build && zip sentiment.zip build/* data/stemsDE.json data/*/* package.json package-lock.json README.md icon.png"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Cognigy/CustomModules"
+	},
+	"author": "Cognigy GmbH",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^13.9.1",
+		"typescript": "^3.1.6"
+	},
+	"dependencies": {}
+}
