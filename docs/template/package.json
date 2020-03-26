@@ -1,11 +1,13 @@
 {
-	"name": "cognigy-blueprint",
+	"name": "module",
 	"version": "1.0.0",
 	"description": "Demonstrates how to use the Cognigy Integration Framework",
 	"main": "build/module.js",
 	"scripts": {
-		"test": "node test/test.js",
-		"build": "tsc -p ."
+		"transpile": "tsc -p .",
+		"zip": "zip module.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+		"build": "npm run transpile && npm run lint && npm run zip",
+		"lint": "tslint -c tslint.json src/**/*.ts"
 	},
 	"repository": {
 		"type": "git",
@@ -15,6 +17,7 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@types/node": "^10.12.5",
+		"tslint": "^5.16.0",
 		"typescript": "^3.1.6"
 	}
 }

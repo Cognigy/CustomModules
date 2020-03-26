@@ -36,7 +36,7 @@ This structure includes all required resources to **build** and **upload** the m
 - The `icon.png` needs to have the following dimensions:
     - 64x64 Pixels
 
-**The example module structure can be copied from the [Custom Module Template](../../modules/template)**.
+**The example module structure can be copied from the [Custom Module Template](./template)**.
 
 ## Develop a Custom Flow Node
 
