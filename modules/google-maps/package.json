@@ -1,11 +1,11 @@
 {
-	"name": "google-maps-plugin",
+	"name": "google-maps",
 	"version": "1.0.0",
 	"description": "This module adds a Google Maps node to Cognigy.AI",
 	"main": "src/module.js",
 	"scripts": {
-		"test": "node test/test.js",
-		"build": "tsc -p ."
+		"zip": "zip google-maps.zip src/* package.json package-lock.json README.md icon.png icon-large.png",
+		"build": "npm run zip"
 	},
 	"repository": {
 		"type": "git",
