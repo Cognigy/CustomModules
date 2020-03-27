@@ -69,3 +69,10 @@ Make sure to test against the following scenarios:
 - Works as intended
 - Secret is incorrect or missing key - is it handled?
 - Service not available - is it handled?
+
+## Troubleshooting
+If you face issues when uploading the module, check below for possible resolutions. 
+
+**Failed to store custom module information in database.**
+
+This error can happen if the descriptors (the comments of a custom module function) are incorrectly formatted. One common issue is the use of the incorrect single quotes. Argument names have to be encircled in ` rather than '.

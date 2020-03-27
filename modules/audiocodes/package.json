@@ -1,0 +1,19 @@
+{
+	"name": "Audiocodes",
+	"version": "1.0.0",
+	"description": "Helper Nodes for Cognigy.AI AudioCodes Endpoint",
+	"main": "build/module.js",
+	"scripts": {
+		"build": "tsc -p ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Cognigy/CustomModules"
+	},
+	"author": "Cognigy GmbH",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^10.14.6",
+		"typescript": "^3.1.6"
+	}
+}

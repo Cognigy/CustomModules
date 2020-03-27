@@ -1,0 +1,19 @@
+{
+  "name": "ms-sharepoint",
+  "version": "1.0.0",
+  "description": "Sharepoint Integration",
+  "main": "src/module.js",
+  "scripts": {
+    "build": "zip ms-sharepoint.zip src/* package.json package-lock.json README.md icon.png icon-large.png"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@toasta/custom-module-scripts": "^1.1.0"
+  },
+  "dependencies": {
+    "node-sp-auth": "^2.5.7",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  }
+}

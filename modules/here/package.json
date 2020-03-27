@@ -1,0 +1,25 @@
+{
+	"name": "here",
+	"version": "1.0.0",
+	"description": "Integrates Here with Cognigy.AI",
+	"author": "Cognigy GmbH",
+	"keywords": [],
+	"main": "build/module.js",
+	"scripts": {
+		"transpile": "tsc -p .",
+		"zip": "zip here.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+		"build": "npm run transpile && npm run lint && npm run zip",
+		"lint": "tslint -c tslint.json src/**/*.ts"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^10.14.9",
+		"@types/request-promise": "^4.1.42",
+		"typescript": "^3.1.6",
+		"tslint": "^5.16.0"
+	},
+	"dependencies": {
+		"request": "^2.88.0",
+		"request-promise": "^4.2.2"
+	}
+}
