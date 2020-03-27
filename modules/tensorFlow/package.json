@@ -1,11 +1,13 @@
 {
-	"name": "TensorFlow.js",
+	"name": "tensorflow",
 	"version": "1.0.0",
 	"description": "Template for usage of a TensorFlow model in a Custom Modules",
 	"main": "build/module.js",
 	"scripts": {
-		"build": "tsc -p .",
-		"zip": "npm run build && zip tensorflow.zip build/* package.json package-lock.json README.md icon.png icon-large.png"
+		"transpile": "tsc -p .",
+		"zip": "zip tensorflow.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+		"build": "npm run transpile && npm run lint && npm run zip",
+		"lint": "tslint -c tslint.json src/**/*.ts"
 	},
 	"repository": {
 		"type": "git",
@@ -14,7 +16,9 @@
 	"author": "Cognigy GmbH",
 	"license": "MIT",
 	"devDependencies": {
-		"typescript": "^3.1.6"
+		"typescript": "^3.1.6",
+		"tslint": "^5.16.0",
+		"@types/node": "^10.12.5"
 	},
 	"dependencies": {
 		"@tensorflow-models/toxicity": "^1.2.2",
