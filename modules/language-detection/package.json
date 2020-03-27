@@ -1,0 +1,23 @@
+{
+	"name": "language-detection",
+	"version": "1.0.0",
+	"description": "Identifies the language",
+	"main": "build/module.js",
+	"scripts": {
+		"build": "tsc -p .",
+		"zip": "npm run build && zip language.zip build/* package.json package-lock.json README.md icon.png"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Cognigy/CustomModules"
+	},
+	"author": "Cognigy GmbH",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^13.9.2",
+		"typescript": "^3.1.6"
+	},
+	"dependencies": {
+		"langdetect": "^0.2.1"
+	}
+}
