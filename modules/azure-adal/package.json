@@ -1,0 +1,37 @@
+{
+  "name": "azure-adal",
+  "version": "1.0.0",
+  "description": "Microsoft Authentication",
+  "main": "build/module.js",
+  "scripts": {
+    "transpile": "tsc -p .",
+    "zip": "zip azure-adal.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+    "build": "npm run transpile && npm run lint && npm run zip",
+    "lint": "tslint -c tslint.json src/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cognigy/CustomModules.git"
+  },
+  "keywords": [
+    "microsoft",
+    "adal",
+    "authentication",
+    "azure"
+  ],
+  "author": "Cognigy GmbH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cognigy/CustomModules/issues"
+  },
+  "homepage": "https://github.com/Cognigy/CustomModules#readme",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/node": "^10.14.15",
+    "tslint": "^5.16.0",
+    "typescript": "^3.1.6"
+  },
+  "dependencies": {
+    "axios": "^0.19.0"
+  }
+}

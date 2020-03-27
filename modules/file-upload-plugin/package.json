@@ -1,0 +1,24 @@
+{
+	"name": "file-upload-plugin",
+	"version": "1.0.0",
+	"description": "Triggers the file-upload webchat plugin",
+	"main": "src/module.js",
+	"scripts": {
+		"build": "custom-module build",
+		"deploy": "custom-module deploy"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Cognigy/CustomModules"
+	},
+	"author": "Cognigy GmbH",
+	"license": "MIT",
+	"dependencies": {
+		"aws-sdk": "^2.489.0",
+		"@azure/storage-blob": "^10.5.0",
+		"uuid": "^3.3.3"
+	},
+	"devDependencies": {
+		"@toasta/custom-module-scripts": "^1.2.0"
+	}
+}

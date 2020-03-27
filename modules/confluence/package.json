@@ -1,0 +1,24 @@
+{
+	"name": "Confluence",
+	"version": "1.0.0",
+	"description": "Integrates with Atlassian's Confluence.",
+	"main": "build/module.js",
+	"scripts": {
+		"test": "node test/test.js",
+		"build": "tsc -p ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Cognigy/CustomModules"
+	},
+	"author": "Cognigy GmbH",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^10.12.5",
+		"typescript": "^3.1.6"
+	},
+	"dependencies": {
+		"request": "^2.88.0",
+		"request-promise": "^4.2.4"
+	}
+}
