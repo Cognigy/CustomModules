@@ -10,7 +10,7 @@ import * as Twilio from 'twilio';
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
 async function sendSMS(input: IFlowInput, args: { secret: any, from: string, to: string, body: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
-	
+
 	const { secret, body, from, to , contextStore, stopOnError } = args;
 	const { accountSid, authToken } = secret;
 
@@ -30,7 +30,7 @@ async function sendSMS(input: IFlowInput, args: { secret: any, from: string, to:
 
 		result = await client.messages.create({
 			from,
-			body, 
+			body,
 			to
 		});
 
