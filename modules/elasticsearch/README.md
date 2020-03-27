@@ -2,12 +2,12 @@
 
 With this Custom Module you can query for Elastic Search instance to use these information within the conversation.
 
-**Secrets:**
+**Secrets (Elastic Search Instance):**
 
-- key: host
-- value: Your Elastic Search instance, such as `elastic-instance:9200`
+- Key: host
+- Value: Your Elastic Search instance, e.g. `elastic-instance:9200`
 
-## Node: Search Simple: 
+## Node: searchSimple: 
 
 Provides a simple term search and returns all found `hits`. For example, you can search for the term `pants`, where you'll get the following response: 
 
@@ -50,5 +50,5 @@ For a more complex search you can use Elastic's [DSL Querying structure](http://
 
 The other two argruments, you have to define, are the elastic search `index` and the `type`. So the index could be `twitter` were all tweets are stored; therefore the type would be `tweets`.
 
-The respponse will look similar to the **Search Simple** node.
+The respponse will look similar to the **searchSimple** node.
 
