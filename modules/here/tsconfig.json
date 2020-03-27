@@ -1,12 +1,24 @@
-{   
-    "compilerOptions": {             
-        "target":   "ES2017",
-        "module":   "CommonJS",
-        "rootDir":  "src",
-        "outDir":   "build"
-    },      
-    "include": [
-        "../../common/cognigy.d.ts",
-        "src/**/*"
-    ]
+﻿{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2017", 
+    "module": "commonjs",
+    "rootDir": "src", 
+    "outDir": "build",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "watch": false
+  },
+  "exclude": [
+    "node_modules",
+    "old",
+    "build",
+    "./vscode"
+  ],
+  "include": [
+    "../../common/cognigy.d.ts",
+    "src/**/*"
+  ]
 }
