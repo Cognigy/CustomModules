@@ -11,7 +11,7 @@ import * as Twilio from 'twilio';
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
 async function sendSMS(input: IFlowInput, args: { secret: any, body: string, from: string, to: string, writeToContext: boolean, store: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
-	if (!args.secret || !args.secret.accountSid || !args.secret.authToken) return Promise.reject('Secret not present or keys missing (accountSid, authToken)')
+	if (!args.secret || !args.secret.accountSid || !args.secret.authToken) return Promise.reject('Secret not present or keys missing (accountSid, authToken)');
 
 	if (!args.from) return Promise.reject("Sender paramter -from- missing.");
 	if (!args.to) return Promise.reject("Recipient paramter -to- missing.");
@@ -27,10 +27,10 @@ async function sendSMS(input: IFlowInput, args: { secret: any, body: string, fro
 		if (args.stopOnError) { return Promise.reject(err.message); }
 		result = { "error": err.message};
 	}
-	
+
 	if (args.writeToContext) input.context.getFullContext()[args.store] = result;
 	else input.input[args.store] = result;
-	
+
 	return input;
 }
 
