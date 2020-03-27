@@ -1,47 +1,106 @@
-﻿# TensorFlow.js
+﻿# Tensorflow Custom Module
 
 This module shows how to use any TensorFlow.js model in Custom Module on the example of [toxicity model](https://github.com/tensorflow/tfjs-models/tree/master/toxicity).
 
 First, go to https://www.tensorflow.org/js/models and find a model that you would like to use in your Custom Module. Follow the instructions in the model's documentation.
 
-## Installation
+## Node: classifyText
 
-You will need to install the libraries with npm:
+This custom node takes an input text and classifies it based on the tensorflow model.
 
-```bash
-npm install @tensorflow/tfjs @tensorflow-models/toxicity
+**Example:**
+
+- Text: "Hello World"
+- Response:
+
+```json
+"class": [
+    {
+      "label": "identity_attack",
+      "results": [
+        {
+          "probabilities": {
+            "0": 0.9998371601104736,
+            "1": 0.00016279781993944198
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "label": "insult",
+      "results": [
+        {
+          "probabilities": {
+            "0": 0.9985218644142151,
+            "1": 0.0014781698118895292
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "label": "obscene",
+      "results": [
+        {
+          "probabilities": {
+            "0": 0.9996230602264404,
+            "1": 0.00037690793396905065
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "label": "severe_toxicity",
+      "results": [
+        {
+          "probabilities": {
+            "0": 0.9999998807907104,
+            "1": 1.0099909530936202e-7
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "label": "sexual_explicit",
+      "results": [
+        {
+          "probabilities": {
+            "0": 0.9999343156814575,
+            "1": 0.00006565637158928439
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "label": "threat",
+      "results": [
+        {
+          "probabilities": {
+            "0": 0.9998358488082886,
+            "1": 0.00016409876116085798
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "label": "toxicity",
+      "results": [
+        {
+          "probabilities": {
+            "0": 0.996985137462616,
+            "1": 0.003014889545738697
+          },
+          "match": false
+        }
+      ]
+    }
+  ]
 ```
-
-## Usage
-
-You can use this template to create a Custom Module for cognigy.
-
-1. Import your model using `require('@tensorflow-models/toxicity')` and create a function based on the model's documentation.
-
-2. In order to get the text message from IFlowInput, use `input.input.text`. Then, you can apply model's functions on your input.
-
-3. You can store the results in the Context or Input Object under the name given in the node's settings.
-```	bash
-	if (args.writeToContext) input.context.getFullContext()[args.store] = result;
-	else input.input[args.store] = result;
-```
-
-4. Creating yout package.json, remember to include
-```	bash
-"scripts": {
-		"build": "tsc -p .",
-		"zip": "npm run build && zip test.zip build/* package.json package-lock.json README.md icon.png icon-large.png"
-	},
-```
-
-5. Then, you can create a test.zip with all necessary files with
-```bash
-npm run zip
-```
-from your terminal.
-
-You can find more informations about creating Custom Module in cognigy [docs](https://docs.cognigy.com/docs/integration-framework).
-
 
 ## TensorFlow to JavaScript
 
