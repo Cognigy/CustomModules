@@ -25,7 +25,7 @@ If you want us to approve your Custom Module, please note the following approval
 2. Check your code for hardcoded passwords, tokens or outdated JavaScript/TypeScript usage (e.g. `var foo;`).
 3. Create a new Pull Request for your Custom Module feature branch.
 4. Send all information and data, which are required to use the Custom Module, to the following E-Mail address:
-    - support@cognigy.com
+    - support at cognigy.com
 
 **Important:** \
 Please note, that Cogngiy does not provide enterprise support for developed Custom Modules. This repository is licensed under MIT, in which the community is responsible for the shared modules. If you found a bug or want to improve yet developed functionalities, please don't hesitate to create a branch.
