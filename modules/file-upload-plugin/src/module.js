@@ -1,4 +1,3 @@
-
 /**
  * Prompts a webchat user to upload something to an S3 Bucket
  * @arg {SecretSelect} `secret` a secret with an AWS users access_key_id and secret_access_key

@@ -1,0 +1,22 @@
+{
+  "name": "aws",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/module.js",
+  "scripts": {
+    "transpile": "tsc -p .",
+    "zip": "zip aws.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+    "build": "npm run transpile && npm run lint && npm run zip",
+    "lint": "tslint -c tslint.json src/**/*.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.571.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.7",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
+  }
+}
