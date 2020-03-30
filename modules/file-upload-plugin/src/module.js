@@ -1,4 +1,3 @@
-
 /**
  * Prompts a webchat user to upload something to an S3 Bucket
  * @arg {SecretSelect} `secret` a secret with an AWS users access_key_id and secret_access_key
@@ -6,13 +5,15 @@
  * @arg {CognigyScript} `region` the endpoint region (default eu-central-1)
  * @arg {CognigyScript} `bucket` the name of the bucket (default bucket-name)
  * @arg {CognigyScript} `key` name of the bucket key (default uploaded-file)
+ * @arg {Number} `sizeLimit` file size max limit in MB
  */
 async function uploadToAWSBucket(cognigy, {
     secret,
     signatureVersion = 'v4',
     region = 'eu-central-1',
     bucket = 'bucket-name',
-    key = 'uploaded-file'
+    key = 'uploaded-file',
+    sizeLimit
 }) {
     if (!secret)
         throw new Error('secret is not defined')
@@ -50,7 +51,8 @@ async function uploadToAWSBucket(cognigy, {
             type: 'file-upload',
             service: 'amazon-s3',
             uploadUrl,
-            downloadUrl
+            downloadUrl,
+            sizeLimit
         }
     });
 
@@ -65,12 +67,14 @@ async function uploadToAWSBucket(cognigy, {
  * @arg {CognigyScript} `containerName` The name of the container, if the name is not given, a random generated id will be used as name. Only lowercase and numbers are accepted.
  * @arg {SecretSelect} `secret` The secret access key from  an Azure user's account. Please name the "key" value of the secret "secret_access_key".
  * @arg {Number} `Timeout` The time in minutes that the upload Url used by the Webchat will be availabe, maximum 60 min. ( default 5 min. ).
+ * @arg {Number} `sizeLimit` File size max limit in MB
  */
 async function uploadToAzureContainer(cognigy, {
     secret,
     accountStorageName,
     containerName,
-    Timeout
+    Timeout,
+    sizeLimit
 }) {
 
 
@@ -166,6 +170,7 @@ async function uploadToAzureContainer(cognigy, {
             baseURL,
             sasSignature,
             containerName,
+            sizeLimit
         }
     });
 
