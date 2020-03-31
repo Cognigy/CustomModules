@@ -1,11 +1,11 @@
 {
-	"name": "tensorflow",
+	"name": "twilio",
 	"version": "1.0.0",
-	"description": "Template for usage of a TensorFlow model in a Custom Modules",
+	"description": "Exposes Twilio functionality to Cognigy.AI",
 	"main": "build/module.js",
 	"scripts": {
 		"transpile": "tsc -p .",
-		"zip": "zip tensorflow.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+		"zip": "zip twilio.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
 		"build": "npm run transpile && npm run lint && npm run zip",
 		"lint": "tslint -c tslint.json src/**/*.ts"
 	},
@@ -16,12 +16,12 @@
 	"author": "Cognigy GmbH",
 	"license": "MIT",
 	"devDependencies": {
-		"typescript": "^3.1.6",
+		"@types/node": "^10.12.5",
 		"tslint": "^5.16.0",
-		"@types/node": "^10.12.5"
+		"typescript": "^3.1.6"
 	},
 	"dependencies": {
-		"@tensorflow-models/toxicity": "^1.2.2",
-		"@tensorflow/tfjs": "^1.5.2"
+		"@types/twilio": "0.0.10",
+		"twilio": "^3.33.0"
 	}
 }

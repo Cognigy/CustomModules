@@ -1,11 +1,12 @@
 {
 	"name": "file-upload-plugin",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "Triggers the file-upload webchat plugin",
 	"main": "src/module.js",
 	"scripts": {
 		"build": "custom-module build",
-		"deploy": "custom-module deploy"
+		"deploy": "custom-module deploy",
+		"pack": "rm module.zip; zip -r module.zip src/ package.json package-lock.json README.md icon.png"
 	},
 	"repository": {
 		"type": "git",

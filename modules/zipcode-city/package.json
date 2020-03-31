@@ -1,11 +1,11 @@
 {
-	"name": "cognigy-blueprint",
+	"name": "zipcode-city",
 	"version": "1.0.0",
-	"description": "Demonstrates how to use the Cognigy Integration Framework",
+	"description": "Get city and state from a zipcode. Currently german zipcodes only.",
 	"main": "build/module.js",
 	"scripts": {
 		"test": "node test/test.js",
-		"build": "tsc -p ."
+		"build": "tsc -p . && cp src/data.*.json build/"
 	},
 	"repository": {
 		"type": "git",
@@ -14,7 +14,7 @@
 	"author": "Cognigy GmbH",
 	"license": "MIT",
 	"devDependencies": {
-		"@types/node": "^10.12.5",
-		"typescript": "^3.1.6"
+		"@types/node": "^12.12.17",
+		"typescript": "^3.7.3"
 	}
 }
