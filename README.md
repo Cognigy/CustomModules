@@ -8,7 +8,7 @@ In [Cognigy.AI](https://cognigy.com/product/), so-called [Flows](https://docs.co
 - [Get Started](./docs/get-started.md)
 - [Best Practises](./docs/best-practises.md)
 - [Installation](./docs/installation.md)
-- [Releases](./docs/releases.md)
+- [Releases](RELEASES.md)
 
 ## Overview
 
