@@ -8,7 +8,7 @@ In order to install a module, we provide two different ways:
 ## Download
 The easiest way of integrating a already pusblished module to your existing Cognigy.AI project, is to download the released  ready-to-use ZIP file:
 
-1. Download the module you'd like to install from our [Releases](./releases.md) page.
+1. Download the module you'd like to install from our [Releases](../RELEASES.md) page.
 2. Upload the zipped module into your Cognigy.AI installation through the [Cognigy Integration Framework manager](https://docs.cognigy.com/docs/integration-framework#section-4-upload-your-module).
 
 ## Source Code
