@@ -1,26 +1,39 @@
 import * as ac from 'adaptivecards';
 
-
 /**
- * Deployment Node that takes a file id for a bot, and deploys it on one or more devices via device ids.
- * @arg {SecretSelect} `secret` The configured secret to use
- * @arg {CognigyScript} `fileId` The file id for a bot
- * @arg {CognigyScriptArray} `deviceIds` The ids of the devices where you want to deploy the bot
- * @arg {JSON} `botVariables` The variables your AA bot uses
+ * Generates an adaptive card with n images in a column.
+ * @arg {CognigyScript} `imageUrl` The url of the used image to display in the column
+ * @arg {CognigyScript} `frequency` How often to show the column
  * @arg {CognigyScript} `contextStore` Where to store the result
- * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
 
-async function createAdapticveCard(input: any, args: { secret: CognigySecret, fileId: string, deviceIds: string[], botVariables: object, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+async function createAdapticveCard(input: any, args: { imageUrl: string, frequency: number, contextStore: string }): Promise<IFlowInput | {}> {
 
-  const { contextStore, stopOnError } = args;
-  const { fileId, deviceIds, botVariables } = args;
-  if (!fileId) throw new Error('No file id defined.');
-  if (!deviceIds) throw new Error('No device ids defined.');
+  const { imageUrl, frequency, contextStore } = args;
+
+  if (!imageUrl) throw new Error('No image url defined. You need this to generate the set of pictures in the adaptive card.');
+  if (!frequency) throw new Error('No frequency is defined.');
+  if (!contextStore) throw new Error('No context store is defined. Where the result should be stored in the Cognigy context object.');
 
   let card = new ac.AdaptiveCard();
+  card.version = new ac.Version(1, 0);
 
-  input.actions.addToContext(contextStore, "", 'simple');
+  let columnSet = new ac.ColumnSet();
+
+  for (let i = 0; i <= 3; i++) {
+      let column = new ac.Column('stretch');
+      let image = new ac.Image();
+      image.url = imageUrl;
+
+      column.addItem(image);
+      columnSet.addColumn(column);
+  }
+
+  card.addItem(columnSet);
+
+  let json = card.toJSON();
+
+  input.actions.addToContext(contextStore, json, 'simple');
 
   return input;
 }
