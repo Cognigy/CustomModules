@@ -1,11 +1,11 @@
 {
-	"name": "automation-anywhere",
+	"name": "adaptive-card",
 	"version": "1.0.0",
 	"description": "This module integrates Cognigy.AI with AutomationAnywhere",
 	"main": "build/module.js",
 	"scripts": {
 		"transpile": "tsc -p .",
-		"zip": "zip automationanywhere.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+		"zip": "zip adaptive-card.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
 		"build": "npm run transpile && npm run lint && npm run zip",
 		"lint": "tslint -c tslint.json src/**/*.ts"
 	},
