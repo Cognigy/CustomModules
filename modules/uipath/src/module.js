@@ -11,7 +11,7 @@ const { getToken, getQueueItemHelper, addQueueItemHelper } = require('./api');
  * @arg {select[Low,Normal,High]} `priority` Select the priority of the queueItem
  * @arg {JSON} `specificContent` The JSON payload
  * @arg {CognigyScript} `timeOut` A timeout setting for waiting for the response
- * @arg {CognigyScript} `store` Where to store the result
+ * @arg {CognigyScript} `contextStore` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
 async function addQueueItem(input, args) {
@@ -76,7 +76,7 @@ module.exports.addQueueItem = addQueueItem;
  * Polls for a queue item by OData filter
  * @arg {SecretSelect} `secret` The configured secret to use
  * @arg {CognigyScript} `filter` The filter string
- * @arg {CognigyScript} `store` Where to store the result
+ * @arg {CognigyScript} `contextStore` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
 async function getQueueItem(input, args) {
@@ -139,21 +139,21 @@ module.exports.getQueueItem = getQueueItem;
 /**
  * Describes the function
  * @arg {SecretSelect} `secret` The configured secret to use
- * @arg {CognigyScript} `store` Where to store the result
+ * @arg {CognigyScript} `contextStore` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
 async function getReleases(input, args) {
 
-	const { secret, account_logical_name, service_instance_logical_name, contextStore, stopOnError } = args;
-	const { client_id, refresh_token } = secret;
+	const { secret, contextStore, stopOnError } = args;
+	const { client_id, refresh_token, account_logical_name, service_instance_logical_name } = secret;
 
 	if (!secret) throw new Error("The secret is not defined. Please define a UIPath Cognigy ");
-	if (!account_logical_name) throw new Error("No account logical name is defined.");
-	if (!service_instance_logical_name) throw new Error("No service instance logical name is defined.");
 	if (!contextStore) throw new Error("No context store is defined.");
 
 	if (!client_id) throw new Error("The secret is missing the 'client_id' field.");
 	if (!refresh_token) throw new Error("The secret is missing the 'refresh_token' field.");
+	if (!account_logical_name) throw new Error("No account logical name is defined.");
+	if (!service_instance_logical_name) throw new Error("No service instance logical name is defined.");
 
 	// Always return a Promise
 	// A resolved Promise MUST return the input object
@@ -219,21 +219,21 @@ module.exports.getReleases = getReleases;
 /**
  * Describes the function
  * @arg {SecretSelect} `secret` The configured secret to use
- * @arg {CognigyScript} `store` Where to store the result
+ * @arg {CognigyScript} `contextStore` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
 async function getJobs(input, args) {
 	
-	const { secret, account_logical_name, service_instance_logical_name, contextStore, stopOnError } = args;
-	const { client_id, refresh_token } = secret;
+	const { secret, contextStore, stopOnError } = args;
+	const { client_id, refresh_token, service_instance_logical_name, account_logical_name } = secret;
 
 	if (!secret) throw new Error("The secret is not defined. Please define a UIPath Cognigy ");
-	if (!account_logical_name) throw new Error("No account logical name is defined.");
-	if (!service_instance_logical_name) throw new Error("No service instance logical name is defined.");
 	if (!contextStore) throw new Error("No context store is defined.");
 
 	if (!client_id) throw new Error("The secret is missing the 'client_id' field.");
 	if (!refresh_token) throw new Error("The secret is missing the 'refresh_token' field.");
+	if (!account_logical_name) throw new Error("No account logical name is defined.");
+	if (!service_instance_logical_name) throw new Error("No service instance logical name is defined.");
 
 	// Always return a Promise
 	// A resolved Promise MUST return the input object
@@ -304,17 +304,15 @@ module.exports.getJobs = getJobs;
  * @arg {select[Specific,All]} `strategy` The job strategy
  * @arg {CognigyScript} `robotId` The ID of the Robot that needs to be triggered
  * @arg {JSON} `inputArguments` The JSON payload
- * @arg {CognigyScript} `store` Where to store the result
+ * @arg {CognigyScript} `contextStore` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
 async function startJob(input, args) {
 
-	const { secret, inputArguments, releaseKey, robotId, strategy, account_logical_name, service_instance_logical_name, contextStore, stopOnError } = args;
-	const { client_id, refresh_token } = secret;
+	const { secret, inputArguments, releaseKey, robotId, strategy, contextStore, stopOnError } = args;
+	const { client_id, refresh_token, account_logical_name, service_instance_logical_name } = secret;
 
 	if (!secret) throw new Error("The secret is not defined. Please define a UIPath Cognigy ");
-	if (!account_logical_name) throw new Error("No account logical name is defined.");
-	if (!service_instance_logical_name) throw new Error("No service instance logical name is defined.");
 	if (!releaseKey) throw new Error("Please provide a valid Release Key. Use the GetReleases operation to get a list of releases.");
 	if (!robotId) throw new Error("Please provide a valid Robot ID.");
 	if (!strategy) throw new Error("No Strategy specified. Please specify a Strategy.");
@@ -322,7 +320,8 @@ async function startJob(input, args) {
 
 	if (!client_id) throw new Error("The secret is missing the 'client_id' field.");
 	if (!refresh_token) throw new Error("The secret is missing the 'refresh_token' field.");
-
+	if (!account_logical_name) throw new Error("No account logical name is defined.");
+	if (!service_instance_logical_name) throw new Error("No service instance logical name is defined.");
 
 	// Always return a Promise
 	// A resolved Promise MUST return the input object
