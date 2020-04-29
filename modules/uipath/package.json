@@ -1,6 +1,6 @@
 {
 	"name": "uipath",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Allows Cognigy.AI to integrate with UIPath",
 	"main": "src/module.js",
 	"scripts": {
