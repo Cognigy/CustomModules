@@ -311,20 +311,21 @@ module.exports.addContact = addContact;
  */
 async function getSharepointLists(input: IFlowInput, args: { accessToken: string, contextStore: string, siteId: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
     // Check parameters
-    const { accessToken, contextStore, stopOnError } = args;
+    const { accessToken, siteId, contextStore, stopOnError } = args;
     if (!accessToken) return Promise.reject("No access token defined. Please use the Azure Custom Module for authenticating the user.");
     if (!contextStore) return Promise.reject("No context store key defined.");
     if (stopOnError === undefined) throw new Error("Stop on error flag not defined.");
 
     try {
         const client: Client = getAuthenticatedClient(accessToken);
-        
-        if(siteId.length > 0) {
-            const user = await client.api(`sites/${siteId}/lists`).get();
+
+        let user;
+
+        if (siteId.length > 0) {
+            user = await client.api(`sites/${siteId}/lists`).get();
         } else {
-            const user = await client.api('sites/root/lists').get();
+            user = await client.api('sites/root/lists').get();
         }
-     
 
         input.actions.addToContext(contextStore, user, 'simple');
     } catch (error) {
