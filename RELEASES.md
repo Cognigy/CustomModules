@@ -5,11 +5,11 @@
 1. Select your module and click **Download**
 2. In your Cognigy.AI instance, navigate to the **Integration Framework** view.
 
-![enter image description here](https://tempbucket-waanders.s3.eu-central-1.amazonaws.com/integration-framework.jpg)
+<img src="https://tempbucket-waanders.s3.eu-central-1.amazonaws.com/integration-framework.jpg" width="400"></img>
 
 3. **Upload** the downloaded module by dragging it in the dropzone.
 
-![Click drag your module to upload](https://tempbucket-waanders.s3.eu-central-1.amazonaws.com/CognigyWebchatPlugins/custom-module.jpg)
+<img src="https://tempbucket-waanders.s3.eu-central-1.amazonaws.com/CognigyWebchatPlugins/custom-module.jpg" width="300"></img>
 
 ## Table of Releases
 
