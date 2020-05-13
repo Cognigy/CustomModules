@@ -1,5 +1,18 @@
 # Releases
 
+## How to install
+
+1. Select your module and click **Download**
+2. In your Cognigy.AI instance, navigate to the **Integration Framework** view.
+
+![enter image description here](https://tempbucket-waanders.s3.eu-central-1.amazonaws.com/integration-framework.jpg)
+
+3. **Upload** the downloaded module by dragging it in the dropzone.
+
+![Click drag your module to upload](https://tempbucket-waanders.s3.eu-central-1.amazonaws.com/CognigyWebchatPlugins/custom-module.jpg)
+
+## Table of Releases
+
 | Icon  | Name  | Description  | Download  | Version  |
 |---|---|---|---|---|
 | <img src="https://github.com/Cognigy/CustomModules/blob/master/modules/alexa/icon.png?raw=true" width="40"></img> |  [Alexa](./modules/alexa/) |  Adds Amazon Alexa specific features as Flow Nodes to Cognigy.AI |  [Download](https://github.com/Cognigy/CustomModules/releases/download/alexa100/alexa.zip) |  1.0.0 |
