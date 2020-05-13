@@ -2,7 +2,7 @@
 
 ## How to install
 
-1. Select your module and click **Download**
+1. Select your module in the table below and click **Download**
 2. In your Cognigy.AI instance, navigate to the **Integration Framework** view.
 
 <img src="https://tempbucket-waanders.s3.eu-central-1.amazonaws.com/integration-framework.jpg" width="400"></img>
