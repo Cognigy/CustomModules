@@ -13,6 +13,8 @@ This modules needs a CognigySecret to be defined and passed to the Nodes. The se
 
 There are two ways to use this Custom Module. Use the [Google Maps Geocoding API](https://developers.google.com/maps/documentation/geocoding/start) to get the longitude and latitude of the address. 
 
+*IMPORTANT: You need to enable the **Geocoding API** and the **Maps JavaScript API**, while the first one is used to get the latitude and longitude from the search query and the second one to show it with the webchat plugin.*
+
 If the Searchquery field is empty or no Place was found, the module use the default values from Latitude and Longitude. 
 Here is an example of a filled google-maps node:
 ![Create Location Node](./docs/google-maps-node.PNG)
