@@ -1,0 +1,19 @@
+{
+	"name": "Patterns",
+	"version": "1.0.0",
+	"description": "Pattern matching Node for Cognigy.AI",
+	"main": "build/module.js",
+	"scripts": {
+		"build": "tsc -p ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Cognigy/CustomModules"
+	},
+	"author": "Cognigy GmbH",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^10.14.6",
+		"typescript": "^3.1.6"
+	}
+}
