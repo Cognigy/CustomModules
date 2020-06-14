@@ -15,7 +15,7 @@ export const patternMatcher = (ci: INLProperties, patterns: string[], compoundGr
     });
 
     // we use let because we strip out found phrases later
-    let inputText = alternateInput || ci.text;
+    let inputText = alternateInput || ci.processText || ci.text;
 
     const regexPatterns = [];
 
@@ -44,17 +44,44 @@ export const patternMatcher = (ci: INLProperties, patterns: string[], compoundGr
           const slotValues = [];
           if (ci.slots[slotName]) {
             switch (slotName) {
-              case "NUMBER":
-                ci.slots[slotName].forEach((s) => {
-                  // just add the number
-                  slotValues.push(s);
-                });
-                break;
-              default:
-                ci.slots[slotName].forEach((s) => {
-                  // it's important to use the synonym, as this is the text that was actually found
-                  slotValues.push(s.synonym);
-                });
+                case "DATE":
+                    ci.slots.DATE.forEach((s) => {
+                      // just add the number
+                      if (s.start) slotValues.push(s.start["text"]);
+                      if (s.end) slotValues.push(s.end["text"]);
+                    });
+                    break;
+
+                case "TEMPERATURE":
+                  ci.slots.TEMPERATURE.forEach((s) => {
+                    // just add the number
+                    slotValues.push(s);
+                  });
+                  break;
+                case "AGE":
+                  ci.slots.AGE.forEach((s) => {
+                    // just add the number
+                    slotValues.push(s);
+                  });
+                  break;
+                case "PERCENTAGE":
+                  ci.slots.PERCENTAGE.forEach((s) => {
+                    // just add the number
+                    slotValues.push(s + "%");
+                    slotValues.push(s + " percent");
+                  });
+                case "NUMBER":
+                    ci.slots.NUMBER.forEach((s) => {
+                      // just add the number
+                      slotValues.push(s);
+                    });
+                    break;
+
+                default:
+                  ci.slots[slotName].forEach((s) => {
+                    // it's important to use the synonym, as this is the text that was actually found
+                    slotValues.push(s.synonym);
+                  });
             }
 
             const slotRegex = slotValues.join("|");
@@ -97,7 +124,25 @@ export const patternMatcher = (ci: INLProperties, patterns: string[], compoundGr
 
           // iterate through matches, starting at the first group result ([0] is the full match)
           for (let i = 1; i < matches.length; i++) {
-            const originalSlot = ci.slots[pattern.slots[i - 1]].find(e => (e.synonym) ? e.synonym === matches[i] : true);
+            let originalSlot = null;
+            switch (pattern.slots[i - 1]) {
+              case "PERCENTAGE":
+                originalSlot = Number(matches[i].replace(new RegExp("[^0-9]", "gi"), ""));
+                break;
+
+              case "TEMPERATURE":
+              case "AGE":
+              case "NUMBER":
+                originalSlot = Number(matches[i]);
+                break;
+
+              case "DATE":
+                originalSlot = ci.slots.DATE.find(e => (e.start && e.start["text"]) || (e.end && e.end["text"] === matches[i]));
+                break;
+
+              default:
+                originalSlot = ci.slots[pattern.slots[i - 1]].find(e => (e.synonym) ? e.synonym === matches[i].toLowerCase() : false);
+            }
 
             // create compound groups
             if (detailedCompoundSlots) {
@@ -111,7 +156,7 @@ export const patternMatcher = (ci: INLProperties, patterns: string[], compoundGr
               compoundGroup.components.push(components);
             } else {
               if (pattern.tags[i - 1]) compoundGroup[pattern.tags[i - 1]] = originalSlot.keyphrase || originalSlot;
-              else compoundGroup[pattern.slots[i - 1]] = originalSlot.keyphrase || originalSlot;
+              else compoundGroup[pattern.slots[i - 1]] = originalSlot || originalSlot.keyphrase;
             }
 
             if (pattern.tags[i - 1]) {
