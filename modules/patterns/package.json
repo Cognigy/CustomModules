@@ -4,7 +4,8 @@
 	"description": "Pattern matching Node for Cognigy.AI",
 	"main": "build/module.js",
 	"scripts": {
-		"build": "tsc -p ."
+		"build": "tsc -p .",
+		"package": "zip -r test.zip build package.json icon.png icon-large.png package-lock.json README.md"
 	},
 	"repository": {
 		"type": "git",
