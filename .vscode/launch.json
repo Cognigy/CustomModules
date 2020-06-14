@@ -7,6 +7,15 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Launch Pattern Test",
+            "program": "${workspaceFolder}/modules/patterns/build/tests/patternMatcherTest.js",
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch Request Test",
             "program": "${workspaceFolder}/modules\\request\\test\\test.js",
             "outFiles": [
