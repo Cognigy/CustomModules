@@ -5,7 +5,7 @@
 	"main": "build/module.js",
 	"scripts": {
 		"build": "tsc -p .",
-		"package": "zip -r test.zip build package.json icon.png icon-large.png package-lock.json README.md"
+		"package": "zip -r patterns.zip build package.json icon.png icon-large.png package-lock.json README.md"
 	},
 	"repository": {
 		"type": "git",
