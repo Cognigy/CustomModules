@@ -88,7 +88,10 @@ const input = {
     "execution": 2,
     "data": {},
     "understood": true,
-    "language": "en-US"
+    "language": "en-US",
+    "compoundSlots": [
+      { "test": 1 }
+    ]
   };
 
   const args = {

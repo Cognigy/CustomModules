@@ -182,6 +182,6 @@ export const patternMatcher = (ci: INLProperties, patterns: string[], compoundGr
     if (!ci["compoundSlots"]) ci["compoundSlots"] = {};
     ci["compoundSlots"][compoundGroupName] = compoundGroups;
 
-    if (compoundGroups && compoundGroups.length === 0) delete ci["compoundSlots"];
+    if (compoundGroups && compoundGroups.length === 0 && (!Array.isArray(ci["compoundSlots"]) || ci["compoundSlots"].length === 0)) delete ci["compoundSlots"];
     return ci;
 };
