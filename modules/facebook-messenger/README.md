@@ -4,7 +4,7 @@ Use this module to perform custom Facebook Messenger functions. In order to use 
 
 **Secret**
 
-The **Get User Location** node requires a [Cognigy Secret](https://docs.cognigy.com/docs/secrets#using-secrets-in-a-custom-module) in order to access the [Google Geocoding API](https://developers.google.com/maps/documentation/geocoding/start). The following points show the format of the required secret:
+The **Get User Location** nodes require a [Cognigy Secret](https://docs.cognigy.com/docs/secrets#using-secrets-in-a-custom-module) in order to access the [Google Geocoding API](https://developers.google.com/maps/documentation/geocoding/start). The following points show the format of the required secret:
 
 - Secret key: 
   - "key"
@@ -15,7 +15,7 @@ The **Get User Location** node requires a [Cognigy Secret](https://docs.cognigy.
 
 ---
 
-## Get User Location
+## Node: Get User Location From Pinned Location Message 
 
 With this node you can use the Facebook location data that is sent from a user by a [pinned location message](https://www.facebook.com/help/messenger-app/583011145134913). 
 
@@ -37,4 +37,24 @@ The location data is forwarded to the Google Geocoding API which returns the for
 
 **IMPORTANT**
 
-**The user must send a pinned location message to the AI, otherwise the "Get User Location" node will not work and return an error message.**
+**The user must send a pinned location message to the AI, otherwise the "Get User Location From Pinned Location Message" node will not work and return an error message.**
+
+## Node: Get User Location From Text Message
+
+If the user does not send their current location using a [pinned location message](https://www.facebook.com/help/messenger-app/583011145134913), one can ask for the user location via plain text. The minimum information required from the user to execute this node is: `place`, `city`, and `country`. 
+
+<img src="./docs/getUserLocationFromTextMessageCognigy.png">
+
+This node returns the same result as the **Get User Location From Pinned Location Message** node, except in this case the returned location is not the user's current location but the closest location google maps can provide based on the given data (`place`):
+
+```json 
+{
+  "place": {
+    "user": {
+      "latitude": 51.2187843,
+      "longitude": 6.8123665
+    },
+    "address": "Erkrather Str. 207, 40233 Düsseldorf, Germany"
+  }
+}
+```
