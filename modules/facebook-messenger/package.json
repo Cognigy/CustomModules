@@ -1,0 +1,30 @@
+{
+  "name": "facebook-messenger",
+  "version": "1.0.0",
+  "description": "Custom Facebook Messenger nodes",
+  "main": "build/module.js",
+  "scripts": {
+    "transpile": "tsc -p .",
+    "zip": "zip facebook-messenger.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+    "build": "npm run transpile && npm run lint && npm run zip",
+    "lint": "tslint -c tslint.json src/**/*.ts"
+  },
+  "keywords": [
+    "messenger"
+  ],
+  "author": "Cognigy GmbH",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/node": "^10.12.5",
+    "tslint": "^5.16.0",
+    "typescript": "^3.1.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cognigy/CustomModules"
+  },
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
+}
