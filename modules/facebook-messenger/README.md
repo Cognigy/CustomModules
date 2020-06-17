@@ -17,7 +17,11 @@ The **Get User Location** node requires a [Cognigy Secret](https://docs.cognigy.
 
 ## Get User Location
 
-With this node you can use the Facebook location data that is sent from a user by a [pinned location message](https://www.facebook.com/help/messenger-app/583011145134913). The location data is forwarded to the Google Geocoding API which returns the formatted address. After executing this node, the following data object is stored to the [Cognigy Context](https://docs.cognigy.com/docs/context-object) -- the example below uses "location" as context key.
+With this node you can use the Facebook location data that is sent from a user by a [pinned location message](https://www.facebook.com/help/messenger-app/583011145134913). 
+
+<img src="./docs/pinnedLocation.png" width="50%" alt-text="messenger pinned location">
+
+The location data is forwarded to the Google Geocoding API which returns the formatted address. After executing this node, the following data object is stored to the [Cognigy Context](https://docs.cognigy.com/docs/context-object) -- the example below uses "location" as context key.
 
 ``` json
 {
