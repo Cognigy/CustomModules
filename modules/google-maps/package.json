@@ -18,6 +18,7 @@
 		"typescript": "^3.1.6"
 	},
 	"dependencies": {
+		"axios": "^0.19.2",
 		"request": "^2.88.0",
 		"request-promise": "^4.2.4"
 	}
