@@ -9,6 +9,8 @@ This modules needs a CognigySecret to be defined and passed to the Nodes. The se
 - **key**:  api_key
 - **value**: Your Google Maps API KEY
 
+## Node: Show Google Maps
+
 **Properties**
 
 There are two ways to use this Custom Module. Use the [Google Maps Geocoding API](https://developers.google.com/maps/documentation/geocoding/start) to get the longitude and latitude of the address. 
@@ -22,3 +24,24 @@ Here is an example of a filled google-maps node:
 **View**
 In combination with the google-maps Webchat Plugin you get this view:
 ![Create Location Node](./docs/google-maps-Webchat.PNG)
+
+## Node: Get User Location From Text Message
+
+In order to get the user location, one can ask for the it via plain text. The minimum information required from the user to execute this node is: `place`, `city`, and `country`. 
+
+<img src="./docs/getUserLocationFromTextMessageCognigy.png">
+
+This node returns the closest location google maps can provide based on the given data (`place`):
+
+```json 
+{
+  "place": {
+    "coordinates": {
+      "latitude": 51.2139586,
+      "longitude": 6.7489951
+    },
+    "address": "Speditionstraße 1, 40221 Düsseldorf, Germany",
+    "name": "Cognigy"
+  }
+}
+```
