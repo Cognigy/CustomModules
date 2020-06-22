@@ -1,0 +1,30 @@
+{
+  "name": "parcel-lab",
+  "version": "1.0.0",
+  "description": "Parcel Lab paket information",
+  "main": "build/module.js",
+  "scripts": {
+    "transpile": "tsc -p .",
+    "zip": "zip parcel-lab.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+    "build": "npm run transpile && npm run lint && npm run zip",
+    "lint": "tslint -c tslint.json src/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cognigy/CustomModules"
+  },
+  "keywords": [
+    "ParcelLab"
+  ],
+  "author": "Cognigy GmbH",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/node": "^14.0.13",
+    "tslint": "^6.1.2",
+    "typescript": "^3.9.5"
+  }
+}
