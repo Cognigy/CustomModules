@@ -4,6 +4,17 @@ import axios from 'axios';
 // handle self signed certicates and ignore them
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
+<<<<<<< HEAD
+=======
+/**
+ * Runs a robot
+ * @arg {SecretSelect} `secret` The configured secret to use
+ * @arg {JSON} `body` The data body for POST request
+ * @arg {CognigyScript} `contextStore` Where to store the result
+ * @arg {Boolean} `stopOnError` Whether to stop on error or continue
+ */
+async function RPARunRobotAsync(input: IFlowInput, args: { secret: CognigySecret, robot: string, project: string, body: JSON, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+>>>>>>> f22114d15081f177bf9d7ea8fb66b844669c266c
 
 
 /**
@@ -50,6 +61,7 @@ async function RPARunRobotAsync(input: IFlowInput, args: { secret: CognigySecret
     return input;
 }
 
+<<<<<<< HEAD
 
 module.exports.RPARunRobotAsync = RPARunRobotAsync;
 
@@ -138,6 +150,53 @@ async function RPARunRobot(input: IFlowInput, args: { credentials: CognigySecret
         }
 
         input.actions.addToContext(contextStore, output, 'simple');
+=======
+module.exports.RPARunRobotAsync = RPARunRobotAsync;
+
+
+/**
+ * Runs a robot
+ * @arg {SecretSelect} `secret` The configured secret to use
+ * @arg {CognigyScript} `rpaServer` The url of the RPA server. e.g. http://localhost:8080/ManagementConsole/
+ * @arg {CognigyScript} `project` The project of the RPA robot
+ * @arg {CognigyScript} `robot` The RPA robot without extenstion. e.g. Robot instead of Robot.robot
+ * @arg {CognigyScript} `parameter` The input parameter the robot requires
+ * @arg {CognigyScript} `contextStore` Where to store the result
+ * @arg {Boolean} `stopOnError` Whether to stop on error or continue
+ */
+async function RPARunRobot(input: IFlowInput, args: { secret: CognigySecret, rpaServer: string, project: string, robot: string, parameter: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+
+    const { secret, rpaServer, project, robot, parameter, contextStore, stopOnError } = args;
+    const { username, password } = secret;
+
+    // Check if the secret is given
+    if (!rpaServer) throw new Error("The RPA robot url is missinsg");
+    if (!project) throw new Error("The RPA robot project is missinsg");
+    if (!robot) throw new Error("The RPA robot is missinsg");
+    if (!parameter) throw new Error("The input parameter is missing");
+
+    const data = { "parameters": [{ "variableName": "searchItem", "attribute": [{ "type": "text", "name": "searchItem", "value": parameter }] }] };
+    // Create the post url for the Kofax RPA REST Service
+    const url = `${rpaServer}/rest/run/${project}/${robot}.robot`;
+
+    try {
+
+        const response = await axios({
+            method: 'post',
+            url,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            auth: {
+                username,
+                password
+            },
+            data
+        });
+
+        input.actions.addToContext(contextStore, response.data, 'simple');
+>>>>>>> f22114d15081f177bf9d7ea8fb66b844669c266c
     } catch (error) {
         if (stopOnError) {
             throw new Error(error);
@@ -375,6 +434,10 @@ async function SignDocgetSigDoc(input: IFlowInput, args: { secret: CognigySecret
             method: 'POST',
             url: `${url}/cirrus/rest/v6/packages/${signDocResponse.data.id}/signingsession/common`,
             data: {
+<<<<<<< HEAD
+=======
+
+>>>>>>> f22114d15081f177bf9d7ea8fb66b844669c266c
                 "manualSignerAuthentications": [
                     {
                         "signerId": "Signer",
@@ -392,6 +455,10 @@ async function SignDocgetSigDoc(input: IFlowInput, args: { secret: CognigySecret
                 'api-key': api_key,
                 'X-API-Key': api_key
             }
+<<<<<<< HEAD
+=======
+        });
+>>>>>>> f22114d15081f177bf9d7ea8fb66b844669c266c
 
         });
         input.actions.addToContext(contextStore, signDocResponseCreateLink.data, 'simple');
@@ -466,6 +533,7 @@ function createBase64StringFromUserData(
     return Buffer.from(xml).toString("base64");
 }
 
+<<<<<<< HEAD
 
 /**
 * Uses the id-capture webchat plugin to extract information of a user identity card
@@ -518,6 +586,8 @@ async function IDcapture(input: IFlowInput, args: { secret: CognigySecret, displ
 module.exports.IDcapture = IDcapture;
 
 
+=======
+>>>>>>> f22114d15081f177bf9d7ea8fb66b844669c266c
 /**
 * Creates a case in Kofax KTA (uses CreateCase2 endpoint)
 * @arg {SecretSelect} `secret` Kofax KTA URL
