@@ -163,3 +163,48 @@ The response looks like the following:
     "errors": []
 ```
 
+## Start Live Chat
+
+This node creates a new Salesforce live chat session and chat request. If it returned that `startedLiveChat` equals true, the live agent should received a chat request in the Salesforce Service Console:
+
+```json
+"liveChat": {
+    "session": {
+      "key": "ee809075-...KQt3Z98S+M=",
+      "id": "ee809075-...377eaa4d11f0",
+      "clientPollTimeout": 40,
+      "affinityToken": "84aa1ta1"
+    },
+    "startedLiveChat": true
+  }
+```
+
+Inside the **Salesforce Service Console**:
+
+![Chat Request](./docs/chatrequest.png)
+
+## Check Live Agent Availability
+
+Checks whether there is a free agent for the provided live chat button. It returns the following format:
+
+```json
+"available": {
+    "messages": [
+      {
+        "type": "Availability",
+        "message": {
+          "results": [
+            {
+              "id": "5733f000000sdfgd",
+              "isAvailable": true
+            }
+          ]
+        }
+      }
+    ]
+  }
+```
+
+In order to get the information, you have to turn on that an agent can **decline a chat request** in Salesforce:
+
+![Configuration](./docs/defaultpresenceconfig.png)
