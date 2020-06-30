@@ -329,7 +329,21 @@ async function startLiveChat(input: IFlowInput, args: { secret: CognigySecret, l
           language,
           "screenResolution": "1900x1080",
           "visitorName": input.input.userId,
-          "prechatDetails": [], "prechatEntities": [],
+          "prechatDetails": [
+            {
+              label: "cognigy",
+              value: JSON.stringify({
+                userId: input.input.userId,
+                urlToken: input.input.URLToken,
+                sessionId: input.input.sessionId
+              }),
+              transcriptFields: [
+                "Body"
+              ],
+              displayToAgent: true
+            },
+          ],
+          "prechatEntities": [],
           "receiveQueueUpdates": true,
           "isPost": true
         }
@@ -371,7 +385,7 @@ module.exports.startLiveChat = startLiveChat;
  * @arg {CognigyScript} `contextStore` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-async function checkLiveAgentAvailability(input: IFlowInput, args: { secret: CognigySecret, ids: string[], contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+async function checkLiveAgentAvailability(input: IFlowInput, args: { secret: CognigySecret, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
   const { secret, contextStore, stopOnError } = args;
   if (!secret) throw new Error("The secret is missing.");
@@ -384,7 +398,7 @@ async function checkLiveAgentAvailability(input: IFlowInput, args: { secret: Cog
   if (!livechatButtonId) throw new Error("The secret is missing the 'livechatButtonId' key");
 
   try {
-    
+
     const response = await axios({
       method: "GET",
       url: `${liveAgentUrl}/chat/rest/Visitor/Availability?org_id=${organizationId}&deployment_id=${deploymentId}&Availability.ids=${livechatButtonId}`,
@@ -408,3 +422,158 @@ async function checkLiveAgentAvailability(input: IFlowInput, args: { secret: Cog
 
 // You have to export the function, otherwise it is not available
 module.exports.checkLiveAgentAvailability = checkLiveAgentAvailability;
+
+
+/**
+ * Forwards the user message to the live agent
+ * @arg {SecretSelect} `secret` The configured secret to use
+ * @arg {CognigyScript} `text` The message text
+ * @arg {CognigyScript} `liveAgentAffinity` Session Affinity. Stored in the Session Response.
+ * @arg {CognigyScript} `liveAgentSessionKey` Session Key. Stored in the Sessoin Response.
+ * @arg {CognigyScript} `contextStore` Where to store the result
+ * @arg {Boolean} `stopOnError` Whether to stop on error or continue
+ */
+async function sendMessageToLiveAgent(input: IFlowInput, args: { secret: CognigySecret, text: string, liveAgentAffinity: string, liveAgentSessionKey: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+
+  const { secret, liveAgentAffinity, liveAgentSessionKey, contextStore, stopOnError } = args;
+  let { text } = args;
+  if (!secret) throw new Error("The secret is missing.");
+  if (!text) throw new Error("The user message text is missing.");
+  if (!contextStore) throw new Error("The context store is missing.");
+  if (!liveAgentAffinity) throw new Error("The live agent affinity is missing.");
+  if (!liveAgentSessionKey) throw new Error("The live agent session key is missing.");
+
+  const { liveAgentUrl, organizationId, deploymentId, livechatButtonId } = secret;
+  if (!liveAgentUrl) throw new Error("The secret is missing the 'liveAgentUrl' key");
+  if (!organizationId) throw new Error("The secret is missing the 'organizationId' key");
+  if (!deploymentId) throw new Error("The secret is missing the 'deploymentId' key");
+  if (!livechatButtonId) throw new Error("The secret is missing the 'livechatButtonId' key");
+
+  try {
+
+    const response = await axios({
+      method: "POST",
+      url: `${liveAgentUrl}/chat/rest/Chasitor/ChatMessage`,
+      headers: {
+        "X-LIVEAGENT-SESSION-KEY": liveAgentSessionKey,
+        "X-LIVEAGENT-AFFINITY": liveAgentAffinity,
+        "X-LIVEAGENT-API-VERSION": "34",
+      },
+      data: {
+        text
+      }
+    })    
+
+  } catch (error) {
+    if (stopOnError) {
+      throw new Error(error.message);
+    } else {
+      input.actions.addToContext(contextStore, { error: error.message }, 'simple');
+    }
+  }
+
+  return input;
+}
+
+// You have to export the function, otherwise it is not available
+module.exports.sendMessageToLiveAgent = sendMessageToLiveAgent;
+
+
+/**
+ * Stops a running live chat
+ * @arg {SecretSelect} `secret` The configured secret to use
+ * @arg {CognigyScript} `liveAgentAffinity` Session Affinity. Stored in the Session Response.
+ * @arg {CognigyScript} `liveAgentSessionKey` Session Key. Stored in the Sessoin Response.
+ * @arg {CognigyScript} `contextStore` Where to store the result
+ * @arg {Boolean} `stopOnError` Whether to stop on error or continue
+ */
+async function stopLiveChat(input: IFlowInput, args: { secret: CognigySecret, liveAgentAffinity: string, liveAgentSessionKey: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+
+  const { secret, liveAgentAffinity, liveAgentSessionKey, contextStore, stopOnError } = args;
+  if (!secret) throw new Error("The secret is missing.");
+  if (!contextStore) throw new Error("The context store is missing.");
+  if (!liveAgentAffinity) throw new Error("The live agent affinity is missing.");
+  if (!liveAgentSessionKey) throw new Error("The live agent session key is missing.");
+
+  const { liveAgentUrl, organizationId, deploymentId, livechatButtonId } = secret;
+  if (!liveAgentUrl) throw new Error("The secret is missing the 'liveAgentUrl' key");
+  if (!organizationId) throw new Error("The secret is missing the 'organizationId' key");
+  if (!deploymentId) throw new Error("The secret is missing the 'deploymentId' key");
+  if (!livechatButtonId) throw new Error("The secret is missing the 'livechatButtonId' key");
+
+  try {
+
+    const response = await axios({
+      method: "POST",
+      url: `${liveAgentUrl}/chat/rest/Chasitor/ChatEnd`,
+      headers: {
+        "X-LIVEAGENT-SESSION-KEY": liveAgentSessionKey,
+        "X-LIVEAGENT-AFFINITY": liveAgentAffinity,
+        "X-LIVEAGENT-API-VERSION": "34",
+      },
+      data: {
+        type: "ChatEndReason",
+        reason: "client"
+      }
+    })
+
+    input.actions.addToContext(contextStore, true, 'simple');
+
+  } catch (error) {
+    if (stopOnError) {
+      throw new Error(error.message);
+    } else {
+      input.actions.addToContext(contextStore, { error: error.message }, 'simple');
+    }
+  }
+
+  return input;
+}
+
+// You have to export the function, otherwise it is not available
+module.exports.stopLiveChat = stopLiveChat;
+
+/**
+ * Get an Agent message
+ * @arg {SecretSelect} `secret` The configured secret to use
+ * @arg {CognigyScript} `liveAgentAffinity` Session Affinity. Stored in the Session Response.
+ * @arg {CognigyScript} `liveAgentSessionKey` Session Key. Stored in the Sessoin Response.
+ * @arg {CognigyScript} `contextStore` Where to store the result
+ * @arg {Boolean} `stopOnError` Whether to stop on error or continue
+ */
+async function getAgentMessage(input: IFlowInput, args: { secret: CognigySecret, liveAgentAffinity: string, liveAgentSessionKey: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+
+  const { secret, liveAgentAffinity, liveAgentSessionKey, contextStore, stopOnError } = args;
+  const { liveAgentUrl } = secret;
+
+  try {
+      const messagesResponse = await axios({
+        method: "GET",
+        url: `${liveAgentUrl}/chat/rest/System/Messages`,
+        headers: {
+          "X-LIVEAGENT-SESSION-KEY": liveAgentSessionKey,
+          "X-LIVEAGENT-AFFINITY": liveAgentAffinity,
+          "X-LIVEAGENT-API-VERSION": "34",
+        }
+      });
+  
+      messagesResponse.data.messages.forEach(message => {;
+        if (message.type === "ChatMessage") {
+          input.actions.addToContext(contextStore, message.message.text, 'simple');
+        } else {
+          input.actions.addToContext(contextStore, "", 'simple');
+        }
+      });
+
+  } catch (error) {
+    if (stopOnError) {
+      throw new Error(error.message);
+    } else {
+      input.actions.addToContext(contextStore, { error: error.message }, 'simple');
+    }
+  }
+
+  return input;
+}
+
+module.exports.getAgentMessage = getAgentMessage;
