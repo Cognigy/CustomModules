@@ -557,9 +557,10 @@ async function getAgentMessage(input: IFlowInput, args: { secret: CognigySecret,
         }
       });
   
-      messagesResponse.data.messages.forEach(message => {;
+      messagesResponse.data.messages.forEach(message => {
         if (message.type === "ChatMessage") {
           input.actions.addToContext(contextStore, message.message.text, 'simple');
+          input.actions.output(message.message.text, null);
         } else {
           input.actions.addToContext(contextStore, "", 'simple');
         }
