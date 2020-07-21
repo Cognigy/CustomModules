@@ -2,6 +2,10 @@
 
 This Custom Module will allow us to upload files to a third party storage account triggering the ``file-upload`` Webchat [plugin](https://github.com/Cognigy/WebchatPlugins/tree/master/plugins/file-upload), depending on the third party storage used, we will have to set them up accordingly.
 
+**IMPORTANT (CORS):**
+
+One could get an error message while executing these Custom Nodes where it says that the *origin https://webchat-demo.cognigy.ai has been blocked by CORS policy*. In order to fix this, the **CORS Configuration** in AWS or Azure needs to be adjusted -- you need to allow the webchat to store files in the correct location.
+
 ## Upload To Microsoft Azure Storage
 
 In order to use the custom module correctly, some items are needed from your Azure Storage account.
