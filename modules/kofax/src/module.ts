@@ -49,7 +49,7 @@ module.exports.RPARunRobotAsync = RPARunRobotAsync;
 
 /**
  * Runs a Kofax RPA robot and waits up to 20 seconds for the answer
- * @arg {SecretSelect} `credentials` please enter here your Kofax RPA login secret, or leave it empty if you have no authentifcation.
+ * @arg {SecretSelect} `secret` please enter here your Kofax RPA login credentials, or leave it empty if you have no authentifcation.
  * @arg {CognigyScript} `rpaServer` The url of the RPA server. e.g. http://localhost:50080 or http://roboserver:8080/ManagementConsole
  * @arg {CognigyScript} `project` The project of the RPA robot. The Default project is called 'Default project'
  * @arg {CognigyScript} `robot` The RPA robot without extenstion. e.g. Robot instead of Robot.robot
@@ -62,11 +62,11 @@ module.exports.RPARunRobotAsync = RPARunRobotAsync;
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
 
-async function RPARunRobot(input: IFlowInput, args: { credentials: CognigySecret, rpaServer: string, project: string, robot: string, variable: string, attributeType: string, attribute: string, value: string, result: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+async function RPARunRobot(input: IFlowInput, args: { secret: CognigySecret, rpaServer: string, project: string, robot: string, variable: string, attributeType: string, attribute: string, value: string, result: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
     // david.wright@kofax.com
 
-    const { credentials, rpaServer, project, robot, variable, attributeType, attribute, value, result, contextStore, stopOnError } = args;
-    const { username, password } = credentials;
+    const { secret, rpaServer, project, robot, variable, attributeType, attribute, value, result, contextStore, stopOnError } = args;
+    const { username, password } = secret;
 
     // Check if the secret is given
     if (!rpaServer) throw new Error("The RPA robot url is missing. eg http://roboserver:50080 or http://roboserver:8080/ManagementConsole/");
@@ -74,12 +74,15 @@ async function RPARunRobot(input: IFlowInput, args: { credentials: CognigySecret
     if (!robot) throw new Error("The RPA robot name is missing (don't include .robot)");
     if (!variable) throw new Error("The RPA robot requires an input type with a single attribute.");
     if (!attributeType) throw new Error("The input attribute type is missing. 'integer', 'number','boolean', 'binary' for binary, pdf or image, 'text' for longtext,shorttext,xml,json,or HTML");
+
     const at = attributeType.toLowerCase();
+
     if (!(at === 'integer' || at === 'boolean' || at === 'binary' || at === 'text' || at === 'number' )) throw new Error("The input attribute type  is incorrect. 'integer', 'number','boolean', 'binary' for binary, pdf or image, 'text' for longtext,shorttext,xml,json,or HTML");
     if (!attribute) throw new Error("The input attribute name is missing");
     if (!value) throw new Error("The input parameter is missing");
     if (!contextStore) throw new Error("you must provide a name for the context store");
     const data = { "parameters": [{ "variableName": variable, "attribute": [{ "type": at, "name": attribute, "value": value }] }] };
+
     // Create the post url for the Kofax RPA REST Service
     const robotname = robot.replace(".robot", "");
     const url = `${rpaServer}/rest/run/${project}/${robotname}.robot`;
@@ -88,11 +91,11 @@ async function RPARunRobot(input: IFlowInput, args: { credentials: CognigySecret
         let response;
         if (username !== "") {
              response = await axios({
-                method: 'post',
+                method: "post",
                 url,
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
                 },
                 auth: {
                     username,
@@ -102,15 +105,16 @@ async function RPARunRobot(input: IFlowInput, args: { credentials: CognigySecret
             });
         } else {
             response = await axios({
-                method: 'post',
+                method: "post",
                 url,
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
                 },
                 data
             });
         }
+        console.log(JSON.stringify(response.data));
         // After webcall
         let output = response;  // return the entire JSON response from Kofax RPA, unless the result parameter matches an output attribute from the robot
         if (response.data.values.length > 0) {
@@ -442,58 +446,6 @@ function createBase64StringFromUserData(
     // encode this XML structure to base64 for the SOAP API from Kofax CCM
     return Buffer.from(xml).toString("base64");
 }
-
-
-
-/**
- * Uses the id-capture webchat plugin to extract information of a user identity card
- * @arg {SecretSelect} `secret` Kofax RTTI information
- * @arg {Boolean} `displayOpenButton` If there should be a button to open the capture ID plugin or not. If not, the plugin will be displayed directly after this node is executed
- * @arg {CognigyScript} `buttonText` The text to display in the button to open the capture plugin
- * @arg {CognigyScript} `cancelButtonText` The text to display in the cancel button
- * @arg {CognigyScript} `submitButtonText` The text to display in the submit button
- * @arg {CognigyScript} `headerText` The text to display in header of the capture plugin
- * @arg {CognigyScript} `contextStore` How to store the extracted information to the Cognigy Context object
- * @arg {Boolean} `stopOnError` Whether to stop on error or continue
- */
-
-async function IDcapture(input: IFlowInput, args: { secret: CognigySecret, displayOpenButton: boolean, buttonText: string, cancelButtonText: string, submitButtonText: string, headerText: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
-    // stephan.mayer@kofax.com
-    const { secret, displayOpenButton, buttonText, cancelButtonText, submitButtonText, headerText, contextStore, stopOnError } = args;
-    const { rttiUrl } = secret;
-
-    if (displayOpenButton) { if (!buttonText) throw new Error('The button text is not defined. You have to define it, since you want to show a button to open the capture ID plugin.'); }
-    if (!cancelButtonText) throw new Error('The cancel button text is not defined');
-    if (!submitButtonText) throw new Error("The submit button text is not defined");
-    if (!headerText) throw new Error('The header text is not defined');
-    if (!contextStore) throw new Error('The context store key name is not defined');
-
-    try {
-
-        input.actions.output('', {
-            _plugin: {
-                type: 'id-capture',
-                displayOpenButton,
-                buttonText,
-                cancelButtonText,
-                submitButtonText,
-                headerText,
-                rttiUrl,
-                contextStore
-            }
-        });
-    } catch (error) {
-        if (stopOnError) {
-            throw new Error(error.message);
-        } else {
-            input.actions.addToContext(contextStore, { error: error.message }, 'simple');
-        }
-    }
-
-    return input;
-}
-
-module.exports.IDcapture = IDcapture;
 
 
 /**
