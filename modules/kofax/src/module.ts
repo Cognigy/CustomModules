@@ -74,15 +74,15 @@ async function RPARunRobot(input: IFlowInput, args: { secret: CognigySecret, rpa
     if (!robot) throw new Error("The RPA robot name is missing (don't include .robot)");
     if (!variable) throw new Error("The RPA robot requires an input type with a single attribute.");
     if (!attributeType) throw new Error("The input attribute type is missing. 'integer', 'number','boolean', 'binary' for binary, pdf or image, 'text' for longtext,shorttext,xml,json,or HTML");
-    
+
     const at = attributeType.toLowerCase();
-    
+
     if (!(at === 'integer' || at === 'boolean' || at === 'binary' || at === 'text' || at === 'number' )) throw new Error("The input attribute type  is incorrect. 'integer', 'number','boolean', 'binary' for binary, pdf or image, 'text' for longtext,shorttext,xml,json,or HTML");
     if (!attribute) throw new Error("The input attribute name is missing");
     if (!value) throw new Error("The input parameter is missing");
     if (!contextStore) throw new Error("you must provide a name for the context store");
     const data = { "parameters": [{ "variableName": variable, "attribute": [{ "type": at, "name": attribute, "value": value }] }] };
-    
+
     // Create the post url for the Kofax RPA REST Service
     const robotname = robot.replace(".robot", "");
     const url = `${rpaServer}/rest/run/${project}/${robotname}.robot`;
