@@ -49,7 +49,7 @@ module.exports.RPARunRobotAsync = RPARunRobotAsync;
 
 /**
  * Runs a Kofax RPA robot and waits up to 20 seconds for the answer
- * @arg {SecretSelect} `credentials` please enter here your Kofax RPA login secret, or leave it empty if you have no authentifcation.
+ * @arg {SecretSelect} `secret` please enter here your Kofax RPA login credentials, or leave it empty if you have no authentifcation.
  * @arg {CognigyScript} `rpaServer` The url of the RPA server. e.g. http://localhost:50080 or http://roboserver:8080/ManagementConsole
  * @arg {CognigyScript} `project` The project of the RPA robot. The Default project is called 'Default project'
  * @arg {CognigyScript} `robot` The RPA robot without extenstion. e.g. Robot instead of Robot.robot
@@ -62,11 +62,11 @@ module.exports.RPARunRobotAsync = RPARunRobotAsync;
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
 
-async function RPARunRobot(input: IFlowInput, args: { credentials: CognigySecret, rpaServer: string, project: string, robot: string, variable: string, attributeType: string, attribute: string, value: string, result: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+async function RPARunRobot(input: IFlowInput, args: { secret: CognigySecret, rpaServer: string, project: string, robot: string, variable: string, attributeType: string, attribute: string, value: string, result: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
     // david.wright@kofax.com
 
-    const { credentials, rpaServer, project, robot, variable, attributeType, attribute, value, result, contextStore, stopOnError } = args;
-    const { username, password } = credentials;
+    const { secret, rpaServer, project, robot, variable, attributeType, attribute, value, result, contextStore, stopOnError } = args;
+    const { username, password } = secret;
 
     // Check if the secret is given
     if (!rpaServer) throw new Error("The RPA robot url is missing. eg http://roboserver:50080 or http://roboserver:8080/ManagementConsole/");
@@ -74,12 +74,15 @@ async function RPARunRobot(input: IFlowInput, args: { credentials: CognigySecret
     if (!robot) throw new Error("The RPA robot name is missing (don't include .robot)");
     if (!variable) throw new Error("The RPA robot requires an input type with a single attribute.");
     if (!attributeType) throw new Error("The input attribute type is missing. 'integer', 'number','boolean', 'binary' for binary, pdf or image, 'text' for longtext,shorttext,xml,json,or HTML");
+    
     const at = attributeType.toLowerCase();
+    
     if (!(at === 'integer' || at === 'boolean' || at === 'binary' || at === 'text' || at === 'number' )) throw new Error("The input attribute type  is incorrect. 'integer', 'number','boolean', 'binary' for binary, pdf or image, 'text' for longtext,shorttext,xml,json,or HTML");
     if (!attribute) throw new Error("The input attribute name is missing");
     if (!value) throw new Error("The input parameter is missing");
     if (!contextStore) throw new Error("you must provide a name for the context store");
     const data = { "parameters": [{ "variableName": variable, "attribute": [{ "type": at, "name": attribute, "value": value }] }] };
+    
     // Create the post url for the Kofax RPA REST Service
     const robotname = robot.replace(".robot", "");
     const url = `${rpaServer}/rest/run/${project}/${robotname}.robot`;
@@ -88,11 +91,11 @@ async function RPARunRobot(input: IFlowInput, args: { credentials: CognigySecret
         let response;
         if (username !== "") {
              response = await axios({
-                method: 'post',
+                method: "post",
                 url,
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
                 },
                 auth: {
                     username,
@@ -102,15 +105,16 @@ async function RPARunRobot(input: IFlowInput, args: { credentials: CognigySecret
             });
         } else {
             response = await axios({
-                method: 'post',
+                method: "post",
                 url,
                 headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
                 },
                 data
             });
         }
+        console.log(JSON.stringify(response.data));
         // After webcall
         let output = response;  // return the entire JSON response from Kofax RPA, unless the result parameter matches an output attribute from the robot
         if (response.data.values.length > 0) {
