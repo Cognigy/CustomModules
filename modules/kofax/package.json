@@ -1,6 +1,6 @@
 {
   "name": "kofax",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Integrates Kofax Roboter Process Automation with Cognigy.AI",
   "main": "build/module.js",
   "scripts": {
