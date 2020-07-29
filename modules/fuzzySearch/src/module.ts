@@ -1,4 +1,4 @@
-import * as Fuse from "fuse.js";
+import * as Fuse from 'fuse.js';
 
 function _handleError(input: IFlowInput, error: Error, stopOnError: boolean, writeToContext: boolean, store: string): IFlowInput | {} {
 
@@ -18,6 +18,13 @@ function _handleError(input: IFlowInput, error: Error, stopOnError: boolean, wri
 
 }
 
+export async function fuseSearch(list: any, options: any, pattern: string): Promise<any[]> {
+    // @ts-ignore
+    const fuse = new Fuse(list, options);
+    const result = fuse.search(pattern);
+    return result;
+}
+
 /**
  * Search items by searchtext and returns a list of found items according to the options.
  * @arg {JSON} `items` Items to search according to https://fusejs.io/
@@ -31,16 +38,16 @@ function _handleError(input: IFlowInput, error: Error, stopOnError: boolean, wri
 async function search(input: IFlowInput, args: { items: any, options: any, searchtext: string, writeToContext: boolean, store: string, stopOnError: boolean }):  Promise<IFlowInput | {}> {
 
     try {
-
         if (!args.items) return Promise.reject("items not defined or invalid.");
         if (!args.options) return Promise.reject("Options not defined or invalid.");
         if (!args.searchtext) return Promise.reject("Searchtext not defined or invalid.");
 
-        const fuse = new Fuse(args.items, args.options);
-        const result = fuse.search(args.searchtext);
+        const result = await fuseSearch(args.items, args.options, args.searchtext);
+
         if (args.writeToContext) input.context.getFullContext()[args.store] = result;
         else input.input[args.store] = result;
         return input;
+
     } catch (error) {
         return _handleError(input, error.error, args.stopOnError, args.writeToContext, args.store);
     }

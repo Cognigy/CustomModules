@@ -4,16 +4,16 @@
 	"description": "This module adds a fuzzy logic node to Cognigy.AI.",
 	"author": "Cognigy GmbH",
 	"scripts": {
-		"transpile": "tsc -p .",
+		"tsc": "tsc -p .",
 		"zip": "zip fuzzysearch.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
-		"build": "npm run transpile && npm run lint && npm run zip",
+		"build": "npm run tsc && npm run lint && npm run zip",
 		"lint": "tslint -c tslint.json src/**/*.ts"
 	},
 	"license": "MIT",
 	"keywords": [],
 	"main": "build/module.js",
 	"dependencies": {
-		"fuse.js": "^3.4.5"
+		"fuse.js": "^6.4.1"
 	},
 	"devDependencies": {
 		"@types/node": "^12.0.8",
