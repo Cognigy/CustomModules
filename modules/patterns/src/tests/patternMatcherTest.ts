@@ -67,6 +67,15 @@ const input = {
             "synonym": "los angeles",
             "count": 1,
             "data": {}
+          },
+          {
+            "keyphrase": "Hamburg",
+            "lower": "hamburg",
+            "neg": false,
+            "number": 3,
+            "synonym": "hamburg",
+            "count": 1,
+            "data": {}
           }
       ]
     },
@@ -89,11 +98,10 @@ const input = {
     "data": {},
     "understood": true,
     "language": "en-US",
-    "compoundSlots": [
-      { "test": 1 }
-    ]
+    "compoundSlots": { "test": 1 }
   };
 
+  /*
   const args = {
     patterns: [
         "from @city>origin to @city>destination at @NUMBER>time or @NUMBER>atime @DATE>date if its @TEMPERATURE>celsius degrees and I am @AGE>userage years old @PERCENTAGE>perc"
@@ -106,6 +114,19 @@ const input = {
   };
 
   input.processText = "I want to fly from bErlin to los angEles at 3 or 4 tomorrow if its 30 degrees and I am 22 years old 100%";
+*/
+  const args = {
+    patterns: [
+        "from @city>origin to @city>destination"
+    ],
+    compoundGroupName: "group",
+    detailedCompoundSlots: false,
+    tagExistingSlots: false,
+    createNewSlots: false,
+    alternateInput: ""
+  };
+
+  input.processText = "I want to fly from bErlin to los angEles and I want to fly from bErlin to hamburg";
 
   // @ts-ignore
   console.log(JSON.stringify(patternMatcher(input, args.patterns, args.compoundGroupName, args.detailedCompoundSlots, args.tagExistingSlots, args.createNewSlots, args.alternateInput), undefined, 4));

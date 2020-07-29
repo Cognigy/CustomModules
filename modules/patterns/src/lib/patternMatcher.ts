@@ -108,8 +108,10 @@ export const patternMatcher = (ci: INLProperties, patterns: string[], compoundGr
       const regexMatches = [];
       while (result = regExp.exec(inputText)) {
         regexMatches.push(result);
-        inputText = inputText.replace(result[0], "");
       }
+      regexMatches.forEach((m) => {
+        inputText = inputText.replace(m[0], "");
+      })
 
       if (regexMatches.length > 0) {
         // we found a match for this pattern!
