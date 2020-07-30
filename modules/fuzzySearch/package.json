@@ -1,6 +1,6 @@
 {
 	"name": "FuzzySearch",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "This module adds a fuzzy logic node to Cognigy.AI.",
 	"author": "Cognigy GmbH",
 	"scripts": {
