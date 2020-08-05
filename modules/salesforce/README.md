@@ -15,7 +15,7 @@ This modules needs a CognigySecret to be defined and passed to the Nodes. The se
 If the loginUrl is stored in the secret, Salesforce login to this url, e.g. 'https://test.salesforce.com'
 
 ### Secret (Live Chat)
-If you want to use the **Start Live Chat** Node, you need to add another secret to your Cognigy project. The following keys need to be included:
+If one wants to use the **Start Live Chat** Node, another secret is required. The following keys need to be included:
 
 - organizationId
   - Your Salesforce Organization ID
@@ -185,7 +185,7 @@ The following Nodes provide various methods for the [Salesforce Service Cloud](h
 
 ## Node: Start Live Chat
 
-This node creates a new Salesforce live chat session and chat request. If it returned that `startedLiveChat` equals true, the live agent should received a chat request in the Salesforce Service Console:
+This Node creates a new Salesforce Live Chat session and chat request. If it returned that `startedLiveChat` equals `true`, the live agent should received a chat request in the Salesforce Service Console:
 
 ```json
 "liveChat": {
@@ -225,23 +225,23 @@ Checks whether there is a free agent for the provided live chat button. It retur
   }
 ```
 
-In order to get the information, you have to turn on that an agent can **decline a chat request** in Salesforce:
+In order to get the information, one has to turn on that an agent can **decline a chat request** in Salesforce:
 
 ![Configuration](./docs/defaultpresenceconfig.png)
 
 
 ## Node: Stop Live Chat
 
-As soon as the user is finished with the agent conversation, this node can be used to stop the curent live agent session. One needs the `liveAgentAffinity` and `liveAgentSessionKey` which were stored into the context before. After executing this node, the Salesforce Live Agent chat will end and the node will return `true`.
+As soon as the user is finished with the agent conversation, this Node can be used to stop the curent live agent session. One needs the `liveAgentAffinity` and `liveAgentSessionKey` which were stored into the context before. After executing this Node, the Salesforce Live Agent chat will end and the Node will return `true`.
 
 ## Node: Send Message To Live Agent
 
-In order to send a message to the current live agent session, this node is required. One needs the `liveAgentAffinity` and `liveAgentSessionKey` which were stored into the context before -- by **Start Live Chat**. Furthermore, a `text` message must be defined. After sending a message, this node doesn't return anything.
+In order to send a message to the current live agent session, this Node is required. One needs the `liveAgentAffinity` and `liveAgentSessionKey` which were stored into the context before -- by **Start Live Chat**. Furthermore, a `text` message must be defined. After sending a message, this node doesn't return anything.
 
 ## Node: Get Agent Message (BETA)
 
-At the moment, you need to use this node in order to retreive sent agent messages. One needs the `liveAgentAffinity` and `liveAgentSessionKey` which were stored into the context before -- by **Start Live Chat**. Behind the scenes, this Node polls for a new Salesforce message and automatically sends it to the user as soon as it arrives.
+At the moment, one needs to use this Node in order to retreive sent agent messages. One needs the `liveAgentAffinity` and `liveAgentSessionKey` which were stored into the context before -- by **Start Live Chat**. Behind the scenes, this Node polls for a new Salesforce message and automatically sends it to the user as soon as it arrives.
 
-In your Cognigy Flow, this process could look like this:
+In a Cognigy Flow, this process could look like this:
 
 ![Get Agent Message Flow Example](./docs/getAgentMessageFlow.png)
