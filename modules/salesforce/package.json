@@ -1,6 +1,6 @@
 {
 	"name": "salesforce",
-	"version": "1.1.1",
+	"version": "1.2.0",
 	"description": "This module integrates Cognigy.AI with Salesforce",
 	"main": "build/module.js",
 	"scripts": {
