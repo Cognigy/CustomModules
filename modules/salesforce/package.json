@@ -1,11 +1,12 @@
 {
-	"name": "Salesforce",
-	"version": "1.1.1",
+	"name": "salesforce",
+	"version": "1.2.0",
 	"description": "This module integrates Cognigy.AI with Salesforce",
 	"main": "build/module.js",
 	"scripts": {
-		"test": "node test/test.js",
-		"build": "tsc -p ."
+		"transpile": "tsc -p .",
+		"zip": "zip salesforce.zip build/* package.json package-lock.json README.md icon.png icon-large.png",
+		"build": "npm run transpile && npm run zip"
 	},
 	"repository": {
 		"type": "git",
@@ -14,10 +15,13 @@
 	"author": "Cognigy GmbH",
 	"license": "MIT",
 	"devDependencies": {
+		"@types/axios": "^0.14.0",
 		"@types/node": "^10.12.5",
+		"tslint": "^6.1.2",
 		"typescript": "^3.1.6"
 	},
 	"dependencies": {
+		"axios": "^0.19.2",
 		"jsforce": "^1.9.1"
 	}
 }
