@@ -117,7 +117,7 @@ function validateEmail(email: string): boolean {
  * @arg {CognigyScript} `dataContextLocation` Where in the context is the data stored
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-async function outputV4Content (input: IFlowInput, args: {
+export async function outputV4Content (input: any, args: {
     dataContextLocation: string
     stopOnError: boolean
 }): Promise<IFlowInput | {}> {
@@ -129,6 +129,7 @@ async function outputV4Content (input: IFlowInput, args: {
             Array.isArray(input.context.getFullContext()[args.dataContextLocation].result.outputStack) &&
             input.context.getFullContext()[args.dataContextLocation].result.outputStack.length > 0
         ) {
+            console.log("in");
             const outputStack = input.context.getFullContext()[args.dataContextLocation].result.outputStack;
             for (let output of outputStack) {
                     const type = (output.data) ? output.data.type : 'text';
@@ -136,10 +137,11 @@ async function outputV4Content (input: IFlowInput, args: {
                     if (type === "text" || !type) {
                         input.actions.output(output.text, output.data);
                     } else {
-                        if (output.data._cognigy && output.data._cognigy._webchat)
+                        if (output.data._cognigy && output.data._cognigy._webchat) {
+                            if (output.data._cognigy._webchat[output.data._cognigy._webchat._pointer])
+                                output.data._cognigy._webchat = output.data._cognigy._webchat[output.data._cognigy._webchat._pointer];
                             input.actions.output(output.text, output.data);
-
-                        else if (output.data._cognigy && output.data._cognigy._default) {
+                        } else if (output.data._cognigy && output.data._cognigy._default) {
                             const convertedData = convertStructuredContentToWebchat(output.data._cognigy._default[`_${type}`]);
                             input.actions.output(output.text, {
                                 "_cognigy": {
@@ -158,4 +160,3 @@ async function outputV4Content (input: IFlowInput, args: {
 
     return input;
 }
-module.exports.outputV4Content = outputV4Content;
