@@ -2,6 +2,10 @@
 
 This Custom Module provides basic nodes to exstand the Cognigy core features.
 
+## Node: output v4 content
+
+This node converts Cognigy.AI v4 content which was received through a HTTP request into v3 content and outputs it to the user.
+
 ## Node: Send Email With Attachment
 
 This node lets you send emails with attached files, like for example PDF, JPEG or Word files. To send an actual mail, the following arguments have to be defined:

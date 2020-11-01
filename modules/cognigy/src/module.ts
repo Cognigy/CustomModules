@@ -1,3 +1,5 @@
+import { convertStructuredContentToWebchat } from "./utils";
+
 const nodemailer = require('nodemailer');
 
 /**
@@ -13,7 +15,6 @@ const nodemailer = require('nodemailer');
  * @arg {CognigyScript} `contextStore` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-
 async function sendEmailWithAttachment(input: any, args: {
     secret: CognigySecret,
     fromName: string,
@@ -110,3 +111,51 @@ function validateEmail(email: string): boolean {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 }
+
+/**
+ * Converts v4 content into v3 content and outputs it.
+ * @arg {CognigyScript} `dataContextLocation` Where in the context is the data stored
+ * @arg {Boolean} `stopOnError` Whether to stop on error or continue
+ */
+async function outputV4Content (input: IFlowInput, args: {
+    dataContextLocation: string
+    stopOnError: boolean
+}): Promise<IFlowInput | {}> {
+    try {
+        if (
+            input.context.getFullContext()[args.dataContextLocation] &&
+            input.context.getFullContext()[args.dataContextLocation].result &&
+            input.context.getFullContext()[args.dataContextLocation].result.outputStack &&
+            Array.isArray(input.context.getFullContext()[args.dataContextLocation].result.outputStack) &&
+            input.context.getFullContext()[args.dataContextLocation].result.outputStack.length > 0
+        ) {
+            const outputStack = input.context.getFullContext()[args.dataContextLocation].result.outputStack;
+            for (let output of outputStack) {
+                    const type = (output.data) ? output.data.type : 'text';
+
+                    if (type === "text" || !type) {
+                        input.actions.output(output.text, output.data);
+                    } else {
+                        if (output.data._cognigy && output.data._cognigy._webchat)
+                            input.actions.output(output.text, output.data);
+
+                        else if (output.data._cognigy && output.data._cognigy._default) {
+                            const convertedData = convertStructuredContentToWebchat(output.data._cognigy._default[`_${type}`]);
+                            input.actions.output(output.text, {
+                                "_cognigy": {
+                                    "_webchat": convertedData
+                                }
+                            });
+                        }
+                    }
+            }
+        }
+    } catch (err) {
+        input.actions.log("error", err.message);
+        if (args.stopOnError)
+            return Promise.reject(err.message);
+    }
+
+    return input;
+}
+module.exports.outputV4Content = outputV4Content;
