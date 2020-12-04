@@ -284,14 +284,18 @@ module.exports.updateEntity = updateEntity;
  * Start a Salesforce Live Chat Session
  * @arg {SecretSelect} `secret` The configured secret to use
  * @arg {Select[en-US,de-DE]} `language` The entity type to retrieve
+ * @arg {CognigyScript} `visitorName` The name of the person
+ * @arg {JSON} `prechatDetails` The Salesforce Prechat Details
+ * @arg {JSON} `prechatEntities` The Salesforce Prechat Entities
  * @arg {CognigyScript} `contextStore` Where to store the result
  * @arg {Boolean} `stopOnError` Whether to stop on error or continue
  */
-async function startLiveChat(input: IFlowInput, args: { secret: CognigySecret, language: string, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
+async function startLiveChat(input: IFlowInput, args: { secret: CognigySecret, language: string, visitorName: string, prechatDetails?: any, prechatEntities?: any, contextStore: string, stopOnError: boolean }): Promise<IFlowInput | {}> {
 
-  const { secret, language, contextStore, stopOnError } = args;
+  const { secret, language, visitorName, prechatDetails, prechatEntities, contextStore, stopOnError } = args;
   if (!secret) throw new Error("The secret is missing.");
   if (!language) throw new Error("The language is missing.");
+  if (!visitorName) throw new Error("The Salesforce visitor name is missing.");
   if (!contextStore) throw new Error("The context store is missing.");
 
   const { liveAgentUrl, organizationId, deploymentId, livechatButtonId } = secret;
@@ -328,22 +332,9 @@ async function startLiveChat(input: IFlowInput, args: { secret: CognigySecret, l
           "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.95 Safari/537.36",
           language,
           "screenResolution": "1900x1080",
-          "visitorName": input.input.userId,
-          "prechatDetails": [
-            {
-              label: "cognigy",
-              value: JSON.stringify({
-                userId: input.input.userId,
-                urlToken: input.input.URLToken,
-                sessionId: input.input.sessionId
-              }),
-              transcriptFields: [
-                "Body"
-              ],
-              displayToAgent: true
-            },
-          ],
-          "prechatEntities": [],
+          visitorName,
+          prechatDetails: prechatDetails || {},
+          prechatEntities: prechatEntities || {},
           "receiveQueueUpdates": true,
           "isPost": true
         }
