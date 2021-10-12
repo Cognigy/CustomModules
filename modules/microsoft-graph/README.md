@@ -40,7 +40,7 @@ Now the redirect URI is accessible under `http://localhost:8080/auth-callback`.
 
 Since we registered our Azure Application, we now can use this information for our login process. Cognigy already implemented a Custom Module which will do all login tasks for you:
 
-1. Download the newest version of the **Azure** CM from the [Cognigy Documentation](https://docs.cognigy.com/docs/cognigy-modules).
+1. Download the newest version of the **Azure** CM from our [GitHub Repository](https://github.com/Cognigy/CustomModules/blob/master/RELEASES.md).
 2. Login to your Cognigy Environment and create a new Project called *Microsoft Graph* or something similar to that. 
 3. Create a new Flow called *main* or s.l.t
 4. Now you have to define the [Cognigy Secret](https://docs.cognigy.com/docs/secrets) which will include the following values:
@@ -58,7 +58,7 @@ Since we registered our Azure Application, we now can use this information for o
 	10. Scope: `user.read`
 	11. ContextStore: `authStore`
 8. If you now start your conversation, the chat will show the **Login with Microsoft** button which routes the user to the login page.
-	9. For more information, take a look at the [Github Repository](https://github.com/Cognigy/CustomModules/tree/feature/adal/modules/azureCS).
+	9. For more information, take a look at the [Github Repository](https://github.com/Cognigy/CustomModules/tree/master/modules/azure-adal).
 9. This custom node will return the `microsoftAuth` code, that is stored in `{{ci.data.microsoftAuth.code}}` in the Cognigy chat session.
 10. For accessing the final `access_token`, use the **Get Authentication Token With ADAL** node as second and define the following arguments:
 	11. Secret: The same declared secret
@@ -75,7 +75,7 @@ The Microsoft `access_token` will be stored under `{{cc.storeThis.access_token}}
 
 We will now use the **Get User Details** Graph CM node, to show the functionality.
 
-1. Download the **Microsoft Graph** Custom Module from the [Cognigy Documentation](https://docs.cognigy.com/docs/cognigy-modules).
+1. Download the **Microsoft Graph** Custom Module from our [GitHub Repository](https://github.com/Cognigy/CustomModules/blob/master/RELEASES.md)).
 2. Go to your already defined project and upload the CM.
 3. Go to your *main* flow and use the **Get User Details** custom node.
 4. Define the following arguments:
