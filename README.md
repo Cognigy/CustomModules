@@ -1,5 +1,9 @@
 # Cognigy Integration Framework Modules
 
+> **DEPRECATION WARNING**: Please note that this framework is only valid for Cognigy.AI v3.x and has been deprecated. 
+> 
+> For Cognigy.AI v4, please refer to [Cognigy Extensions](https://github.com/Cognigy/Extensions).
+
 In [Cognigy.AI](https://cognigy.com/product/), so-called [Flows](https://docs.cognigy.com/docs/flow) are used to build Conversational.AI. There, it could be the case that one needs to integrate a third-party system to store or retreive data. The [Cognigy Integration Framework](https://docs.cognigy.com/docs/integration-framework) enables anyone to build JavaScript modules and to expose them as [Flow Nodes](https://docs.cognigy.com/docs/general-usage-information) within Cognigy. There are no restrictions on node modules ([NPM](https://www.npmjs.com/)) or functionality.
 
 
